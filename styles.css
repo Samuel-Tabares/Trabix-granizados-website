@@ -32,6 +32,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: "M PLUS Rounded 1c", sans-serif;
   color: var(--text);
   background:
@@ -136,7 +137,7 @@ section {
 
 .shell,
 .site-header {
-  width: min(calc(100% - 2rem), var(--max-width));
+  width: min(calc(100% - clamp(1rem, 3vw, 2.5rem)), var(--max-width));
   margin-inline: auto;
 }
 
@@ -154,9 +155,9 @@ section {
   top: 1rem;
   z-index: 20;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
   margin-top: 1rem;
   padding: 0.8rem 1rem;
   border: 1px solid var(--line);
@@ -171,6 +172,7 @@ section {
 
 .site-nav {
   display: flex;
+  min-width: 0;
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.8rem 1rem;
@@ -204,7 +206,7 @@ h1,
 h2,
 h3 {
   margin: 0;
-  line-height: 0.98;
+  line-height: 1.02;
 }
 
 h1,
@@ -319,6 +321,7 @@ textarea {
 .section-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   gap: 0.8rem;
 }
 
@@ -329,6 +332,7 @@ textarea {
 .alliance-layout,
 .final-cta {
   display: grid;
+  align-items: start;
   gap: 1.35rem;
 }
 
@@ -340,6 +344,7 @@ textarea {
 
 .hero-copy,
 .sub-hero-copy {
+  min-width: 0;
   padding: 2rem;
   border-radius: var(--radius-xl);
 }
@@ -351,14 +356,13 @@ textarea {
 .signal-strip,
 .social-grid,
 .product-grid,
-.operation-grid,
-.footer-links {
+.operation-grid {
   display: grid;
   gap: 1rem;
 }
 
 .hero-metrics {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   margin-top: 1.5rem;
 }
 
@@ -382,9 +386,10 @@ textarea {
 .home-stage,
 .sub-hero-visual {
   position: relative;
-  min-height: 41rem;
+  min-height: clamp(28rem, 48vw, 41rem);
   overflow: hidden;
-  padding: 1.6rem;
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.6rem);
   border-radius: var(--radius-xl);
 }
 
@@ -468,17 +473,19 @@ textarea {
 }
 
 .stage-card-poster {
-  top: 5.4rem;
-  right: 1.5rem;
+  top: clamp(4.8rem, 8vw, 5.4rem);
+  right: clamp(0.8rem, 2vw, 1.5rem);
   width: min(74%, 27rem);
-  height: 31rem;
+  height: auto;
+  aspect-ratio: 27 / 31;
 }
 
 .stage-card-product {
-  left: 1.2rem;
-  bottom: 2rem;
+  left: clamp(0.8rem, 1.8vw, 1.2rem);
+  bottom: clamp(1rem, 2vw, 2rem);
   width: min(42%, 16rem);
-  height: 21rem;
+  height: auto;
+  aspect-ratio: 16 / 21;
   transform: rotate(-8deg);
 }
 
@@ -506,11 +513,13 @@ textarea {
 .stage-note,
 .floating-brief {
   position: absolute;
+  max-width: min(48vw, 14rem);
   padding: 0.55rem 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   backdrop-filter: blur(16px);
   font-size: 0.72rem;
+  text-align: center;
 }
 
 .mini-chip {
@@ -556,7 +565,7 @@ textarea {
 }
 
 .route-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
 }
 
 .route-card {
@@ -610,7 +619,7 @@ textarea {
 }
 
 .brand-layout {
-  grid-template-columns: 0.96fr 1.04fr;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
   align-items: stretch;
 }
 
@@ -623,6 +632,7 @@ textarea {
 .alliance-form,
 .detail-card,
 .product-card {
+  min-width: 0;
   border-radius: var(--radius-xl);
 }
 
@@ -637,7 +647,7 @@ textarea {
 
 .brand-collage {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: 1rem;
   padding: 1rem;
   border-radius: var(--radius-xl);
@@ -659,16 +669,16 @@ textarea {
 }
 
 .signal-strip {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
 }
 
 .social-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
 }
 
 .detail-grid,
 .operation-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
 .detail-card,
@@ -713,7 +723,7 @@ textarea {
 }
 
 .product-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 1fr));
 }
 
 .product-card {
@@ -759,27 +769,27 @@ textarea {
 }
 
 .operation-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
 .offer-layout {
-  grid-template-columns: 0.92fr 1.08fr;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   align-items: center;
 }
 
 .offer-stack {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
   gap: 1rem;
 }
 
 .offer-stack img {
-  height: 24rem;
+  height: clamp(17rem, 30vw, 24rem);
   border-radius: var(--radius-lg);
 }
 
 .alliance-layout {
-  grid-template-columns: 0.8fr 1.2fr;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 }
 
 .alliance-points {
@@ -827,7 +837,7 @@ textarea {
 }
 
 .final-cta {
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
   padding: 1.6rem;
   margin-bottom: 1.6rem;
@@ -837,6 +847,7 @@ textarea {
 .site-footer {
   display: grid;
   grid-template-columns: 1fr auto auto;
+  align-items: start;
   gap: 1rem;
   padding: 0 0 2.4rem;
 }
@@ -848,8 +859,10 @@ textarea {
 }
 
 .footer-links {
-  grid-template-columns: repeat(4, auto);
-  align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.2rem;
+  align-items: center;
 }
 
 .footer-year {
@@ -885,62 +898,65 @@ textarea {
   }
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 1100px) {
   .home-hero,
   .sub-hero,
   .brand-layout,
   .offer-layout,
   .alliance-layout,
   .final-cta,
-  .route-grid,
-  .product-grid,
-  .signal-strip,
-  .site-footer,
-  .operation-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .site-footer {
+    grid-template-columns: 1fr;
   }
 
   .alliance-layout > :first-child,
   .final-cta > :first-child,
   .site-footer > :first-child {
-    grid-column: 1 / -1;
-  }
-
-  .offer-stack {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .offer-stack img:last-child {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 }
 
 @media (max-width: 860px) {
   .site-header {
     grid-template-columns: 1fr;
-    justify-items: center;
-    border-radius: 28px;
+    justify-items: stretch;
+    border-radius: 32px;
+    top: 0.75rem;
+    padding: 1rem;
+  }
+
+  .brand-mark,
+  .header-cta {
+    justify-self: center;
+  }
+
+  .header-cta {
+    width: min(100%, 18rem);
   }
 
   .site-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    padding: 0.72rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .home-hero,
   .sub-hero,
   .brand-layout,
-  .route-grid,
-  .signal-strip,
-  .social-grid,
-  .detail-grid,
-  .product-grid,
-  .operation-grid,
   .offer-layout,
   .alliance-layout,
-  .final-cta,
-  .site-footer,
-  .hero-metrics,
-  .brand-points {
+  .final-cta {
     grid-template-columns: 1fr;
   }
 
@@ -960,30 +976,20 @@ textarea {
 
   .home-stage,
   .sub-hero-visual {
-    min-height: 31rem;
+    min-height: clamp(26rem, 78vw, 32rem);
   }
 
   .stage-card-poster {
-    width: min(78%, 24rem);
-    height: 24rem;
+    width: min(76%, 24rem);
     right: 1rem;
   }
 
   .stage-card-product {
-    width: 10rem;
-    height: 14rem;
-  }
-
-  .offer-stack {
-    grid-template-columns: 1fr;
-  }
-
-  .offer-stack img:last-child {
-    grid-column: auto;
+    width: min(38%, 11rem);
   }
 
   h1 {
-    font-size: clamp(2.45rem, 10vw, 4rem);
+    font-size: clamp(2.3rem, 8vw, 4rem);
   }
 
   h2 {
@@ -995,49 +1001,92 @@ textarea {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .shell,
   .site-header {
     width: min(calc(100% - 1rem), var(--max-width));
   }
 
-  .button,
-  .header-cta {
+  .site-nav {
+    gap: 0.65rem;
+  }
+
+  .site-nav a {
+    font-size: 0.9rem;
+  }
+
+  .hero-actions,
+  .final-actions,
+  .section-actions {
+    flex-direction: column;
+  }
+
+  .button {
     width: 100%;
+  }
+
+  .home-stage {
+    display: grid;
+    gap: 0.85rem;
+    min-height: auto;
+    padding: 1rem;
   }
 
   .home-stage,
   .sub-hero-visual {
-    min-height: 28rem;
+    min-height: 24rem;
+  }
+
+  .stage-card {
+    position: relative;
+  }
+
+  .stage-card-poster,
+  .stage-card-product {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    height: auto;
+    transform: none;
   }
 
   .stage-card-poster {
-    top: 6rem;
-    right: 0.7rem;
-    width: 72%;
-    height: 18rem;
+    width: 100%;
+    aspect-ratio: 4 / 5;
   }
 
   .stage-card-product {
-    left: 0.4rem;
-    bottom: 1rem;
-    width: 8.8rem;
-    height: 11.5rem;
+    width: min(72%, 15rem);
+    margin-top: -4rem;
+    margin-left: 0.35rem;
+    aspect-ratio: 3 / 4;
+    z-index: 1;
   }
 
-  .note-retail {
-    top: 1rem;
-    left: 0.7rem;
+  .hero-orbit {
+    inset: -8% -24% auto;
+    height: 12rem;
   }
 
-  .note-volume {
-    top: 4.35rem;
-    left: 1rem;
+  .stage-note {
+    position: static;
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
   }
 
+  .note-retail,
+  .note-volume,
   .note-business {
-    right: 0.9rem;
-    bottom: 0.8rem;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
+  .floating-brief {
+    max-width: calc(100% - 2rem);
   }
 
   .stage-note,
@@ -1051,7 +1100,11 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .collage-column-wide img {
+    height: auto;
+  }
+
   .offer-stack img {
-    height: 18rem;
+    height: clamp(15rem, 56vw, 18rem);
   }
 }
