@@ -3,22 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trabix Granizados | Con y sin licor</title>
+    <title>Trabix Granizados | Retail, volumen y alianzas</title>
     <meta
       name="description"
-      content="Trabix Granizados: granizados listos para vender y disfrutar, con y sin licor. Haz tu pedido por WhatsApp o síguelos en Instagram y TikTok."
+      content="Trabix Granizados organiza su experiencia para retail, pedidos por volumen y personas que quieren hacer parte del negocio."
     />
+    <meta name="theme-color" content="#07070c" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&amp;family=Bungee&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bungee&amp;family=M+PLUS+Rounded+1c:wght@400;500;700;800&amp;display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page-glow page-glow-left"></div>
-    <div class="page-glow page-glow-right"></div>
+    <div class="ambient ambient-magenta" aria-hidden="true"></div>
+    <div class="ambient ambient-cyan" aria-hidden="true"></div>
+    <div class="ambient ambient-lime" aria-hidden="true"></div>
 
     <header class="site-header">
       <a class="brand-mark" href="#inicio" aria-label="Ir al inicio de Trabix Granizados">
@@ -26,110 +28,372 @@
       </a>
 
       <nav class="site-nav" aria-label="Navegacion principal">
+        <a href="#rutas">Rutas</a>
+        <a href="#retail">Retail</a>
+        <a href="#volumen">Volumen</a>
+        <a href="#alianzas">Aliados</a>
         <a href="#sabores">Sabores</a>
-        <a href="#pedido">Pedido</a>
-        <a href="#contacto">Contacto</a>
       </nav>
+
+      <a
+        class="button button-primary header-cta"
+        href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20informacion%20sobre%20sus%20granizados"
+        target="_blank"
+        rel="noreferrer"
+      >
+        WhatsApp
+      </a>
     </header>
 
     <main id="inicio">
-      <section class="hero section-shell">
-        <div class="hero-copy">
-          <p class="eyebrow">Trabix Granizados</p>
-          <h1>Granizados que entran por los ojos y se venden facil.</h1>
+      <section class="hero shell">
+        <div class="hero-copy panel" data-reveal>
+          <p class="eyebrow">Granizados con actitud de marca</p>
+          <h1>Una pagina pensada para vender, escalar y sumar nuevos aliados.</h1>
           <p class="hero-text">
-            Sabores con y sin licor, presentacion de 266 ml / 9 oz y una imagen
-            visual fuerte para eventos, bares, fiestas y puntos de venta.
+            Trabix ahora separa su mensaje para tres tipos de cliente: quien compra al
+            detal, quien necesita mover volumen y quien quiere hacer parte del negocio.
+            La experiencia arranca aqui y cada ruta termina en la accion correcta.
           </p>
 
-          <div class="hero-badges" aria-label="Datos clave del producto">
-            <span>Con y sin licor</span>
-            <span>12% alc./vol. en linea con licor</span>
-            <span>Pedidos mayoristas desde 20 unidades</span>
+          <div class="hero-metrics" aria-label="Datos clave">
+            <article>
+              <strong>266 ml / 9 oz</strong>
+              <span>formato listo para mostrador, evento o fiesta</span>
+            </article>
+            <article>
+              <strong>Con y sin licor</strong>
+              <span>catalogo corto, visual y facil de entender</span>
+            </article>
+            <article>
+              <strong>Desde 20 unidades</strong>
+              <span>ruta mayorista para activaciones y puntos aliados</span>
+            </article>
           </div>
 
           <div class="hero-actions">
-            <a
-              class="button button-primary"
-              href="https://wa.me/573043535455"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Pedir por WhatsApp
-            </a>
-            <a
-              class="button button-secondary"
-              href="https://www.instagram.com/trabix_granizados/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver Instagram
-            </a>
-            <a
-              class="button button-secondary"
-              href="https://www.tiktok.com/@trabix_granizados"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver TikTok
-            </a>
+            <a class="button button-primary" href="#rutas">Elegir ruta</a>
+            <a class="button button-secondary" href="#sabores">Explorar sabores</a>
           </div>
-
-          <ul class="hero-points">
-            <li>Producto listo para vender, sin granizadora tradicional.</li>
-            <li>Ideal para bares, discotecas, fiestas, bodas y puntos aliados.</li>
-            <li>Imagen colorida y sabores faciles de reconocer.</li>
-          </ul>
         </div>
 
-        <div class="hero-visual">
-          <article class="showcase-card">
-            <div class="showcase-copy">
-              <p class="card-label">Linea destacada</p>
-              <h2>Una marca visualmente imposible de ignorar.</h2>
-              <p>
-                Trabix mezcla una estetica neon, arcoiris y sabores directos al
-                gusto: desde Smirnoff Lulo hasta Bon Bon Bum, Blueberry y Mango
-                Maracuya.
-              </p>
+        <div class="hero-stage panel" data-reveal>
+          <div class="hero-orbit" aria-hidden="true"></div>
+          <article class="stage-card stage-card-poster">
+            <div class="stage-copy">
+              <p class="card-label">Visual principal</p>
+              <h2>El arcoiris de Trabix ahora organiza todo el embudo.</h2>
             </div>
             <img
               src="./site-assets/brand/poster-eventos.png"
               alt="Poster promocional de Trabix Granizados"
             />
           </article>
+
+          <article class="stage-card stage-card-product">
+            <img
+              src="./site-assets/products/blueberry-vodka.png"
+              alt="Granizado Blueberry Vodka"
+            />
+            <div class="mini-chip">Alta recordacion visual</div>
+          </article>
+
+          <div class="stage-note note-retail">Retail rapido</div>
+          <div class="stage-note note-volume">Volumen guiado</div>
+          <div class="stage-note note-business">Aliados por correo</div>
         </div>
       </section>
 
-      <section class="info-strip section-shell" aria-label="Informacion rapida">
-        <article>
-          <strong>Presentacion</strong>
-          <span>266 ml / 9 oz</span>
-        </article>
-        <article>
-          <strong>Sabores</strong>
-          <span>11 referencias en esta pagina</span>
-        </article>
-        <article>
-          <strong>Pedidos</strong>
-          <span>WhatsApp, Instagram y TikTok</span>
-        </article>
-        <article>
-          <strong>Formato</strong>
-          <span>Con licor y sin licor</span>
-        </article>
-      </section>
-
-      <section id="sabores" class="section-shell product-section">
+      <section id="rutas" class="shell path-section" data-reveal>
         <div class="section-heading">
-          <p class="eyebrow">Sabores</p>
-          <h2>Una carta corta, clara y facil de mover.</h2>
+          <p class="eyebrow">Ruta principal</p>
+          <h2>Escoge tu puerta de entrada.</h2>
           <p>
-            Filtra la carta para ver la linea con licor o la linea sin licor.
+            La pagina central orienta, pero la conversion cambia segun el tipo de
+            cliente: chat para comprar, chat para cotizar, correo para alianzas.
           </p>
         </div>
 
-        <div class="filter-bar" role="toolbar" aria-label="Filtrar sabores">
+        <div class="path-grid">
+          <article class="path-card path-retail">
+            <span class="path-index">01</span>
+            <h3>Retail</h3>
+            <p>
+              Para clientes finales, celebraciones, antojos y compras rapidas con una
+              respuesta inmediata.
+            </p>
+            <ul class="path-points">
+              <li>Pedido directo por WhatsApp</li>
+              <li>Con y sin licor</li>
+              <li>Ideal para fiestas y consumo casual</li>
+            </ul>
+            <a
+              class="button button-primary"
+              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20comprar%20granizados%20para%20retail"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ir a WhatsApp
+            </a>
+          </article>
+
+          <article class="path-card path-volume">
+            <span class="path-index">02</span>
+            <h3>High-volume</h3>
+            <p>
+              Para bares, discotecas, eventos, activaciones y puntos de venta que
+              necesitan una cotizacion agil.
+            </p>
+            <ul class="path-points">
+              <li>Pedidos desde 20 unidades</li>
+              <li>Ruta para eventos y reventa</li>
+              <li>Atencion comercial por chat</li>
+            </ul>
+            <a
+              class="button button-primary"
+              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20cotizar%20granizados%20por%20volumen"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Cotizar por WhatsApp
+            </a>
+          </article>
+
+          <article class="path-card path-business">
+            <span class="path-index">03</span>
+            <h3>Quiero ser parte</h3>
+            <p>
+              Para personas o negocios que quieren vender, distribuir, activar o
+              construir una relacion comercial con Trabix.
+            </p>
+            <ul class="path-points">
+              <li>Correo dedicado a propuestas</li>
+              <li>Espacio para contar tu idea</li>
+              <li>Contacto directo con la marca</li>
+            </ul>
+            <a class="button button-secondary" href="#alianzas">Abrir ruta de alianzas</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell pulse-strip" aria-label="Resumen comercial" data-reveal>
+        <article>
+          <strong>Retail</strong>
+          <span>la web orienta y el cierre va a WhatsApp</span>
+        </article>
+        <article>
+          <strong>High-volume</strong>
+          <span>cotizaciones por chat con contexto de cantidad</span>
+        </article>
+        <article>
+          <strong>Aliados</strong>
+          <span>correo listo para propuestas y presentaciones</span>
+        </article>
+        <article>
+          <strong>Social proof</strong>
+          <span>Instagram y TikTok para ver la marca en movimiento</span>
+        </article>
+      </section>
+
+      <section id="retail" class="shell client-section">
+        <div class="client-copy" data-reveal>
+          <p class="eyebrow">Retail clients</p>
+          <h2>Una experiencia rapida para quien solo quiere pedir y disfrutar.</h2>
+          <p>
+            Esta ruta habla claro: sabores, formato y una salida directa al chat. Sin
+            pasos extras, sin QR, sin ruido. El objetivo es que el cliente escriba y
+            compre.
+          </p>
+
+          <div class="detail-grid">
+            <article class="detail-card">
+              <h3>Compra simple</h3>
+              <p>Mensajes listos para pedir desde el celular en segundos.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Visual llamativo</h3>
+              <p>Producto pensado para antojo, celebraciones y contenido social.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Sabores faciles</h3>
+              <p>Carta corta para decidir rapido entre opciones con y sin licor.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Momento correcto</h3>
+              <p>Perfecto para fiestas, reuniones, regalos o consumo espontaneo.</p>
+            </article>
+          </div>
+
+          <div class="section-actions">
+            <a
+              class="button button-primary"
+              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20comprar%20granizados%20para%20mi%20evento%20o%20antojo"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Comprar por WhatsApp
+            </a>
+            <a class="button button-secondary" href="#sabores">Ver carta visual</a>
+          </div>
+        </div>
+
+        <div class="client-visual retail-visual" data-reveal>
+          <article class="visual-card visual-menu">
+            <div class="visual-copy">
+              <p class="card-label">Carta visual</p>
+              <h3>Sabores que se entienden de inmediato.</h3>
+            </div>
+            <img
+              src="./site-assets/brand/menu-granizados.png"
+              alt="Carta de granizados Trabix"
+            />
+          </article>
+          <div class="floating-brief brief-top">pedido facil</div>
+          <div class="floating-brief brief-bottom">chat directo</div>
+        </div>
+      </section>
+
+      <section id="volumen" class="shell client-section client-section-reverse">
+        <div class="client-visual volume-visual" data-reveal>
+          <article class="visual-card visual-poster">
+            <div class="visual-copy">
+              <p class="card-label">High-volume funnel</p>
+              <h3>Una marca que ayuda a mover barra, activacion y reventa.</h3>
+            </div>
+            <img
+              src="./site-assets/brand/poster-eventos.png"
+              alt="Visual promocional para eventos de Trabix"
+            />
+          </article>
+          <div class="floating-brief brief-top">desde 20 und</div>
+          <div class="floating-brief brief-bottom">respuesta comercial</div>
+        </div>
+
+        <div class="client-copy" data-reveal>
+          <p class="eyebrow">High-volume clients</p>
+          <h2>Una pagina que filtra mejor al cliente mayorista antes de llegar al chat.</h2>
+          <p>
+            Aqui el mensaje cambia: volumen, rotacion, visibilidad y facilidad para
+            activar un punto de venta. Todo desemboca en una cotizacion por WhatsApp
+            con mas contexto y menos friccion.
+          </p>
+
+          <div class="detail-grid">
+            <article class="detail-card">
+              <h3>Para bares y eventos</h3>
+              <p>Producto listo para operar en noches, fiestas y activaciones.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Minimo visible</h3>
+              <p>La pagina deja claro el punto de partida desde 20 unidades.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Venta mas rapida</h3>
+              <p>El cliente llega al chat diciendo cuanta cantidad necesita.</p>
+            </article>
+            <article class="detail-card">
+              <h3>Marca memorable</h3>
+              <p>El look neon-rainbow ayuda a destacar exhibicion y contenido.</p>
+            </article>
+          </div>
+
+          <div class="section-actions">
+            <a
+              class="button button-primary"
+              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20cotizar%20granizados%20para%20mi%20negocio%20o%20evento"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Cotizar volumen
+            </a>
+            <a
+              class="button button-secondary"
+              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20saber%20que%20sabores%20tienen%20para%20volumen"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Preguntar sabores
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="alianzas" class="shell alliance-section">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">People who want to be part of the business</p>
+          <h2>Si tu interes es crecer con Trabix, esta ruta abre el correo.</h2>
+          <p>
+            Aqui no empujamos al chat. Esta ruta esta pensada para propuestas,
+            distribucion, colaboraciones, activaciones o cualquier idea de negocio.
+          </p>
+        </div>
+
+        <div class="alliance-layout">
+          <article class="alliance-copy panel" data-reveal>
+            <h3>Que puede contar este contacto</h3>
+            <ul class="alliance-points">
+              <li>Tu ciudad, negocio o tipo de operacion.</li>
+              <li>Como quieres vender o activar Trabix.</li>
+              <li>Si buscas distribucion, eventos o una alianza comercial.</li>
+            </ul>
+
+            <div class="section-actions">
+              <a
+                class="button button-primary"
+                href="mailto:trabixgranizados@gmail.com?subject=Quiero%20ser%20parte%20de%20Trabix"
+              >
+                Escribir al correo
+              </a>
+              <a class="button button-secondary" href="mailto:trabixgranizados@gmail.com">
+                trabixgranizados@gmail.com
+              </a>
+            </div>
+          </article>
+
+          <article class="alliance-form panel" data-reveal>
+            <p class="card-label">Prepara tu mensaje</p>
+            <form id="partner-form" class="partner-form">
+              <label>
+                <span>Nombre</span>
+                <input type="text" name="name" placeholder="Tu nombre" required />
+              </label>
+              <label>
+                <span>Negocio o proyecto</span>
+                <input type="text" name="business" placeholder="Marca, bar, evento, distribucion..." />
+              </label>
+              <label>
+                <span>Ciudad</span>
+                <input type="text" name="city" placeholder="Ej. Medellin" />
+              </label>
+              <label>
+                <span>Cuentanos tu idea</span>
+                <textarea
+                  name="message"
+                  rows="5"
+                  placeholder="Quiero vender Trabix, abrir un punto, hacer una activacion..."
+                  required
+                ></textarea>
+              </label>
+              <button class="button button-primary" type="submit">Preparar email</button>
+              <p id="form-note" class="form-note" aria-live="polite">
+                Al enviar, abrimos tu cliente de correo con el mensaje armado.
+              </p>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section id="sabores" class="shell flavors-section">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Catalogo visual</p>
+          <h2>Los sabores siguen siendo parte central de la experiencia.</h2>
+          <p>
+            La carta sigue filtrable para que retail y high-volume vean rapido la
+            linea con licor o la linea sin licor antes de saltar al canal correcto.
+          </p>
+        </div>
+
+        <div class="filter-bar" role="toolbar" aria-label="Filtrar sabores" data-reveal>
           <button class="filter-button is-active" type="button" data-filter="all">
             Todos
           </button>
@@ -152,7 +416,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Smirnoff Lulo</h3>
-              <p>Una mezcla fresca, citrica y directa para fiestas y noche.</p>
+              <p>Fresco, citrico y directo para noche, barra y fiesta.</p>
             </div>
           </article>
 
@@ -166,7 +430,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Bon Bon Bum Fresa Champagne</h3>
-              <p>Sabor dulce y visual potente, pensado para vender rapido.</p>
+              <p>Dulce, vistoso y hecho para vender rapido desde la primera mirada.</p>
             </div>
           </article>
 
@@ -180,7 +444,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Manzana Verde Tequila</h3>
-              <p>Perfil acidito y llamativo, facil de reconocer desde el primer vistazo.</p>
+              <p>Acido, visual y facil de identificar dentro de la vitrina.</p>
             </div>
           </article>
 
@@ -194,7 +458,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Uva Vodka</h3>
-              <p>Opcion intensa y colorida, hecha para destacar en vitrina o evento.</p>
+              <p>Intenso y colorido para barra, evento o celebracion nocturna.</p>
             </div>
           </article>
 
@@ -208,7 +472,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Bon Bon Bum Whiskey</h3>
-              <p>Un sabor mas atrevido para clientes que quieren algo distinto.</p>
+              <p>Una referencia mas atrevida para quienes buscan algo distinto.</p>
             </div>
           </article>
 
@@ -222,7 +486,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Mango Maracuya Ron Blanco</h3>
-              <p>Una mezcla tropical para puntos de venta, fiestas y clima caliente.</p>
+              <p>Tropical y brillante para clima caliente, rumba o barra exterior.</p>
             </div>
           </article>
 
@@ -236,7 +500,7 @@
             <div class="product-copy">
               <span class="product-tag tag-alcohol">Con licor</span>
               <h3>Blueberry Vodka</h3>
-              <p>Color azul electrico y perfil frutal para una vitrina mas llamativa.</p>
+              <p>Azul electrico con alta recordacion visual y aire premium.</p>
             </div>
           </article>
 
@@ -250,7 +514,7 @@
             <div class="product-copy">
               <span class="product-tag tag-soft">Sin licor</span>
               <h3>Manzana Verde</h3>
-              <p>Opcion refrescante para publico general y puntos familiares.</p>
+              <p>Refrescante, familiar y facil de mover en publico general.</p>
             </div>
           </article>
 
@@ -264,7 +528,7 @@
             <div class="product-copy">
               <span class="product-tag tag-soft">Sin licor</span>
               <h3>Bon Bon Bum</h3>
-              <p>Sabor reconocible y muy vendible para una carta de alta rotacion.</p>
+              <p>Un clasico reconocible que funciona muy bien para retail rapido.</p>
             </div>
           </article>
 
@@ -278,7 +542,7 @@
             <div class="product-copy">
               <span class="product-tag tag-soft">Sin licor</span>
               <h3>Mango Maracuya</h3>
-              <p>Perfil tropical para dias calurosos, eventos y consumo casual.</p>
+              <p>Perfil tropical para tardes calientes, fiestas y plan casual.</p>
             </div>
           </article>
 
@@ -292,149 +556,65 @@
             <div class="product-copy">
               <span class="product-tag tag-soft">Sin licor</span>
               <h3>Blueberry</h3>
-              <p>Una opcion azul, brillante y facil de destacar en redes y exhibicion.</p>
+              <p>Azul, llamativo y perfecto para una vitrina que no pase desapercibida.</p>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="section-shell benefits-section">
-        <div class="section-heading">
-          <p class="eyebrow">Por que funciona</p>
-          <h2>Una oferta pensada para rotar en eventos y puntos aliados.</h2>
+      <section class="shell final-cta panel" data-reveal>
+        <div>
+          <p class="eyebrow">Cierre del recorrido</p>
+          <h2>Retail y volumen terminan en chat. Las alianzas terminan en correo.</h2>
         </div>
 
-        <div class="benefit-grid">
-          <article class="benefit-card">
-            <h3>Listos para vender</h3>
-            <p>Se entregan empacados, granizados y faciles de exhibir.</p>
-          </article>
-
-          <article class="benefit-card">
-            <h3>Minimo mayorista claro</h3>
-            <p>Trabix comunica venta al por mayor desde 20 unidades.</p>
-          </article>
-
-          <article class="benefit-card">
-            <h3>Alta recordacion visual</h3>
-            <p>Paleta neon, arcoiris y sabores con nombres muy faciles de ubicar.</p>
-          </article>
-
-          <article class="benefit-card">
-            <h3>Para distintos formatos</h3>
-            <p>Bares, discotecas, barberias, ventanillas, fiestas y bodas.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="pedido" class="section-shell order-section">
-        <div class="section-heading">
-          <p class="eyebrow">Pedido y precio</p>
-          <h2>La pagina informa. El cierre de venta va directo al chat.</h2>
-          <p>
-            El material disponible confirma el pedido minimo mayorista, pero no
-            una lista publica de precios unificada. Por eso la web dirige la
-            cotizacion actualizada a WhatsApp.
-          </p>
-        </div>
-
-        <div class="order-layout">
-          <article class="price-card">
-            <p class="card-label">Resumen comercial</p>
-            <ul>
-              <li>Pedido mayorista desde 20 unidades.</li>
-              <li>Linea con licor al 12% alc./vol. y linea sin licor.</li>
-              <li>Cotizacion segun sabor, cantidad y punto de entrega.</li>
-              <li>Atencion directa por WhatsApp para confirmar precio actual.</li>
-            </ul>
-            <a
-              class="button button-primary"
-              href="https://wa.me/573043535455?text=Hola%2C%20quiero%20cotizar%20granizados%20Trabix"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Cotizar ahora
-            </a>
-          </article>
-
-          <article class="menu-card">
-            <img
-              src="./site-assets/brand/menu-granizados.png"
-              alt="Menu de sabores de Trabix Granizados"
-              loading="lazy"
-              decoding="async"
-            />
-          </article>
-        </div>
-      </section>
-
-      <section id="contacto" class="section-shell contact-section">
-        <div class="section-heading">
-          <p class="eyebrow">Contacto</p>
-          <h2>Pide, pregunta o envia tu idea de evento.</h2>
-        </div>
-
-        <div class="contact-grid">
-          <article class="contact-card primary-contact">
-            <h3>Canales directos</h3>
-            <p>
-              WhatsApp es el canal principal para pedidos y cotizaciones. Instagram
-              y TikTok sirven para ver el producto en contexto y escribir directo.
-            </p>
-            <div class="contact-links">
-              <a href="https://wa.me/573043535455" target="_blank" rel="noreferrer">
-                WhatsApp: +57 304 353 5455
-              </a>
-              <a
-                href="https://www.instagram.com/trabix_granizados/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Instagram: @trabix_granizados
-              </a>
-              <a
-                href="https://www.tiktok.com/@trabix_granizados"
-                target="_blank"
-                rel="noreferrer"
-              >
-                TikTok: @trabix_granizados
-              </a>
-            </div>
-          </article>
-
-          <article class="contact-card qr-card">
-            <img
-              src="./site-assets/qr/qr-whatsapp.png"
-              alt="Codigo QR de WhatsApp de Trabix Granizados"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <h3>Escanea y escribe</h3>
-              <p>Perfecto para dejar la pagina abierta en mostrador o en eventos.</p>
-            </div>
-          </article>
-
-          <article class="contact-card qr-card">
-            <img
-              src="./site-assets/qr/qr-instagram.png"
-              alt="Codigo QR de Instagram de Trabix Granizados"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <h3>Ver contenido</h3>
-              <p>Escanea para revisar publicaciones, reels y la estetica de la marca.</p>
-            </div>
-          </article>
+        <div class="final-actions">
+          <a
+            class="button button-primary"
+            href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20avanzar%20con%20mi%20pedido%20o%20cotizacion"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Abrir WhatsApp
+          </a>
+          <a
+            class="button button-secondary"
+            href="mailto:trabixgranizados@gmail.com?subject=Quiero%20ser%20parte%20de%20Trabix"
+          >
+            Abrir correo
+          </a>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <p>Trabix Granizados</p>
-      <p>Con y sin licor. Pedidos y cotizaciones por WhatsApp.</p>
-      <p>&copy; <span id="year"></span> Trabix Granizados.</p>
+    <footer class="site-footer shell">
+      <div>
+        <p class="footer-brand">Trabix Granizados</p>
+        <p>Con y sin licor. Marca visual para retail, volumen y alianzas.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://wa.me/573043535455" target="_blank" rel="noreferrer">
+          WhatsApp
+        </a>
+        <a href="mailto:trabixgranizados@gmail.com">Correo</a>
+        <a
+          href="https://www.instagram.com/trabix_granizados/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Instagram
+        </a>
+        <a
+          href="https://www.tiktok.com/@trabix_granizados"
+          target="_blank"
+          rel="noreferrer"
+        >
+          TikTok
+        </a>
+      </div>
+
+      <p class="footer-year">&copy; <span id="year"></span> Trabix Granizados.</p>
     </footer>
 
     <script src="./script.js"></script>
