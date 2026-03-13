@@ -6,13 +6,13 @@
     <title>Trabix Granizados | Retail</title>
     <meta
       name="description"
-      content="Ruta retail de Trabix Granizados. Compra rapida, sabores claros y salida directa a WhatsApp."
+      content="Catálogo retail de Trabix Granizados con precios visibles, promo activa y pedido directo por WhatsApp."
     />
-    <meta name="theme-color" content="#090910" />
+    <meta name="theme-color" content="#140718" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bungee&amp;family=M+PLUS+Rounded+1c:wght@400;500;700;800&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Bungee&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -21,8 +21,8 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="page page-retail" data-page="retail">
-    <div class="ambient ambient-magenta" aria-hidden="true"></div>
-    <div class="ambient ambient-cyan" aria-hidden="true"></div>
+    <div class="ambient ambient-pink" aria-hidden="true"></div>
+    <div class="ambient ambient-blue" aria-hidden="true"></div>
     <div class="ambient ambient-lime" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -33,263 +33,167 @@
       <nav class="site-nav" aria-label="Navegacion principal">
         <a href="/" data-nav="home">Inicio</a>
         <a href="/retail/" data-nav="retail">Retail</a>
-        <a href="/volumen/" data-nav="volumen">High-volume</a>
-        <a href="/alianzas/" data-nav="alianzas">Aliados</a>
+        <a href="/volumen/" data-nav="volumen">Mayoristas</a>
+        <a href="/alianzas/" data-nav="alianzas">Emprende con Trabix</a>
       </nav>
 
       <a
         class="button button-primary header-cta"
-        href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20comprar%20granizados%20para%20retail"
-        target="_blank"
-        rel="noreferrer"
+        data-whatsapp-link="retail-order"
+        href="https://wa.me/573043535455"
       >
-        Comprar
+        Pedir por WhatsApp
       </a>
     </header>
 
     <main>
-      <section class="sub-hero shell sub-hero-retail">
-        <div class="sub-hero-copy panel" data-reveal>
-          <p class="eyebrow">Retail clients</p>
-          <h1>Una pagina hecha para antojar y cerrar rapido por chat.</h1>
+      <section class="hero hero-sub hero-retail section-shell">
+        <div class="hero-copy glass-card" data-reveal>
+          <p class="eyebrow">Retail</p>
+          <h1>Antojo inmediato, catálogo claro y cierre directo por WhatsApp.</h1>
           <p class="hero-text">
-            Aqui el objetivo es simple: mostrar el producto, dejar clara la
-            propuesta y llevar al cliente a WhatsApp sin desviar su atencion.
+            Esta ruta está hecha para elegir rápido y comprar fácil. Trabix muestra sabores,
+            deja visibles las promociones y convierte la consulta en pedido con el menor roce posible.
           </p>
 
-          <div class="hero-metrics" aria-label="Resumen retail">
+          <div class="metric-row" aria-label="Beneficios retail">
             <article>
-              <strong>Compra directa</strong>
-              <span>sin friccion y sin pasos extra</span>
+              <strong>Compra ágil</strong>
+              <span>pedido directo, consulta de cobertura y disponibilidad</span>
             </article>
             <article>
-              <strong>Sabores claros</strong>
-              <span>linea visual y facil de elegir</span>
+              <strong>Promo visible</strong>
+              <span>sin ambigüedad entre línea con licor y línea sin licor</span>
             </article>
             <article>
-              <strong>WhatsApp</strong>
-              <span>canal principal para pedidos y preguntas</span>
+              <strong>Catálogo filtrable</strong>
+              <span>sabores con licor y sin licor en una misma vitrina</span>
             </article>
           </div>
 
           <div class="hero-actions">
             <a
               class="button button-primary"
-              href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20hacer%20un%20pedido%20retail"
-              target="_blank"
-              rel="noreferrer"
+              data-whatsapp-link="retail-order"
+              href="https://wa.me/573043535455"
             >
-              Pedir por WhatsApp
+              Hacer pedido rápido
             </a>
-            <a class="button button-secondary" href="#sabores">Ver sabores</a>
+            <a class="button button-secondary" href="#catalogo">Ver catálogo</a>
           </div>
         </div>
 
-        <div class="sub-hero-visual panel" data-reveal>
-          <article class="visual-card visual-card-static">
-            <div class="visual-copy">
-              <p class="card-label">Retail focus</p>
-              <h3>Visual directo, deseo inmediato, salida al chat.</h3>
+        <div class="hero-stage glass-card" data-reveal>
+          <article class="spotlight-card menu-card">
+            <div>
+              <p class="mini-label">Retail listo</p>
+              <h2>Una carta que vende por deseo antes de leer precio.</h2>
             </div>
-            <img src="/site-assets/brand/menu-granizados.png" alt="Carta visual Trabix" />
+            <img src="/site-assets/brand/menu-granizados.png" alt="Carta visual de Trabix" />
           </article>
-          <div class="floating-brief brief-top">antojo inmediato</div>
-          <div class="floating-brief brief-bottom">pedido facil</div>
+
+          <div class="pack-cluster pack-cluster-single">
+            <article class="pack-card pack-card-berry">
+              <span class="mini-chip">Venta rapida</span>
+              <img
+                src="/site-assets/products/bonbonbum-fresa-champagne.png"
+                alt="Granizado Bon Bon Bum Fresa Champaña"
+              />
+            </article>
+          </div>
         </div>
       </section>
 
-      <section class="shell detail-section" data-reveal>
-        <div class="section-heading">
-          <p class="eyebrow">Por que funciona</p>
-          <h2>El retail necesita velocidad, claridad y una imagen con personalidad.</h2>
-        </div>
-        <div class="detail-grid">
-          <article class="detail-card">
-            <h3>Compra sencilla</h3>
-            <p>El mensaje lleva directo al chat con intencion de compra clara.</p>
-          </article>
-          <article class="detail-card">
-            <h3>Producto memorable</h3>
-            <p>Los colores y nombres ayudan a vender incluso antes de probar.</p>
-          </article>
-          <article class="detail-card">
-            <h3>Perfecto para fiestas</h3>
-            <p>Funciona para reuniones, antojo casual o celebraciones privadas.</p>
-          </article>
-          <article class="detail-card">
-            <h3>Con y sin licor</h3>
-            <p>La carta permite atraer distintos tipos de consumidor final.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="sabores" class="shell flavors-section">
+      <section class="section-shell pricing-section">
         <div class="section-heading" data-reveal>
-          <p class="eyebrow">Sabores</p>
-          <h2>Una carta visual que ayuda a decidir en segundos.</h2>
+          <p class="eyebrow">Precios retail</p>
+          <h2>El usuario entiende la promo, el valor por unidad y el siguiente paso en un solo vistazo.</h2>
+        </div>
+
+        <div class="pricing-layout">
+          <div id="retail-pricing-grid" class="pricing-grid" data-reveal></div>
+          <aside id="retail-promo-card" class="promo-card glass-card" data-reveal></aside>
+        </div>
+
+        <p class="mini-notice" data-reveal>
+          Línea con licor disponible solo para mayores de edad. La promo con licor aplica por
+          tipo de producto, no por sabor.
+        </p>
+      </section>
+
+      <section id="catalogo" class="section-shell catalog-section">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Catálogo</p>
+          <h2>Sabores para compra directa, fiestas y venta de impulso.</h2>
         </div>
 
         <div class="filter-bar" role="toolbar" aria-label="Filtrar sabores" data-reveal>
-          <button class="filter-button is-active" type="button" data-filter="all">
-            Todos
-          </button>
-          <button class="filter-button" type="button" data-filter="con-licor">
-            Con licor
-          </button>
-          <button class="filter-button" type="button" data-filter="sin-licor">
-            Sin licor
-          </button>
+          <button class="filter-button is-active" type="button" data-filter="all">Todos</button>
+          <button class="filter-button" type="button" data-filter="con-licor">Con licor</button>
+          <button class="filter-button" type="button" data-filter="sin-licor">Sin licor</button>
         </div>
 
-        <div class="product-grid">
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img src="/site-assets/products/smirnoff-lulo.png" alt="Granizado Smirnoff Lulo" />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Smirnoff Lulo</h3>
-              <p>Fresco, citrico y listo para una noche que empieza fuerte.</p>
-            </div>
-          </article>
+        <div id="retail-products" class="product-grid"></div>
+      </section>
 
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img
-              src="/site-assets/products/bonbonbum-fresa-champagne.png"
-              alt="Granizado Bon Bon Bum Fresa Champagne"
-            />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Bon Bon Bum Fresa Champagne</h3>
-              <p>Dulce, brillante y perfecto para vender por deseo inmediato.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img
-              src="/site-assets/products/manzana-verde-tequila.png"
-              alt="Granizado Manzana Verde Tequila"
-            />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Manzana Verde Tequila</h3>
-              <p>Acidez visual y sabor reconocible para una compra impulsiva.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img src="/site-assets/products/uva-vodka.png" alt="Granizado Uva Vodka" />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Uva Vodka</h3>
-              <p>Color potente y personalidad para quienes buscan algo intenso.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img
-              src="/site-assets/products/bonbonbum-whiskey.png"
-              alt="Granizado Bon Bon Bum Whiskey"
-            />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Bon Bon Bum Whiskey</h3>
-              <p>Una mezcla mas atrevida para clientes que quieren variar.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img
-              src="/site-assets/products/maracumango-ron-blanco.png"
-              alt="Granizado Mango Maracuya Ron Blanco"
-            />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Mango Maracuya Ron Blanco</h3>
-              <p>Tropical, veraniego y facil de recomendar en grupo.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="con-licor" data-reveal>
-            <img
-              src="/site-assets/products/blueberry-vodka.png"
-              alt="Granizado Blueberry Vodka"
-            />
-            <div class="product-copy">
-              <span class="product-tag tag-alcohol">Con licor</span>
-              <h3>Blueberry Vodka</h3>
-              <p>Azul electrico para una vitrina que no pase desapercibida.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="sin-licor" data-reveal>
-            <img src="/site-assets/products/manzana-verde.png" alt="Granizado Manzana Verde" />
-            <div class="product-copy">
-              <span class="product-tag tag-soft">Sin licor</span>
-              <h3>Manzana Verde</h3>
-              <p>Refrescante y facil de mover entre publico general.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="sin-licor" data-reveal>
-            <img src="/site-assets/products/bonbonbum.png" alt="Granizado Bon Bon Bum" />
-            <div class="product-copy">
-              <span class="product-tag tag-soft">Sin licor</span>
-              <h3>Bon Bon Bum</h3>
-              <p>Reconocible, vendible y muy amigable para retail.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="sin-licor" data-reveal>
-            <img src="/site-assets/products/maracumango.png" alt="Granizado Mango Maracuya" />
-            <div class="product-copy">
-              <span class="product-tag tag-soft">Sin licor</span>
-              <h3>Mango Maracuya</h3>
-              <p>Perfil tropical para clima caliente y reuniones informales.</p>
-            </div>
-          </article>
-
-          <article class="product-card" data-kind="sin-licor" data-reveal>
-            <img src="/site-assets/products/blueberry.png" alt="Granizado Blueberry" />
-            <div class="product-copy">
-              <span class="product-tag tag-soft">Sin licor</span>
-              <h3>Blueberry</h3>
-              <p>Un color que vende por si solo desde el primer vistazo.</p>
-            </div>
-          </article>
+      <section class="section-shell support-section">
+        <div class="support-panel glass-card" data-reveal>
+          <div>
+            <p class="eyebrow">Cobertura retail</p>
+            <h2>Armenia va primero. Quindío se confirma por chat.</h2>
+            <p>
+              Si el pedido es fuera del foco retail, la conversación se ordena hacia mayoristas
+              o alianzas para mantener la operación viable.
+            </p>
+          </div>
+          <div id="retail-coverage-grid" class="coverage-grid coverage-grid-compact"></div>
         </div>
       </section>
 
-      <section class="shell final-cta panel" data-reveal>
-        <div>
-          <p class="eyebrow">Cierre retail</p>
-          <h2>Si el cliente esta listo para pedir, la salida es una sola: WhatsApp.</h2>
-        </div>
-        <div class="final-actions">
-          <a
-            class="button button-primary"
-            href="https://wa.me/573043535455?text=Hola%20Trabix%2C%20quiero%20comprar%20granizados%20retail"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Abrir WhatsApp
-          </a>
-          <a class="button button-secondary" href="/">Volver al inicio</a>
+      <section class="section-shell closing-section">
+        <div class="closing-panel glass-card" data-reveal>
+          <div>
+            <p class="eyebrow">Cierre retail</p>
+            <h2>Si ya viste el sabor o entendiste la promo, el siguiente paso es WhatsApp.</h2>
+          </div>
+          <div class="closing-actions">
+            <a
+              class="button button-primary"
+              data-whatsapp-link="retail-order"
+              href="https://wa.me/573043535455"
+            >
+              Pedir ahora
+            </a>
+            <a
+              class="button button-secondary"
+              data-whatsapp-link="retail-coverage"
+              href="https://wa.me/573043535455"
+            >
+              Consultar cobertura
+            </a>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer shell">
+    <footer class="site-footer section-shell">
       <div>
         <p class="footer-brand">Trabix Retail</p>
-        <p>Ruta pensada para compra rapida, antojo y clientes finales.</p>
+        <p>Compra directa, promociones visibles y catálogo dividido entre con licor y sin licor.</p>
       </div>
       <div class="footer-links">
         <a href="/">Inicio</a>
-        <a href="/volumen/">High-volume</a>
-        <a href="/alianzas/">Aliados</a>
-        <a href="https://wa.me/573043535455" target="_blank" rel="noreferrer">WhatsApp</a>
+        <a href="/volumen/">Mayoristas</a>
+        <a href="/alianzas/">Emprende con Trabix</a>
+        <a data-whatsapp-link="retail-order" href="https://wa.me/573043535455">WhatsApp</a>
       </div>
       <p class="footer-year">&copy; <span id="year"></span> Trabix Granizados.</p>
     </footer>
+
+    <div class="mobile-float mobile-float-action" aria-label="Accion rapida retail">
+      <span>Pedido retail</span>
+      <a data-whatsapp-link="retail-order" href="https://wa.me/573043535455">WhatsApp</a>
+    </div>
 
     <script src="/script.js"></script>
   </body>
