@@ -4,9 +4,17 @@ const revealNodes = Array.from(document.querySelectorAll("[data-reveal]"));
 const partnerForm = document.querySelector("#partner-form");
 const formNote = document.querySelector("#form-note");
 const yearNode = document.querySelector("#year");
+const bodyPage = document.body.dataset.page;
+const navLinks = Array.from(document.querySelectorAll("[data-nav]"));
 
 if (yearNode) {
   yearNode.textContent = new Date().getFullYear();
+}
+
+if (bodyPage) {
+  navLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.dataset.nav === bodyPage);
+  });
 }
 
 filterButtons.forEach((button) => {
@@ -36,7 +44,7 @@ if ("IntersectionObserver" in window) {
       });
     },
     {
-      threshold: 0.18,
+      threshold: 0.16,
       rootMargin: "0px 0px -40px 0px",
     }
   );
@@ -58,7 +66,7 @@ if (partnerForm && formNote) {
 
     const subjectName = name || "Nuevo contacto";
     const lines = [
-      `Hola Trabix,`,
+      "Hola Trabix,",
       "",
       `Mi nombre es: ${name || "No informado"}`,
       `Negocio o proyecto: ${business || "No informado"}`,
