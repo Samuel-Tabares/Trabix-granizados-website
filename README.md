@@ -4,7 +4,7 @@ Static marketing website for Trabix Granizados.
 
 ## Local preview
 
-Open `index.html` in a browser.
+Open `https://trabixgranizados.xyz` in a browser.
 
 ## Deploy
 
