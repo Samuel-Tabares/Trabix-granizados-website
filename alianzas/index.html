@@ -15,7 +15,10 @@
       href="https://fonts.googleapis.com/css2?family=Bungee&amp;family=M+PLUS+Rounded+1c:wght@400;500;700;800&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <link rel="stylesheet" href="../styles.css" />
   </head>
   <body class="page page-allies" data-page="alianzas">
     <div class="ambient ambient-magenta" aria-hidden="true"></div>
@@ -23,15 +26,15 @@
     <div class="ambient ambient-lime" aria-hidden="true"></div>
 
     <header class="site-header">
-      <a class="brand-mark" href="./index.html" aria-label="Ir al inicio de Trabix Granizados">
-        <img src="./site-assets/brand/logo-trabix.png" alt="Logo de Trabix Granizados" />
+      <a class="brand-mark" href="../" aria-label="Ir al inicio de Trabix Granizados">
+        <img src="../site-assets/brand/logo-trabix.png" alt="Logo de Trabix Granizados" />
       </a>
 
       <nav class="site-nav" aria-label="Navegacion principal">
-        <a href="./index.html" data-nav="home">Inicio</a>
-        <a href="./retail.html" data-nav="retail">Retail</a>
-        <a href="./volumen.html" data-nav="volumen">High-volume</a>
-        <a href="./alianzas.html" data-nav="alianzas">Aliados</a>
+        <a href="../" data-nav="home">Inicio</a>
+        <a href="../retail/" data-nav="retail">Retail</a>
+        <a href="../volumen/" data-nav="volumen">High-volume</a>
+        <a href="../alianzas/" data-nav="alianzas">Aliados</a>
       </nav>
 
       <a
@@ -86,7 +89,7 @@
               <h3>La misma energia visual, pero con un tono mas estrategico.</h3>
             </div>
             <img
-              src="./site-assets/brand/poster-eventos.png"
+              src="../site-assets/brand/poster-eventos.png"
               alt="Visual de marca Trabix para alianzas"
             />
           </article>
@@ -113,13 +116,20 @@
               >
                 Enviar correo
               </a>
-              <a class="button button-secondary" href="./index.html">Volver al inicio</a>
+              <a class="button button-secondary" href="../">Volver al inicio</a>
             </div>
           </article>
 
           <article id="formulario" class="alliance-form panel" data-reveal>
             <p class="card-label">Prepara tu mensaje</p>
-            <form id="partner-form" class="partner-form">
+            <form
+              id="partner-form"
+              class="partner-form"
+              action="mailto:trabixgranizados@gmail.com"
+              method="post"
+              enctype="text/plain"
+            >
+              <input type="hidden" name="subject" value="Quiero ser parte de Trabix" />
               <label>
                 <span>Nombre</span>
                 <input type="text" name="name" placeholder="Tu nombre" required />
@@ -143,9 +153,41 @@
               </label>
               <button class="button button-primary" type="submit">Preparar email</button>
               <p id="form-note" class="form-note" aria-live="polite">
-                Abrimos tu cliente de correo con el mensaje organizado.
+                Preparamos el correo y dejamos una copia lista por si tu app no se abre.
               </p>
+              <noscript>
+                <p class="form-note">
+                  Sin JavaScript, el formulario abrira tu cliente de correo con los datos en texto plano.
+                </p>
+              </noscript>
             </form>
+            <div id="mail-preview" class="mail-preview" hidden>
+              <p class="card-label">Respaldo manual</p>
+              <p class="form-note">
+                Si no se abre tu correo, envia este contenido manualmente a
+                <a class="inline-link" href="mailto:trabixgranizados@gmail.com">trabixgranizados@gmail.com</a>.
+              </p>
+              <label>
+                <span>Asunto</span>
+                <input id="mail-preview-subject" type="text" readonly />
+              </label>
+              <label>
+                <span>Mensaje</span>
+                <textarea id="mail-preview-body" rows="8" readonly></textarea>
+              </label>
+              <div class="section-actions">
+                <a
+                  id="mail-preview-link"
+                  class="button button-secondary"
+                  href="mailto:trabixgranizados@gmail.com?subject=Quiero%20ser%20parte%20de%20Trabix"
+                >
+                  Abrir correo
+                </a>
+                <button id="copy-mail" class="button button-primary" type="button">
+                  Copiar mensaje
+                </button>
+              </div>
+            </div>
           </article>
         </div>
       </section>
@@ -162,7 +204,7 @@
           >
             Abrir correo
           </a>
-          <a class="button button-secondary" href="./index.html">Volver al inicio</a>
+          <a class="button button-secondary" href="../">Volver al inicio</a>
         </div>
       </section>
     </main>
@@ -173,14 +215,14 @@
         <p>Ruta creada para nuevas relaciones comerciales y crecimiento de marca.</p>
       </div>
       <div class="footer-links">
-        <a href="./index.html">Inicio</a>
-        <a href="./retail.html">Retail</a>
-        <a href="./volumen.html">High-volume</a>
+        <a href="../">Inicio</a>
+        <a href="../retail/">Retail</a>
+        <a href="../volumen/">High-volume</a>
         <a href="mailto:trabixgranizados@gmail.com">Correo</a>
       </div>
       <p class="footer-year">&copy; <span id="year"></span> Trabix Granizados.</p>
     </footer>
 
-    <script src="./script.js"></script>
+    <script src="../script.js"></script>
   </body>
 </html>

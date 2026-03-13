@@ -1,13 +1,30 @@
 {
-  "cleanUrls": false,
-  "trailingSlash": false,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/retail.html",
+      "destination": "/retail/",
+      "permanent": true
+    },
+    {
+      "source": "/volumen.html",
+      "destination": "/volumen/",
+      "permanent": true
+    },
+    {
+      "source": "/alianzas.html",
+      "destination": "/alianzas/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/site-assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=604800, immutable"
+          "value": "public, max-age=86400, must-revalidate"
         }
       ]
     },
@@ -16,7 +33,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=604800"
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }

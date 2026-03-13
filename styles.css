@@ -99,6 +99,10 @@ section {
   margin-top: 1.5rem;
 }
 
+[id] {
+  scroll-margin-top: 8rem;
+}
+
 .page-home section:first-child,
 .page-retail section:first-child,
 .page-volume section:first-child,
@@ -302,6 +306,12 @@ textarea {
 .button:hover,
 .button:focus-visible {
   transform: translateY(-2px);
+}
+
+.inline-link {
+  color: var(--yellow);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .button-primary {
@@ -836,6 +846,16 @@ textarea {
   margin: 0;
 }
 
+.mail-preview {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+}
+
 .final-cta {
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
@@ -869,7 +889,7 @@ textarea {
   text-align: right;
 }
 
-[data-reveal] {
+.js [data-reveal] {
   opacity: 0;
   transform: translateY(28px);
   transition:
@@ -877,7 +897,7 @@ textarea {
     transform 500ms ease;
 }
 
-[data-reveal].is-visible {
+.js [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
 }
