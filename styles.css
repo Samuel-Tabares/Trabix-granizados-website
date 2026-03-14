@@ -185,7 +185,7 @@ footer {
 }
 
 .section-shell {
-  margin-top: clamp(1.25rem, 3vw, 2rem);
+  margin-top: clamp(1.25rem, 3vw);
 }
 
 .glass-card {
@@ -465,6 +465,7 @@ label {
 .pack-card img {
   width: min(100%, 13.5rem);
   margin: auto;
+  border-radius: calc(var(--radius-lg) - 6px);
 }
 
 .pack-card-ice::before {
