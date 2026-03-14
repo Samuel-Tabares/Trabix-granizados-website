@@ -151,12 +151,12 @@ footer {
 
 .section-shell,
 .site-header {
-  width: min(calc(100% - clamp(1rem, 4vw, 2.5rem)), var(--max-width));
+  width: min(calc(100% - clamp(1.5rem, 8vw, 8rem)), var(--max-width));
   margin-inline: auto;
 }
 
 .section-shell {
-  margin-top: clamp(0.9rem, 2.8vw, 1.5rem);
+  margin-top: clamp(1.25rem, 3vw, 2rem);
 }
 
 .glass-card {
@@ -188,49 +188,36 @@ footer {
   top: 0.75rem;
   z-index: 50;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.8rem;
+  justify-items: center;
+  gap: 0.45rem;
   margin-top: 0.75rem;
-  padding: 0.55rem 0.75rem;
+  padding: 0.85rem 1rem 0.95rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 28px;
   background: rgba(11, 7, 20, 0.74);
   backdrop-filter: blur(24px);
 }
 
 .brand-mark {
-  width: min(8.6rem, 34vw);
+  width: min(8.2rem, 32vw);
 }
 
 .site-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.8rem;
+  display: none;
 }
 
-.site-nav a,
 .inline-link {
   color: var(--muted);
   transition: color 180ms ease;
 }
 
-.site-nav a {
-  font-size: 0.92rem;
-  font-weight: 700;
-}
-
-.site-nav a:hover,
-.site-nav a:focus-visible,
-.site-nav a.is-active,
 .inline-link:hover,
 .inline-link:focus-visible {
   color: var(--text);
 }
 
 .header-cta {
-  min-width: 9.8rem;
+  min-width: 0;
 }
 
 .button {
@@ -326,19 +313,19 @@ label {
 .support-panel,
 .closing-panel {
   display: grid;
-  gap: clamp(0.85rem, 2vw, 1.2rem);
+  gap: clamp(1rem, 2.4vw, 1.55rem);
 }
 
 .hero {
   grid-template-columns: 1.05fr 0.95fr;
-  padding-top: 0.8rem;
+  padding-top: 1rem;
 }
 
 .hero-copy,
 .hero-stage,
 .form-copy,
 .form-panel {
-  padding: clamp(1rem, 2.2vw, 1.4rem);
+  padding: clamp(1.2rem, 2.5vw, 1.8rem);
 }
 
 .hero-text,
@@ -351,8 +338,8 @@ label {
 .metric-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
-  margin-top: 1rem;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
 }
 
 .metric-row article,
@@ -370,7 +357,7 @@ label {
 }
 
 .metric-row article {
-  padding: 0.85rem 0.9rem;
+  padding: 1rem;
 }
 
 .metric-row strong {
@@ -387,13 +374,13 @@ label {
 .closing-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
+  margin-top: 1.15rem;
 }
 
 .hero-stage {
   display: grid;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .hero-stage__halo {
@@ -432,7 +419,7 @@ label {
 .pack-cluster {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .pack-cluster-single {
@@ -440,8 +427,8 @@ label {
 }
 
 .pack-card {
-  min-height: 12rem;
-  padding: 0.7rem;
+  min-height: 13rem;
+  padding: 0.9rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 28%),
     rgba(255, 255, 255, 0.05);
@@ -462,7 +449,7 @@ label {
 }
 
 .pack-card img {
-  width: min(100%, 13rem);
+  width: min(100%, 13.5rem);
   margin: auto;
 }
 
@@ -488,9 +475,10 @@ label {
 .coverage-grid,
 .use-grid,
 .pricing-grid,
-.steps-grid {
+.steps-grid,
+.gallery-grid {
   display: grid;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
 .story-grid,
@@ -502,6 +490,10 @@ label {
 
 .route-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gallery-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .coverage-grid {
@@ -536,11 +528,25 @@ label {
 .route-card {
   display: grid;
   gap: 0.45rem;
-  padding: 1rem;
-  min-height: 11.2rem;
+  padding: 1.15rem;
+  min-height: 12rem;
   transition:
     transform 180ms ease,
     border-color 180ms ease;
+}
+
+.route-card-main {
+  background:
+    linear-gradient(180deg, rgba(255, 215, 93, 0.16), transparent 70%),
+    var(--surface);
+}
+
+.route-card-image {
+  width: 100%;
+  height: 9rem;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 0.2rem;
 }
 
 .route-card:hover,
@@ -655,7 +661,7 @@ label {
 .mid-cta,
 .support-panel,
 .closing-panel {
-  padding: clamp(1rem, 2vw, 1.3rem);
+  padding: clamp(1.2rem, 2.5vw, 1.6rem);
 }
 
 .mid-cta {
@@ -668,7 +674,7 @@ label {
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .filter-bar {
@@ -784,40 +790,40 @@ label {
 
 .flavor-blueberry-vodka::before,
 .flavor-blueberry::before {
-  background-image: url("/etiqueta_background/Fondo%20blueberry.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20blueberry.jpeg");
 }
 
 .flavor-bonbonbum-fresa::before {
-  background-image: url("/etiqueta_background/Fondo%20bonbonbum%20fresa.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20bonbonbum%20fresa.jpeg");
 }
 
 .flavor-bonbonbum-whiskey::before,
 .flavor-bonbonbum::before {
-  background-image: url("/etiqueta_background/Fondo%20bonbonbum.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20bonbonbum.jpeg");
 }
 
 .flavor-manzana-verde-tequila::before,
 .flavor-manzana-verde::before {
-  background-image: url("/etiqueta_background/Fondo%20manzana%20verde.png");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20manzana%20verde.png");
 }
 
 .flavor-maracumango-ron::before,
 .flavor-maracumango::before {
-  background-image: url("/etiqueta_background/Fondo%20maracumango.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20maracumango.jpeg");
 }
 
 .flavor-smirnoff-lulo::before {
-  background-image: url("/etiqueta_background/Fondo%20smirnoff.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20smirnoff.jpeg");
 }
 
 .flavor-uva-vodka::before {
-  background-image: url("/etiqueta_background/Fondo%20uva.jpeg");
+  background-image: url("/site-assets/etiqueta_background/Fondo%20uva.jpeg");
 }
 
 .ally-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 .ally-metric {
@@ -873,8 +879,20 @@ label {
 }
 
 .site-footer {
-  padding: 1.4rem 0 2rem;
+  padding: 2rem 0 2.4rem;
   text-align: center;
+}
+
+.gallery-card {
+  padding: 0.75rem;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 15rem;
+  object-fit: cover;
+  border-radius: calc(var(--radius-lg) - 6px);
 }
 
 .footer-year {
@@ -907,7 +925,8 @@ label {
   .proof-grid,
   .use-grid,
   .steps-grid,
-  .product-grid {
+  .product-grid,
+  .gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -921,22 +940,9 @@ label {
 }
 
 @media (max-width: 900px) {
+  .section-shell,
   .site-header {
-    grid-template-columns: auto auto;
-    justify-content: space-between;
-  }
-
-  .site-nav {
-    display: none;
-  }
-
-  .header-cta {
-    min-width: 0;
-    width: auto;
-  }
-
-  .brand-mark {
-    width: min(7rem, 36vw);
+    width: min(calc(100% - 1.25rem), var(--max-width));
   }
 }
 
@@ -960,7 +966,8 @@ label {
   .pricing-grid,
   .ally-metrics,
   .metric-row,
-  .pack-cluster {
+  .pack-cluster,
+  .gallery-grid {
     grid-template-columns: 1fr;
   }
 

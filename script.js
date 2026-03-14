@@ -97,7 +97,7 @@ const SITE_CONTENT = {
       name: "Smirnoff Lulo",
       description: "Fresco, cítrico y listo para una venta de impulso en noche o fiesta.",
       image: "/site-assets/products/smirnoff-lulo.png",
-      wordmark: "/flavor_design/Smirnoff lulo.png",
+      wordmark: "/site-assets/flavor_design/Smirnoff lulo.png",
       flavorClass: "flavor-smirnoff-lulo",
     },
     {
@@ -105,7 +105,7 @@ const SITE_CONTENT = {
       name: "Bon Bon Bum Fresa Champaña",
       description: "Dulce, brillante y muy fuerte para una compra por antojo visual.",
       image: "/site-assets/products/bonbonbum-fresa-champagne.png",
-      wordmark: "/flavor_design/Bonbonbum Fresa Champaña.PNG",
+      wordmark: "/site-assets/flavor_design/Bonbonbum Fresa Champaña.PNG",
       flavorClass: "flavor-bonbonbum-fresa",
     },
     {
@@ -113,7 +113,7 @@ const SITE_CONTENT = {
       name: "Manzana Verde Tequila",
       description: "Ácida, reconocible y fácil de recomendar en una primera compra.",
       image: "/site-assets/products/manzana-verde-tequila.png",
-      wordmark: "/flavor_design/Manzana Verde Tequila.PNG",
+      wordmark: "/site-assets/flavor_design/Manzana Verde Tequila.PNG",
       flavorClass: "flavor-manzana-verde-tequila",
     },
     {
@@ -121,7 +121,7 @@ const SITE_CONTENT = {
       name: "Uva Vodka",
       description: "Color intenso y look directo para destacar en barra o vitrina.",
       image: "/site-assets/products/uva-vodka.png",
-      wordmark: "/flavor_design/Uva vodka.png",
+      wordmark: "/site-assets/flavor_design/Uva vodka.png",
       flavorClass: "flavor-uva-vodka",
     },
     {
@@ -129,7 +129,7 @@ const SITE_CONTENT = {
       name: "Bon Bon Bum Whiskey",
       description: "Una opción atrevida para quien quiere variar sin perder lectura fácil.",
       image: "/site-assets/products/bonbonbum-whiskey.png",
-      wordmark: "/flavor_design/Bonbonbum Whiskey.PNG",
+      wordmark: "/site-assets/flavor_design/Bonbonbum Whiskey.PNG",
       flavorClass: "flavor-bonbonbum-whiskey",
     },
     {
@@ -137,7 +137,7 @@ const SITE_CONTENT = {
       name: "Maracumango Ron Blanco",
       description: "Tropical, alegre y útil para grupos, calor y venta rápida.",
       image: "/site-assets/products/maracumango-ron-blanco.png",
-      wordmark: "/flavor_design/Maracumango Ron Blanco.PNG",
+      wordmark: "/site-assets/flavor_design/Maracumango Ron Blanco.PNG",
       flavorClass: "flavor-maracumango-ron",
     },
     {
@@ -145,7 +145,7 @@ const SITE_CONTENT = {
       name: "Blueberry Vodka",
       description: "Azul eléctrico, muy visible y perfecto para antojo inmediato.",
       image: "/site-assets/products/blueberry-vodka.png",
-      wordmark: "/flavor_design/Blueberry Vodka.PNG",
+      wordmark: "/site-assets/flavor_design/Blueberry Vodka.PNG",
       flavorClass: "flavor-blueberry-vodka",
     },
     {
@@ -153,7 +153,7 @@ const SITE_CONTENT = {
       name: "Blueberry",
       description: "Color fuerte y lectura sencilla para público general.",
       image: "/site-assets/products/blueberry.png",
-      wordmark: "/flavor_design/Blueberry.PNG",
+      wordmark: "/site-assets/flavor_design/Blueberry.PNG",
       flavorClass: "flavor-blueberry",
     },
     {
@@ -161,7 +161,7 @@ const SITE_CONTENT = {
       name: "Bon Bon Bum",
       description: "Sabor reconocible y amable para retail, fiestas y compra casual.",
       image: "/site-assets/products/bonbonbum.png",
-      wordmark: "/flavor_design/Bonbonbum.PNG",
+      wordmark: "/site-assets/flavor_design/Bonbonbum.PNG",
       flavorClass: "flavor-bonbonbum",
     },
     {
@@ -169,7 +169,7 @@ const SITE_CONTENT = {
       name: "Manzana Verde",
       description: "Refrescante y fácil de mover entre clientes que quieren algo clásico.",
       image: "/site-assets/products/manzana-verde.png",
-      wordmark: "/flavor_design/Manzana Verde.PNG",
+      wordmark: "/site-assets/flavor_design/Manzana Verde.PNG",
       flavorClass: "flavor-manzana-verde",
     },
     {
@@ -177,7 +177,7 @@ const SITE_CONTENT = {
       name: "Maracumango",
       description: "Perfil tropical para clima caliente y venta sin fricción.",
       image: "/site-assets/products/maracumango.png",
-      wordmark: "/flavor_design/Maracumango.PNG",
+      wordmark: "/site-assets/flavor_design/Maracumango.PNG",
       flavorClass: "flavor-maracumango",
     },
   ],
@@ -222,8 +222,6 @@ const SITE_CONTENT = {
 };
 
 const yearNode = document.querySelector("#year");
-const navLinks = Array.from(document.querySelectorAll("[data-nav]"));
-const bodyPage = document.body.dataset.page;
 const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
 const partnerForm = document.querySelector("#partner-form");
 const formNote = document.querySelector("#form-note");
@@ -245,16 +243,6 @@ function setYear() {
   if (yearNode) {
     yearNode.textContent = new Date().getFullYear();
   }
-}
-
-function setActiveNav() {
-  if (!bodyPage) {
-    return;
-  }
-
-  navLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.dataset.nav === bodyPage);
-  });
 }
 
 function bindContactLinks() {
@@ -581,7 +569,6 @@ function initPartnerForm() {
 
 function init() {
   setYear();
-  setActiveNav();
   bindContactLinks();
   renderProofGrid("#home-proof-grid");
   renderProofGrid("#allies-proof-grid");
