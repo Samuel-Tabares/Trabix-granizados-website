@@ -97,7 +97,7 @@ const SITE_CONTENT = {
       name: "Smirnoff Lulo",
       description: "Fresco, cítrico y listo para una venta de impulso en noche o fiesta.",
       image: "/site-assets/products/smirnoff-lulo.png",
-      wordmark: "/flavor_design/Smirnoff%20lulo.png",
+      wordmark: "/flavor_design/Smirnoff lulo.png",
       flavorClass: "flavor-smirnoff-lulo",
     },
     {
@@ -105,7 +105,7 @@ const SITE_CONTENT = {
       name: "Bon Bon Bum Fresa Champaña",
       description: "Dulce, brillante y muy fuerte para una compra por antojo visual.",
       image: "/site-assets/products/bonbonbum-fresa-champagne.png",
-      wordmark: "",
+      wordmark: "/flavor_design/Bonbonbum Fresa Champaña.PNG",
       flavorClass: "flavor-bonbonbum-fresa",
     },
     {
@@ -113,7 +113,7 @@ const SITE_CONTENT = {
       name: "Manzana Verde Tequila",
       description: "Ácida, reconocible y fácil de recomendar en una primera compra.",
       image: "/site-assets/products/manzana-verde-tequila.png",
-      wordmark: "/flavor_design/Manzana%20Verde%20Tequila.PNG",
+      wordmark: "/flavor_design/Manzana Verde Tequila.PNG",
       flavorClass: "flavor-manzana-verde-tequila",
     },
     {
@@ -121,7 +121,7 @@ const SITE_CONTENT = {
       name: "Uva Vodka",
       description: "Color intenso y look directo para destacar en barra o vitrina.",
       image: "/site-assets/products/uva-vodka.png",
-      wordmark: "/flavor_design/Uva%20vodka.png",
+      wordmark: "/flavor_design/Uva vodka.png",
       flavorClass: "flavor-uva-vodka",
     },
     {
@@ -129,7 +129,7 @@ const SITE_CONTENT = {
       name: "Bon Bon Bum Whiskey",
       description: "Una opción atrevida para quien quiere variar sin perder lectura fácil.",
       image: "/site-assets/products/bonbonbum-whiskey.png",
-      wordmark: "/flavor_design/Bonbonbum%20Whiskey.PNG",
+      wordmark: "/flavor_design/Bonbonbum Whiskey.PNG",
       flavorClass: "flavor-bonbonbum-whiskey",
     },
     {
@@ -137,7 +137,7 @@ const SITE_CONTENT = {
       name: "Maracumango Ron Blanco",
       description: "Tropical, alegre y útil para grupos, calor y venta rápida.",
       image: "/site-assets/products/maracumango-ron-blanco.png",
-      wordmark: "/flavor_design/Maracumango%20Ron%20Blanco.PNG",
+      wordmark: "/flavor_design/Maracumango Ron Blanco.PNG",
       flavorClass: "flavor-maracumango-ron",
     },
     {
@@ -145,7 +145,7 @@ const SITE_CONTENT = {
       name: "Blueberry Vodka",
       description: "Azul eléctrico, muy visible y perfecto para antojo inmediato.",
       image: "/site-assets/products/blueberry-vodka.png",
-      wordmark: "/flavor_design/Blueberry%20Vodka.PNG",
+      wordmark: "/flavor_design/Blueberry Vodka.PNG",
       flavorClass: "flavor-blueberry-vodka",
     },
     {
@@ -169,7 +169,7 @@ const SITE_CONTENT = {
       name: "Manzana Verde",
       description: "Refrescante y fácil de mover entre clientes que quieren algo clásico.",
       image: "/site-assets/products/manzana-verde.png",
-      wordmark: "/flavor_design/Manzana%20Verde.PNG",
+      wordmark: "/flavor_design/Manzana Verde.PNG",
       flavorClass: "flavor-manzana-verde",
     },
     {
@@ -324,28 +324,22 @@ function renderCoverage(id) {
 }
 
 function renderRetailPricing() {
-  const pricingContainer = document.querySelector("#retail-pricing-grid");
-  const promoContainer = document.querySelector("#retail-promo-card");
+  const pricingMarkup = SITE_CONTENT.retailPricing
+    .map(
+      (item) => `
+        <article class="pricing-card glass-card">
+          <p class="mini-label">${item.title}</p>
+          <strong>${item.value}</strong>
+          <span>${item.subtitle}</span>
+          <ul>
+            ${item.notes.map((note) => `<li>${note}</li>`).join("")}
+          </ul>
+        </article>
+      `
+    )
+    .join("");
 
-  if (pricingContainer) {
-    pricingContainer.innerHTML = SITE_CONTENT.retailPricing
-      .map(
-        (item) => `
-          <article class="pricing-card glass-card">
-            <p class="mini-label">${item.title}</p>
-            <strong>${item.value}</strong>
-            <span>${item.subtitle}</span>
-            <ul>
-              ${item.notes.map((note) => `<li>${note}</li>`).join("")}
-            </ul>
-          </article>
-        `
-      )
-      .join("");
-  }
-
-  if (promoContainer) {
-    promoContainer.innerHTML = `
+  const promoMarkup = `
       <p class="mini-label">${SITE_CONTENT.retailPromo.title}</p>
       <strong>${SITE_CONTENT.retailPromo.value}</strong>
       <span>${SITE_CONTENT.retailPromo.summary}</span>
@@ -353,7 +347,13 @@ function renderRetailPricing() {
         ${SITE_CONTENT.retailPromo.bullets.map((item) => `<li>${item}</li>`).join("")}
       </ul>
     `;
-  }
+  document.querySelectorAll("#retail-pricing-grid, #home-retail-pricing").forEach((container) => {
+    container.innerHTML = pricingMarkup;
+  });
+
+  document.querySelectorAll("#retail-promo-card, #home-retail-promo").forEach((container) => {
+    container.innerHTML = promoMarkup;
+  });
 }
 
 function renderRetailProducts() {
@@ -367,9 +367,8 @@ function renderRetailProducts() {
     .map((item) => {
       const tagClass = item.kind === "con-licor" ? "tag-alcohol" : "tag-soft";
       const tagLabel = item.kind === "con-licor" ? "Con licor" : "Sin licor";
-      const wordmark = item.wordmark
-        ? `<img class="product-wordmark" src="${item.wordmark}" alt="" />`
-        : `<div class="product-wordmark" aria-hidden="true"></div>`;
+      const priceLabel = item.kind === "con-licor" ? "Desde $8.000" : "$7.000 c/u";
+      const wordmark = `<img class="product-wordmark" src="${encodeURI(item.wordmark)}" alt="${item.name}" />`;
 
       return `
         <article class="product-card ${item.flavorClass}" data-kind="${item.kind}" data-reveal>
@@ -377,7 +376,7 @@ function renderRetailProducts() {
           <img class="product-pack" src="${item.image}" alt="Granizado ${item.name}" />
           <div class="product-copy">
             <span class="product-tag ${tagClass}">${tagLabel}</span>
-            <h3>${item.name}</h3>
+            <strong class="product-price">${priceLabel}</strong>
             <p>${item.description}</p>
           </div>
         </article>

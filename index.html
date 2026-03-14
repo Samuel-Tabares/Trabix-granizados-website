@@ -37,7 +37,13 @@
         <a href="/alianzas/" data-nav="alianzas">Emprende con Trabix</a>
       </nav>
 
-      <a class="button button-primary header-cta" href="#rutas">Elegir ruta</a>
+      <a
+        class="button button-primary header-cta"
+        data-whatsapp-link="retail-order"
+        href="https://wa.me/573043535455"
+      >
+        Pedir por WhatsApp
+      </a>
     </header>
 
     <main>
@@ -68,8 +74,14 @@
           </div>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="#rutas">Ver las 3 rutas</a>
-            <a class="button button-secondary" href="#funciona">Por qué funciona</a>
+            <a
+              class="button button-primary"
+              data-whatsapp-link="retail-order"
+              href="https://wa.me/573043535455"
+            >
+              Pedir por WhatsApp
+            </a>
+            <a class="button button-secondary" href="#precios-retail">Ver precios retail</a>
           </div>
         </div>
 
@@ -88,24 +100,30 @@
 
           <div class="pack-cluster" aria-label="Productos destacados">
             <article class="pack-card pack-card-ice">
-              <span class="mini-chip">Con licor</span>
               <img
                 src="/site-assets/products/smirnoff-lulo.png"
                 alt="Granizado Smirnoff Lulo"
               />
             </article>
             <article class="pack-card pack-card-candy">
-              <span class="mini-chip">Sin licor</span>
               <img
                 src="/site-assets/products/bonbonbum.png"
                 alt="Granizado Bon Bon Bum"
               />
             </article>
           </div>
+        </div>
+      </section>
 
-          <div class="orbit-note orbit-note-left">fiestas</div>
-          <div class="orbit-note orbit-note-right">venta rapida</div>
-          <div class="orbit-note orbit-note-bottom">eventos</div>
+      <section id="precios-retail" class="section-shell pricing-section">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Precios que sí importan</p>
+          <h2>La home debe decir cuánto cuesta comprar directo y llevarte a WhatsApp.</h2>
+        </div>
+
+        <div class="pricing-layout">
+          <div id="home-retail-pricing" class="pricing-grid" data-reveal></div>
+          <aside id="home-retail-promo" class="promo-card glass-card" data-reveal></aside>
         </div>
       </section>
 
@@ -151,30 +169,18 @@
 
         <div class="route-grid">
           <a class="route-card route-card-retail glass-card" href="/retail/" data-reveal>
-            <span class="route-number">01</span>
             <h3>Retail</h3>
-            <p>
-              Para antojar, ver catálogo, entender promociones y cerrar por WhatsApp.
-            </p>
-            <span class="route-link">Entrar a retail</span>
+            <p>Compra directa, promo visible y pedido rápido por WhatsApp.</p>
           </a>
 
           <a class="route-card route-card-volume glass-card" href="/volumen/" data-reveal>
-            <span class="route-number">02</span>
             <h3>Mayoristas</h3>
-            <p>
-              Para eventos, reventa y compras por volumen con precios visibles y operación simple.
-            </p>
-            <span class="route-link">Entrar a mayoristas</span>
+            <p>Tabla por cantidad para eventos, reventa y compras desde 20 unidades.</p>
           </a>
 
           <a class="route-card route-card-allies glass-card" href="/alianzas/" data-reveal>
-            <span class="route-number">03</span>
             <h3>Emprende con Trabix</h3>
-            <p>
-              Para quien quiere empezar con apoyo de marca, correo guiado y rentabilidad visible.
-            </p>
-            <span class="route-link">Entrar a emprender</span>
+            <p>Ruta de apoyo y correo guiado para quienes quieren empezar a vender.</p>
           </a>
         </div>
       </section>
@@ -208,34 +214,21 @@
             </p>
           </div>
           <div class="closing-actions">
-            <a class="button button-primary" href="/retail/">Quiero comprar</a>
-            <a class="button button-secondary" href="/volumen/">Quiero cotizar volumen</a>
-            <a class="button button-tertiary" href="/alianzas/">Quiero emprender</a>
+            <a
+              class="button button-primary"
+              data-whatsapp-link="retail-order"
+              href="https://wa.me/573043535455"
+            >
+              Comprar por WhatsApp
+            </a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer section-shell">
-      <div>
-        <p class="footer-brand">Trabix Granizados</p>
-        <p>Granizados listos para vender y llevar en retail, mayoristas y alianzas de crecimiento.</p>
-      </div>
-      <div class="footer-links">
-        <a href="/">Inicio</a>
-        <a href="/retail/">Retail</a>
-        <a href="/volumen/">Mayoristas</a>
-        <a href="/alianzas/">Emprende con Trabix</a>
-      </div>
-      <p class="footer-year">&copy; <span id="year"></span> Trabix Granizados.</p>
+      <p class="footer-year">&copy; 2026 Trabix Granizados.</p>
     </footer>
-
-    <div class="mobile-float mobile-float-home" aria-label="Accesos rapidos">
-      <span>Ir directo</span>
-      <a href="/retail/">Retail</a>
-      <a href="/volumen/">Mayoristas</a>
-      <a href="/alianzas/">Emprende</a>
-    </div>
 
     <script src="/script.js"></script>
   </body>
