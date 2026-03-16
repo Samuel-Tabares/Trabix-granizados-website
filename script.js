@@ -239,11 +239,6 @@ const yearNode = document.querySelector("#year");
 const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
 const partnerForm = document.querySelector("#partner-form");
 const formNote = document.querySelector("#form-note");
-const mailPreview = document.querySelector("#mail-preview");
-const mailPreviewSubject = document.querySelector("#mail-preview-subject");
-const mailPreviewBody = document.querySelector("#mail-preview-body");
-const mailPreviewLink = document.querySelector("#mail-preview-link");
-const copyMailButton = document.querySelector("#copy-mail");
 
 function buildWhatsAppLink(message) {
   return `https://wa.me/${SITE_CONTENT.contact.whatsapp}?text=${encodeURIComponent(message)}`;
@@ -521,58 +516,18 @@ function buildPartnerEmail(form) {
   };
 }
 
-async function copyEmailPreview(subject, body) {
-  if (!navigator.clipboard?.writeText) {
-    return false;
-  }
-
-  await navigator.clipboard.writeText(`Asunto: ${subject}\n\n${body}`);
-  return true;
-}
-
 function initPartnerForm() {
   if (!partnerForm || !formNote) {
     return;
   }
 
-  partnerForm.addEventListener("submit", async (event) => {
+  partnerForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const { subject, body, mailLink } = buildPartnerEmail(partnerForm);
-
-    if (mailPreview && mailPreviewSubject && mailPreviewBody && mailPreviewLink) {
-      mailPreview.hidden = false;
-      mailPreviewSubject.value = subject;
-      mailPreviewBody.value = body;
-      mailPreviewLink.href = mailLink;
-    }
-
-    try {
-      const copied = await copyEmailPreview(subject, body);
-      formNote.textContent = copied
-        ? "Abrimos tu correo y también copiamos el mensaje al portapapeles."
-        : "Abrimos tu correo y dejamos el mensaje visible para copiarlo manualmente.";
-    } catch {
-      formNote.textContent =
-        "Abrimos tu correo y dejamos el mensaje visible para copiarlo manualmente.";
-    }
+    formNote.textContent = "Abrimos tu app de correo con todo listo para que solo confirmes el envío.";
 
     window.location.href = mailLink;
-  });
-
-  if (!copyMailButton || !mailPreviewSubject || !mailPreviewBody) {
-    return;
-  }
-
-  copyMailButton.addEventListener("click", async () => {
-    try {
-      const copied = await copyEmailPreview(mailPreviewSubject.value, mailPreviewBody.value);
-      formNote.textContent = copied
-        ? "Mensaje copiado. Ya puedes pegarlo en tu correo."
-        : "No se pudo copiar automáticamente. Usa el respaldo visible.";
-    } catch {
-      formNote.textContent = "No se pudo copiar automáticamente. Usa el respaldo visible.";
-    }
   });
 }
 
