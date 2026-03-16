@@ -398,33 +398,33 @@ function renderWholesalePricing() {
     return;
   }
 
-  const headerCells = SITE_CONTENT.wholesalePricing[0].tiers
-    .map((item) => `<th scope="col">${item.range}</th>`)
-    .join("");
-
-  const rows = SITE_CONTENT.wholesalePricing
-    .map(
-      (line) => `
-        <tr>
-          <td><strong>${line.line}</strong></td>
-          ${line.tiers.map((item) => `<td>${item.price}</td>`).join("")}
-        </tr>
-      `
-    )
-    .join("");
-
   container.innerHTML = `
-    <table class="pricing-table">
-      <thead>
-        <tr>
-          <th scope="col">Linea</th>
-          ${headerCells}
-        </tr>
-      </thead>
-      <tbody>
-        ${rows}
-      </tbody>
-    </table>
+    <div class="wholesale-list">
+      ${SITE_CONTENT.wholesalePricing
+        .map(
+          (line) => `
+            <article class="wholesale-line glass-card">
+              <header>
+                <strong>${line.line}</strong>
+                <span>Precio unitario</span>
+              </header>
+              <ul>
+                ${line.tiers
+                  .map(
+                    (tier) => `
+                      <li>
+                        <span>${tier.range}</span>
+                        <strong>${tier.price}</strong>
+                      </li>
+                    `
+                  )
+                  .join("")}
+              </ul>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
   `;
 }
 

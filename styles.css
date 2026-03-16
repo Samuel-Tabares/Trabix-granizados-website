@@ -154,6 +154,7 @@ footer {
   margin-inline: auto;
   margin-top: clamp(1.25rem, 3vw);
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .site-header {
@@ -656,30 +657,54 @@ label {
   color: var(--muted);
 }
 
-.pricing-table-wrap {
-  overflow-x: auto;
+.wholesale-list {
+  display: grid;
+  gap: 1rem;
 }
 
-.pricing-table {
-  width: 100%;
-  border-collapse: collapse;
+.wholesale-line {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
-.pricing-table th,
-.pricing-table td {
-  padding: 0.8rem 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+.wholesale-line header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: baseline;
 }
 
-.pricing-table th {
-  color: var(--yellow);
-  font-size: 0.84rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.wholesale-line header strong {
+  font-size: 1.2rem;
 }
 
-.pricing-table td strong {
+.wholesale-line header span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.wholesale-line ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.wholesale-line li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wholesale-line li span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.wholesale-line li strong {
   font-size: 1rem;
 }
 
@@ -929,21 +954,6 @@ label {
     font-size: clamp(1.3rem, 6vw, 1.9rem);
   }
 
-  .story-grid,
-  .proof-grid,
-  .use-grid,
-  .steps-grid,
-  .route-grid,
-  .coverage-grid,
-  .coverage-grid-compact,
-  .pricing-grid,
-  .ally-metrics,
-  .metric-row,
-  .pack-cluster,
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
   .hero-actions,
   .closing-actions {
     align-items: stretch;
@@ -971,6 +981,20 @@ label {
 
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+    .story-grid,
+  .proof-grid,
+  .use-grid,
+  .steps-grid,
+  .route-grid,
+  .coverage-grid,
+  .coverage-grid-compact,
+  .pricing-grid,
+  .ally-metrics,
+  .metric-row,
+  .pack-cluster,
+  .gallery-grid {
+    grid-template-columns: 1fr;
   }
 }
 @media (prefers-reduced-motion: reduce) {
