@@ -363,10 +363,6 @@ label {
   gap: 0.95rem;
 }
 
-.hero-retail .hero {
-  grid-template-columns: 0fr 0fr;
-}
-
 .metric-row article,
 .proof-card,
 .coverage-card,
@@ -880,6 +876,12 @@ label {
 .js [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 1500px) {
+  .hero-retail {
+    display: flex;
+  }
 }
 
 @media (max-width: 1080px) {
