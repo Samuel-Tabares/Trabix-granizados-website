@@ -200,6 +200,7 @@ footer {
   box-shadow: var(--shadow);
   backdrop-filter: blur(22px);
   text-align: -webkit-center;
+  height: fit-content;
 }
 
 .glass-card::after {
@@ -346,7 +347,6 @@ label {
 
 .hero-text,
 .section-heading p:last-child {
-  max-width: 60ch;
   font-size: 1rem;
   color: var(--muted);
 }
@@ -358,6 +358,7 @@ label {
   margin-top: 1.2rem;
   text-align: center;
   width: fit-content;
+  grid-template-columns: 1fr;
 }
 
 .metric-row article,
@@ -391,9 +392,12 @@ label {
 .hero-actions,
 .closing-actions {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 1.15rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-stage {
@@ -898,7 +902,7 @@ label {
 }
 
 .site-footer {
-  padding: 2rem 0 2.4rem;
+  padding: 1rem 0 1.4rem;
   text-align: center;
 }
 
@@ -955,10 +959,6 @@ label {
   .ally-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .metric-row {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 900px) {
@@ -996,11 +996,16 @@ label {
 
   .hero-actions,
   .closing-actions {
+    align-items: stretch;
+  }
+}
+@media (max-width: 500px) {
+  .hero-actions,
+  .closing-actions {
     flex-direction: column;
     align-items: stretch;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
