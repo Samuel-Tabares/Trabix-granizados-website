@@ -152,6 +152,8 @@ footer {
 .section-shell {
   width: min(calc(100% - clamp(1.5rem, 8vw, 8rem)), var(--max-width));
   margin-inline: auto;
+  margin-top: clamp(1.25rem, 3vw);
+  margin-bottom: 1rem;
 }
 
 .site-header {
@@ -182,10 +184,6 @@ footer {
   backdrop-filter: blur(24px);
   box-shadow: var(--shadow);
   pointer-events: auto;
-}
-
-.section-shell {
-  margin-top: clamp(1.25rem, 3vw);
 }
 
 .glass-card {
@@ -696,12 +694,14 @@ label {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 }
 
 .filter-bar {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.55rem;
   margin-bottom: 0.85rem;
@@ -723,124 +723,62 @@ label {
 }
 
 .product-card {
-  position: relative;
   display: grid;
-  gap: 0.8rem;
-  min-height: 20rem;
-  padding: 1rem;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-lg);
-  background: rgba(13, 8, 24, 0.86);
+  place-items: center;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  min-height: auto;
+  text-align: center;
 }
 
-.product-card::before,
-.product-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.product-card::before {
-  opacity: 0.34;
-  background-size: cover;
-  background-position: center;
-}
-
-.product-card::after {
-  background:
-    linear-gradient(180deg, rgba(5, 4, 10, 0.08), rgba(5, 4, 10, 0.88) 72%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 32%);
-}
-
-.product-card > * {
+.product-media {
   position: relative;
-  z-index: 1;
-}
-
-.product-wordmark {
-  width: min(100%, 14rem);
-  min-height: 4.8rem;
-  max-height: 6rem;
-  object-fit: contain;
-  object-position: center;
-  margin-inline: auto;
+  width: min(100%, 11rem);
+  display: inline-flex;
+  justify-content: center;
 }
 
 .product-pack {
-  width: min(100%, 11rem);
+  width: 100%;
   margin-inline: auto;
-}
-
-.product-copy {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.product-copy p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.93rem;
-}
-
-.product-price {
-  font-size: 1.08rem;
-  font-weight: 800;
+  border-radius: 20px;
+  display: block;
 }
 
 .product-tag {
+  position: absolute;
+  top: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: inline-flex;
   width: fit-content;
   padding: 0.42rem 0.76rem;
   border-radius: 999px;
   font-size: 0.76rem;
   font-weight: 800;
+  background: var(--label-bg, linear-gradient(135deg, var(--yellow), var(--pink)));
+  color: var(--label-color, #16090f);
 }
 
-.tag-alcohol {
-  color: #16090f;
-  background: linear-gradient(135deg, var(--pink), #ffb1ea);
-}
-
-.tag-soft {
-  color: #08121d;
-  background: linear-gradient(135deg, var(--cyan), #c9fbff);
+.product-name {
+  position: absolute;
+  bottom: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  width: max-content;
+  padding: 0rem 0.2rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: var(--label-bg, linear-gradient(135deg, var(--yellow), var(--pink)));
+  color: var(--label-color, #16090f);
 }
 
 .product-card.is-hidden {
   display: none;
-}
-
-.flavor-blueberry-vodka::before,
-.flavor-blueberry::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20blueberry.jpeg");
-}
-
-.flavor-bonbonbum-fresa::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20bonbonbum%20fresa.jpeg");
-}
-
-.flavor-bonbonbum-whiskey::before,
-.flavor-bonbonbum::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20bonbonbum.jpeg");
-}
-
-.flavor-manzana-verde-tequila::before,
-.flavor-manzana-verde::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20manzana%20verde.png");
-}
-
-.flavor-maracumango-ron::before,
-.flavor-maracumango::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20maracumango.jpeg");
-}
-
-.flavor-smirnoff-lulo::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20smirnoff.jpeg");
-}
-
-.flavor-uva-vodka::before {
-  background-image: url("/site-assets/etiqueta_background/Fondo%20uva.jpeg");
 }
 
 .ally-metrics {
@@ -948,7 +886,6 @@ label {
   .proof-grid,
   .use-grid,
   .steps-grid,
-  .product-grid,
   .gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -958,6 +895,10 @@ label {
   .pricing-grid,
   .ally-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -985,7 +926,6 @@ label {
   .route-grid,
   .coverage-grid,
   .coverage-grid-compact,
-  .product-grid,
   .pricing-grid,
   .ally-metrics,
   .metric-row,
@@ -998,12 +938,20 @@ label {
   .closing-actions {
     align-items: stretch;
   }
+
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 @media (max-width: 500px) {
   .hero-actions,
   .closing-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (prefers-reduced-motion: reduce) {

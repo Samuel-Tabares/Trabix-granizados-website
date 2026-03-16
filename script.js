@@ -99,6 +99,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/smirnoff-lulo.png",
       wordmark: "/site-assets/flavor_design/Smirnoff lulo.png",
       flavorClass: "flavor-smirnoff-lulo",
+      labelGradient: "linear-gradient(135deg,#f7b733,#fc4a1a)",
+      labelColor: "#100510",
     },
     {
       kind: "con-licor",
@@ -107,6 +109,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/bonbonbum-fresa-champagne.png",
       wordmark: "/site-assets/flavor_design/Bonbonbum Fresa Champaña.PNG",
       flavorClass: "flavor-bonbonbum-fresa",
+      labelGradient: "linear-gradient(135deg,#ff9a8b,#ff6a88)",
+      labelColor: "#1d031b",
     },
     {
       kind: "con-licor",
@@ -115,6 +119,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/manzana-verde-tequila.png",
       wordmark: "/site-assets/flavor_design/Manzana Verde Tequila.PNG",
       flavorClass: "flavor-manzana-verde-tequila",
+      labelGradient: "linear-gradient(135deg,#a8ff78,#78ffd6)",
+      labelColor: "#02211a",
     },
     {
       kind: "con-licor",
@@ -123,6 +129,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/uva-vodka.png",
       wordmark: "/site-assets/flavor_design/Uva vodka.png",
       flavorClass: "flavor-uva-vodka",
+      labelGradient: "linear-gradient(135deg,#6a11cb,#2575fc)",
+      labelColor: "#f4f4ff",
     },
     {
       kind: "con-licor",
@@ -131,6 +139,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/bonbonbum-whiskey.png",
       wordmark: "/site-assets/flavor_design/Bonbonbum Whiskey.PNG",
       flavorClass: "flavor-bonbonbum-whiskey",
+      labelGradient: "linear-gradient(135deg,#f6d365,#fda085)",
+      labelColor: "#1a0b00",
     },
     {
       kind: "con-licor",
@@ -139,6 +149,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/maracumango-ron-blanco.png",
       wordmark: "/site-assets/flavor_design/Maracumango Ron Blanco.PNG",
       flavorClass: "flavor-maracumango-ron",
+      labelGradient: "linear-gradient(135deg,#f093fb,#f5576c)",
+      labelColor: "#170611",
     },
     {
       kind: "con-licor",
@@ -147,6 +159,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/blueberry-vodka.png",
       wordmark: "/site-assets/flavor_design/Blueberry Vodka.PNG",
       flavorClass: "flavor-blueberry-vodka",
+      labelGradient: "linear-gradient(135deg,#00c3ff,#ffff1c)",
+      labelColor: "#0f0c0b",
     },
     {
       kind: "sin-licor",
@@ -155,6 +169,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/blueberry.png",
       wordmark: "/site-assets/flavor_design/Blueberry.PNG",
       flavorClass: "flavor-blueberry",
+      labelGradient: "linear-gradient(135deg,#4b6cb7,#182848)",
+      labelColor: "#fefefe",
     },
     {
       kind: "sin-licor",
@@ -163,6 +179,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/bonbonbum.png",
       wordmark: "/site-assets/flavor_design/Bonbonbum.PNG",
       flavorClass: "flavor-bonbonbum",
+      labelGradient: "linear-gradient(135deg,#ff5f6d,#ffc371)",
+      labelColor: "#1f0b00",
     },
     {
       kind: "sin-licor",
@@ -171,6 +189,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/manzana-verde.png",
       wordmark: "/site-assets/flavor_design/Manzana Verde.PNG",
       flavorClass: "flavor-manzana-verde",
+      labelGradient: "linear-gradient(135deg,#11998e,#38ef7d)",
+      labelColor: "#041a0c",
     },
     {
       kind: "sin-licor",
@@ -179,6 +199,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/maracumango.png",
       wordmark: "/site-assets/flavor_design/Maracumango.PNG",
       flavorClass: "flavor-maracumango",
+      labelGradient: "linear-gradient(135deg,#f46b45,#eea849)",
+      labelColor: "#2b0a00",
     },
   ],
   wholesalePricing: [
@@ -353,19 +375,15 @@ function renderRetailProducts() {
 
   container.innerHTML = SITE_CONTENT.retailProducts
     .map((item) => {
-      const tagClass = item.kind === "con-licor" ? "tag-alcohol" : "tag-soft";
       const tagLabel = item.kind === "con-licor" ? "Con licor" : "Sin licor";
-      const priceLabel = item.kind === "con-licor" ? "Desde $8.000" : "$7.000 c/u";
-      const wordmark = `<img class="product-wordmark" src="${encodeURI(item.wordmark)}" alt="${item.name}" />`;
+      const labelStyle = `--label-bg:${item.labelGradient}; --label-color:${item.labelColor};`;
 
       return `
-        <article class="product-card ${item.flavorClass}" data-kind="${item.kind}" data-reveal>
-          ${wordmark}
-          <img class="product-pack" src="${item.image}" alt="Granizado ${item.name}" />
-          <div class="product-copy">
-            <span class="product-tag ${tagClass}">${tagLabel}</span>
-            <strong class="product-price">${priceLabel}</strong>
-            <p>${item.description}</p>
+        <article class="product-card ${item.flavorClass}" data-kind="${item.kind}" data-reveal style="${labelStyle}">
+          <div class="product-media">
+            <img class="product-pack" src="${item.image}" alt="Granizado ${item.name}" />
+            <span class="product-tag">${tagLabel}</span>
+            <span class="product-name">${item.name}</span>
           </div>
         </article>
       `;
