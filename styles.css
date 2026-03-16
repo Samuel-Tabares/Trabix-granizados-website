@@ -507,10 +507,15 @@ label {
   gap: 1rem;
 }
 
-.story-grid,
+.story-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: center;
+}
+
 .proof-grid,
 .use-grid,
-.steps-grid {
+.steps-grid,
+.gallery-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -934,6 +939,12 @@ label {
 
   .product-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .page-volume .story-grid .story-card:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(26rem, 100%);
   }
 }
 
