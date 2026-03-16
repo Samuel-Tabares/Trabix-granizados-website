@@ -952,9 +952,12 @@ label {
   .route-grid,
   .coverage-grid,
   .pricing-grid,
-  .ally-metrics,
-  .metric-row {
+  .ally-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric-row {
+    grid-template-columns: 1fr;
   }
 }
 
