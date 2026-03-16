@@ -99,8 +99,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/smirnoff-lulo.png",
       wordmark: "/site-assets/flavor_design/Smirnoff lulo.png",
       flavorClass: "flavor-smirnoff-lulo",
-      labelGradient: "linear-gradient(135deg,#f7b733,#fc4a1a)",
-      labelColor: "#100510",
+      labelGradient: "linear-gradient(135deg,#ffffff,#e0e0e0)",
+      labelColor: "#0b0b0b",
     },
     {
       kind: "con-licor",
@@ -129,8 +129,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/uva-vodka.png",
       wordmark: "/site-assets/flavor_design/Uva vodka.png",
       flavorClass: "flavor-uva-vodka",
-      labelGradient: "linear-gradient(135deg,#6a11cb,#2575fc)",
-      labelColor: "#f4f4ff",
+      labelGradient: "linear-gradient(135deg,#a855f7,#6d28d9)",
+      labelColor: "#f8f5ff",
     },
     {
       kind: "con-licor",
@@ -139,8 +139,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/bonbonbum-whiskey.png",
       wordmark: "/site-assets/flavor_design/Bonbonbum Whiskey.PNG",
       flavorClass: "flavor-bonbonbum-whiskey",
-      labelGradient: "linear-gradient(135deg,#f6d365,#fda085)",
-      labelColor: "#1a0b00",
+      labelGradient: "linear-gradient(135deg,#ff5f6d,#f64f59)",
+      labelColor: "#1b0303",
     },
     {
       kind: "con-licor",
@@ -149,8 +149,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/maracumango-ron-blanco.png",
       wordmark: "/site-assets/flavor_design/Maracumango Ron Blanco.PNG",
       flavorClass: "flavor-maracumango-ron",
-      labelGradient: "linear-gradient(135deg,#f093fb,#f5576c)",
-      labelColor: "#170611",
+      labelGradient: "linear-gradient(135deg,#ffe066,#f6c343)",
+      labelColor: "#1f1200",
     },
     {
       kind: "con-licor",
@@ -159,8 +159,8 @@ const SITE_CONTENT = {
       image: "/site-assets/products/blueberry-vodka.png",
       wordmark: "/site-assets/flavor_design/Blueberry Vodka.PNG",
       flavorClass: "flavor-blueberry-vodka",
-      labelGradient: "linear-gradient(135deg,#00c3ff,#ffff1c)",
-      labelColor: "#0f0c0b",
+      labelGradient: "linear-gradient(135deg,#3b82f6,#1e3a8a)",
+      labelColor: "#fefefe",
     },
     {
       kind: "sin-licor",
@@ -169,7 +169,7 @@ const SITE_CONTENT = {
       image: "/site-assets/products/blueberry.png",
       wordmark: "/site-assets/flavor_design/Blueberry.PNG",
       flavorClass: "flavor-blueberry",
-      labelGradient: "linear-gradient(135deg,#4b6cb7,#182848)",
+      labelGradient: "linear-gradient(135deg,#2563eb,#1d4ed8)",
       labelColor: "#fefefe",
     },
     {
