@@ -351,12 +351,20 @@ label {
 
 .metric-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
   margin-top: 1.2rem;
   text-align: center;
   width: fit-content;
   grid-template-columns: 1fr;
+}
+
+.hero-retail .metric-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.hero-retail .hero {
+  grid-template-columns: 0fr 0fr;
 }
 
 .metric-row article,
@@ -948,6 +956,15 @@ label {
   .closing-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .hero-retail .metric-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-retail .metric-row article:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
   }
 
   .product-grid {
