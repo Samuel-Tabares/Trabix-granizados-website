@@ -248,6 +248,20 @@ function buildMailLink(subject, body) {
   return `mailto:${SITE_CONTENT.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+function buildGmailLink(subject, body) {
+  const base = "https://mail.google.com/mail/";
+  const params = new URLSearchParams({
+    view: "cm",
+    fs: "1",
+    tf: "1",
+    to: SITE_CONTENT.contact.email,
+    su: subject,
+    body,
+  });
+
+  return `${base}?${params.toString()}`;
+}
+
 function setYear() {
   if (yearNode) {
     yearNode.textContent = new Date().getFullYear();
@@ -276,7 +290,19 @@ function bindContactLinks() {
       return;
     }
 
-    node.setAttribute("href", buildMailLink(item.subject, item.body));
+    const mailLink = buildMailLink(item.subject, item.body);
+    node.setAttribute("href", mailLink);
+    node.setAttribute("target", "_blank");
+    node.setAttribute("rel", "noreferrer");
+
+    node.addEventListener("click", (event) => {
+      event.preventDefault();
+      const gmailLink = buildGmailLink(item.subject, item.body);
+      const opened = window.open(gmailLink, "_blank", "noopener");
+      if (!opened) {
+        window.location.href = mailLink;
+      }
+    });
   });
 }
 
@@ -525,9 +551,14 @@ function initPartnerForm() {
     event.preventDefault();
 
     const { subject, body, mailLink } = buildPartnerEmail(partnerForm);
-    formNote.textContent = "Abrimos tu app de correo con todo listo para que solo confirmes el envío.";
+    formNote.textContent = "Intentamos abrir Gmail; si la ventana se bloquea, se usa tu cliente de correo predeterminado.";
 
-    window.location.href = mailLink;
+    const gmailLink = buildGmailLink(subject, body);
+    const opened = window.open(gmailLink, "_blank", "noopener");
+
+    if (!opened) {
+      window.location.href = mailLink;
+    }
   });
 }
 
