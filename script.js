@@ -26,22 +26,14 @@ const SITE_CONTENT = {
     {
       value: "11 aliados",
       label: "actualmente y creciendo",
-      detail: "Base visible para la ruta de credibilidad y para emprender con Trabix.",
     },
     {
       value: "Eventos",
-      label: "activaciones y celebraciones privadas",
-      detail: "Producto pensado para fiestas, movimiento rápido y lectura clara del formato.",
+      label: "Producto pensado para fiestas, cumpleaños, movimiento rápido.",
     },
     {
       value: "Vida nocturna",
-      label: "bares, discotecas y puntos con alta rotacion",
-      detail: "La marca entra bien donde importa la visibilidad inmediata del producto.",
-    },
-    {
-      value: "Establecimientos",
-      label: "puntos aliados y vitrinas de impulso",
-      detail: "Llegan donde un granizado tradicional suele ser más difícil de operar.",
+      label: "bares, discotecas y puntos con alto flujo de personas",
     },
   ],
   coverage: [
@@ -237,9 +229,9 @@ const SITE_CONTENT = {
   ],
   partnerExample: {
     headline:
-      "Si empiezas con $100.000, puedes terminar recuperando tus $100.000 y generar hasta $280.000 de ganancia, para un total de hasta $380.000.",
+      "Si empiezas con $100.000, puedes recaudar un ingreso bruto de hasta $380.000.",
     detail:
-      "Trabix puede apoyar con parte del dinero inicial para separar producto y ayudarte a arrancar más fácil.",
+      "Y lo mejor de todo, no lo harás solo, tendrás ayuda total logística y financiera para visualizar el dinero que generas, accedes a un grupo de whatsapp con los aliados donde manejamos temas como el fondo de recompensas, tienes acceso a una app donde se hará el proceso de logística completo, entre otras ventajas.",
   },
 };
 
@@ -306,7 +298,6 @@ function renderProofGrid(id) {
         <article class="proof-card glass-card">
           <strong>${item.value}</strong>
           <span>${item.label}</span>
-          <small>${item.detail}</small>
         </article>
       `
     )
