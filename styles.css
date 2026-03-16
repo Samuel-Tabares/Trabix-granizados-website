@@ -658,8 +658,7 @@ label {
   text-align: start;
 }
 
-.mini-notice,
-.form-note {
+.mini-notice {
   color: var(--muted);
 }
 

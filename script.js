@@ -238,7 +238,13 @@ const SITE_CONTENT = {
 const yearNode = document.querySelector("#year");
 const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
 const partnerForm = document.querySelector("#partner-form");
-const formNote = document.querySelector("#form-note");
+
+const FORM_FIELD_LIMITS = {
+  name: 20,
+  city: 15,
+  phone: 15,
+  amount: 20,
+};
 
 function buildWhatsAppLink(message) {
   return `https://wa.me/${SITE_CONTENT.contact.whatsapp}?text=${encodeURIComponent(message)}`;
@@ -260,6 +266,30 @@ function buildGmailLink(subject, body) {
   });
 
   return `${base}?${params.toString()}`;
+}
+
+function enforceFormLimits(form) {
+  if (!form) {
+    return { values: {} };
+  }
+
+  const values = {};
+  const formData = new FormData(form);
+
+  Object.entries(FORM_FIELD_LIMITS).forEach(([field, limit]) => {
+    const rawValue = String(formData.get(field) || "").trim();
+    const truncated =
+      rawValue.length > limit ? rawValue.slice(0, limit).trim() : rawValue;
+
+    values[field] = truncated;
+
+    const fieldInput = form.elements[field];
+    if (fieldInput) {
+      fieldInput.value = truncated;
+    }
+  });
+
+  return { values };
 }
 
 function setYear() {
@@ -519,12 +549,11 @@ function initReveal() {
   revealNodes.forEach((node) => observer.observe(node));
 }
 
-function buildPartnerEmail(form) {
-  const formData = new FormData(form);
-  const name = String(formData.get("name") || "").trim();
-  const city = String(formData.get("city") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
-  const amount = String(formData.get("amount") || "").trim();
+function buildPartnerEmail(values) {
+  const name = String(values.name || "").trim();
+  const city = String(values.city || "").trim();
+  const phone = String(values.phone || "").trim();
+  const amount = String(values.amount || "").trim();
   const subject = `Emprende con Trabix - ${name || "Nuevo contacto"}`;
   const body = [
     "Hola Trabix,",
@@ -543,15 +572,15 @@ function buildPartnerEmail(form) {
 }
 
 function initPartnerForm() {
-  if (!partnerForm || !formNote) {
+  if (!partnerForm) {
     return;
   }
 
   partnerForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const { subject, body, mailLink } = buildPartnerEmail(partnerForm);
-    formNote.textContent = "Intentamos abrir Gmail; si la ventana se bloquea, se usa tu cliente de correo predeterminado.";
+    const { values } = enforceFormLimits(partnerForm);
+    const { subject, body, mailLink } = buildPartnerEmail(values);
 
     const gmailLink = buildGmailLink(subject, body);
     const opened = window.open(gmailLink, "_blank", "noopener");

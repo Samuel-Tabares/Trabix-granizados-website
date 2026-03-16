@@ -127,19 +127,19 @@
             <form id="partner-form" class="partner-form">
               <label>
                 <span>Nombre</span>
-                <input type="text" name="name" placeholder="Tu nombre" required />
+                <input type="text" name="name" placeholder="Tu nombre" maxlength="20" required />
               </label>
               <label>
                 <span>Ciudad</span>
-                <input type="text" name="city" placeholder="Ej. Armenia" required />
+                <input type="text" name="city" placeholder="Ej. Armenia" maxlength="15" required />
               </label>
               <label>
                 <span>Telefono de contacto</span>
-                <input type="tel" name="phone" placeholder="Tu numero" required />
+                <input type="tel" name="phone" placeholder="Tu numero" maxlength="15" required />
               </label>
               <label>
                 <span>Monto disponible para comenzar</span>
-                <input type="text" name="amount" placeholder="Ej. $100.000" required />
+                <input type="text" name="amount" placeholder="Ej. $100.000" maxlength="20" required />
               </label>
               <button class="button button-primary" type="submit">Preparar correo</button>
             </form>
