@@ -3,13 +3,17 @@ const SITE_CONTENT = {
     whatsapp: "573043535455",
     email: "trabixgranizados@gmail.com",
   },
+  socialLinks: {
+    instagram: "https://www.instagram.com/trabix_granizados/",
+    tiktok: "https://www.tiktok.com/@trabix_granizados",
+  },
   messages: {
     "retail-order":
-      "Hola Trabix, quiero hacer un pedido retail. Quiero confirmar sabores, promo activa y disponibilidad.",
+      "Hola, me gustaría obtener más información",
     "retail-coverage":
-      "Hola Trabix, quiero comprar retail y necesito confirmar cobertura para mi pedido.",
+      "Hola, me gustaría obtener más información",
     "mayoristas-quote":
-      "Hola Trabix, quiero cotizar granizados para cantidad, evento o reventa. Quiero revisar disponibilidad y cobertura.",
+      "Hola, me gustaría obtener más información sobre mayoristas"
   },
   mailLinks: {
     "emprende-intro": {
@@ -235,6 +239,21 @@ function bindContactLinks() {
   });
 }
 
+function bindSocialLinks() {
+  document.querySelectorAll("[data-social-link]").forEach((node) => {
+    const key = node.getAttribute("data-social-link");
+    const href = SITE_CONTENT.socialLinks[key];
+
+    if (!href) {
+      return;
+    }
+
+    node.setAttribute("href", href);
+    node.setAttribute("target", "_blank");
+    node.setAttribute("rel", "noreferrer");
+  });
+}
+
 function renderProofGrid(id) {
   const container = document.querySelector(id);
 
@@ -425,6 +444,7 @@ function initPartnerForm() {
 
 function init() {
   bindContactLinks();
+  bindSocialLinks();
   renderProofGrid("#allies-proof-grid");
   renderRetailProducts();
   renderWholesalePricing();
