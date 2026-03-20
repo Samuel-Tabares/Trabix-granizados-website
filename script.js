@@ -147,6 +147,7 @@ const SITE_CONTENT = {
 
 const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
 const partnerForm = document.querySelector("#partner-form");
+const siteHeader = document.querySelector(".site-header");
 
 const FORM_FIELD_LIMITS = {
   name: 20,
@@ -442,6 +443,19 @@ function initPartnerForm() {
   });
 }
 
+function initHomeHeader() {
+  if (!siteHeader || !document.body.classList.contains("page-home")) {
+    return;
+  }
+
+  const syncHeaderVisibility = () => {
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > 72);
+  };
+
+  syncHeaderVisibility();
+  window.addEventListener("scroll", syncHeaderVisibility, { passive: true });
+}
+
 function init() {
   bindContactLinks();
   bindSocialLinks();
@@ -452,6 +466,7 @@ function init() {
   initFilter();
   initReveal();
   initPartnerForm();
+  initHomeHeader();
 }
 
 init();
