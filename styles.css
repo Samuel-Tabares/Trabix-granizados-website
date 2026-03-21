@@ -71,7 +71,7 @@ body.page-home {
     linear-gradient(180deg, #effdff 0%, #f4fbff 38%, #fffaf5 100%);
 }
 
-body.page-home .site-header {
+body .site-header {
   left: 0;
   right: 0;
   margin-top: 0;
@@ -84,13 +84,13 @@ body.page-home .site-header {
     transform 220ms ease;
 }
 
-body.page-home .site-header.is-scrolled {
+body .site-header.is-scrolled {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-body.page-home .header-shell {
+body .header-shell {
   padding: 0;
   border: none;
   background: transparent;
@@ -98,22 +98,24 @@ body.page-home .header-shell {
   backdrop-filter: none;
 }
 
-body.page-home .brand-mark {
+body .brand-mark {
   cursor: pointer;
   width: min(11.8rem, 46vw);
   filter: drop-shadow(0 14px 26px rgba(72, 151, 181, 0.16));
+  animation: brandFloat 7.5s ease-in-out infinite alternate;
   transition:
     transform 180ms ease,
     filter 180ms ease;
+  will-change: transform;
 }
 
-body.page-home .brand-mark:hover,
-body.page-home .brand-mark:focus-visible {
+body .brand-mark:hover,
+body .brand-mark:focus-visible {
   filter: drop-shadow(0 18px 32px rgba(72, 151, 181, 0.22));
   transform: translateY(-2px);
 }
 
-body.page-home .glass-card {
+body .glass-card {
   border-color: rgba(255, 255, 255, 0.68);
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.24), transparent 34%),
@@ -125,17 +127,17 @@ body.page-home .glass-card {
     0 10px 24px rgba(255, 255, 255, 0.16) inset;
 }
 
-body.page-home .glass-card::before {
+body .glass-card::before {
   background:
     linear-gradient(120deg, transparent 0 16%, rgba(255, 255, 255, 0.26) 22%, transparent 30%),
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.24), transparent 40%);
 }
 
-body.page-home .glass-card::after {
+body .glass-card::after {
   background: radial-gradient(circle, rgba(255, 121, 183, 0.28), transparent 65%);
 }
 
-body.page-home .button {
+body .button {
   border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
     0 22px 42px rgba(73, 145, 169, 0.28),
@@ -143,36 +145,36 @@ body.page-home .button {
     0 6px 14px rgba(255, 255, 255, 0.16) inset;
 }
 
-body.page-home .button:hover,
-body.page-home .button:focus-visible {
+body .button:hover,
+body .button:focus-visible {
   box-shadow:
     0 28px 50px rgba(73, 145, 169, 0.34),
     0 0 0 1px rgba(255, 255, 255, 0.22),
     0 6px 14px rgba(255, 255, 255, 0.18) inset;
 }
 
-body.page-home .button-primary {
+body .button-primary {
   background: linear-gradient(135deg, #5fe0ff, #78f4e0 38%, #ff81b8 100%);
 }
 
-body.page-home .button-secondary {
+body .button-secondary {
   color: #1a3d4a;
   border-color: rgba(255, 255, 255, 0.4);
   background: linear-gradient(135deg, rgba(255, 203, 100, 0.98), rgba(255, 122, 180, 0.95));
 }
 
-body.page-home .button-secondary:hover,
-body.page-home .button-secondary:focus-visible {
+body .button-secondary:hover,
+body .button-secondary:focus-visible {
   box-shadow:
     0 26px 46px rgba(255, 144, 184, 0.28),
     0 6px 14px rgba(255, 255, 255, 0.18) inset;
 }
 
-body.page-home .social-footer-copy {
+body .social-footer-copy {
   color: #3f6878;
 }
 
-body.page-home .social-link {
+body .social-link {
   cursor: pointer;
   width: 4.15rem;
   height: 4.15rem;
@@ -187,30 +189,30 @@ body.page-home .social-link {
     filter 180ms ease;
 }
 
-body.page-home .social-link svg {
+body .social-link svg {
   width: 1.9rem;
   height: 1.9rem;
 }
 
-body.page-home .social-link[data-social-link="instagram"] {
+body .social-link[data-social-link="instagram"] {
   color: #ffffff;
   background:
     radial-gradient(circle at 28% 108%, #fdf497 0 24%, #fd5949 42%, #d6249f 72%, #285aeb 100%);
 }
 
-body.page-home .social-link[data-social-link="tiktok"] {
+body .social-link[data-social-link="tiktok"] {
   color: #ffffff;
   background:
     linear-gradient(135deg, #25f4ee 0 10%, #111111 22% 68%, #fe2c55 100%);
 }
 
-body.page-home .social-link[data-social-link="instagram"] svg,
-body.page-home .social-link[data-social-link="tiktok"] svg {
+body .social-link[data-social-link="instagram"] svg,
+body .social-link[data-social-link="tiktok"] svg {
   filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.2));
 }
 
-body.page-home .social-link:hover,
-body.page-home .social-link:focus-visible {
+body .social-link:hover,
+body .social-link:focus-visible {
   transform: translateY(-4px) scale(1.03);
   box-shadow:
     0 30px 52px rgba(84, 149, 173, 0.34),
@@ -361,9 +363,25 @@ footer {
   animation-delay: -8s;
 }
 
-body.page-home::before {
+body::before {
   animation: shimmerSweep 9s linear infinite;
   opacity: 0.52;
+}
+
+body .ambient {
+  animation: drift 7s ease-in-out infinite alternate;
+}
+
+body .ambient-pink {
+  animation-duration: 5.8s;
+}
+
+body .ambient-blue {
+  animation-duration: 6.4s;
+}
+
+body .ambient-lime {
+  animation-duration: 5.2s;
 }
 
 body.page-home .ambient {
@@ -372,14 +390,6 @@ body.page-home .ambient {
 
 body.page-home .ambient-pink {
   animation-duration: 5.8s;
-}
-
-body.page-home .ambient-blue {
-  animation-duration: 6.4s;
-}
-
-body.page-home .ambient-lime {
-  animation-duration: 5.2s;
 }
 
 .section-shell {
@@ -392,15 +402,19 @@ body.page-home .ambient-lime {
 .site-header {
   width: min(calc(100% - clamp(1.5rem, 8vw, 8rem)), var(--max-width));
   margin-inline: auto;
-  position: sticky;
+  position: fixed;
   top: 0.85rem;
   z-index: 50;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.75rem;
+  margin-top: 0;
   padding: 0 0.5rem;
   pointer-events: none;
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease,
+    filter 220ms ease;
 }
 
 .header-shell {
@@ -729,7 +743,7 @@ body.page-home .hero .metric-row {
   max-width: fit-content;
 }
 
-body.page-home .metric-row article {
+body .metric-row article {
   border-color: rgba(255, 255, 255, 0.54);
   background:
     linear-gradient(135deg, rgba(88, 216, 248, 0.42), rgba(255, 255, 255, 0.2) 44%, rgba(255, 177, 82, 0.34)),
@@ -739,8 +753,8 @@ body.page-home .metric-row article {
     0 8px 18px rgba(255, 255, 255, 0.14) inset;
 }
 
-body.page-home .metric-row strong,
-body.page-home .metric-row span {
+body .metric-row strong,
+body .metric-row span {
   color: #214150;
 }
 
@@ -816,7 +830,7 @@ body.page-home .metric-row span {
   box-shadow: var(--shadow-soft);
 }
 
-body.page-home .spotlight-card {
+body .spotlight-card {
   background:
     radial-gradient(circle at top right, rgba(255, 128, 185, 0.24), transparent 34%),
     radial-gradient(circle at bottom left, rgba(94, 220, 255, 0.22), transparent 32%),
@@ -1032,7 +1046,7 @@ body.page-home .route-card-allies {
     0 10px 20px rgba(255, 255, 255, 0.16) inset;
 }
 
-body.page-home .floating-whatsapp {
+body .floating-whatsapp {
   border-color: rgba(255, 255, 255, 0.86);
   box-shadow:
     0 28px 48px rgba(47, 198, 109, 0.34),
@@ -1040,8 +1054,8 @@ body.page-home .floating-whatsapp {
     0 8px 16px rgba(255, 255, 255, 0.18) inset;
 }
 
-body.page-home .floating-whatsapp:hover,
-body.page-home .floating-whatsapp:focus-visible {
+body .floating-whatsapp:hover,
+body .floating-whatsapp:focus-visible {
   box-shadow:
     0 34px 58px rgba(47, 198, 109, 0.42),
     0 0 0 1px rgba(255, 255, 255, 0.2),
@@ -1366,6 +1380,20 @@ body.page-home .floating-whatsapp:focus-visible {
 
   100% {
     transform: translateY(-10px) scale(1.02);
+  }
+}
+
+@keyframes brandFloat {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, -3px, 0) scale(1.01);
+  }
+
+  to {
+    transform: translate3d(0, 2px, 0) scale(1.005);
   }
 }
 

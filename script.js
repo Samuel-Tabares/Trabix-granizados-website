@@ -443,17 +443,17 @@ function initPartnerForm() {
   });
 }
 
-function initHomeHeader() {
-  if (!siteHeader || !document.body.classList.contains("page-home")) {
+function initHeaderScrollState() {
+  if (!siteHeader) {
     return;
   }
 
-  const syncHeaderVisibility = () => {
+  const syncHeaderState = () => {
     siteHeader.classList.toggle("is-scrolled", window.scrollY > 72);
   };
 
-  syncHeaderVisibility();
-  window.addEventListener("scroll", syncHeaderVisibility, { passive: true });
+  syncHeaderState();
+  window.addEventListener("scroll", syncHeaderState, { passive: true });
 }
 
 function init() {
@@ -466,7 +466,7 @@ function init() {
   initFilter();
   initReveal();
   initPartnerForm();
-  initHomeHeader();
+  initHeaderScrollState();
 }
 
 init();
