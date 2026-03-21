@@ -50,7 +50,7 @@ const SITE_CONTENT = {
     },
     {
       kind: "con-licor",
-      name: "Bon Bon Bum Fresa Champaña",
+      name: "BonBonBum Fresa Champaña",
       image: "/site-assets/products/bonbonbum-fresa-champagne.png",
       labelGradient: "linear-gradient(135deg,#ff9a8b,#ff6a88)",
       labelColor: "#1d031b",
@@ -71,7 +71,7 @@ const SITE_CONTENT = {
     },
     {
       kind: "con-licor",
-      name: "Bon Bon Bum Whiskey",
+      name: "BonBonBum Whiskey",
       image: "/site-assets/products/bonbonbum-whiskey.png",
       labelGradient: "linear-gradient(135deg,#ff5f6d,#f64f59)",
       labelColor: "#1b0303",
@@ -99,7 +99,7 @@ const SITE_CONTENT = {
     },
     {
       kind: "sin-licor",
-      name: "Bon Bon Bum",
+      name: "BonBonBum",
       image: "/site-assets/products/bonbonbum.png",
       labelGradient: "linear-gradient(135deg,#ff5f6d,#ffc371)",
       labelColor: "#1f0b00",
