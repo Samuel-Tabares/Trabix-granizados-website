@@ -1198,22 +1198,13 @@ body .floating-whatsapp:focus-visible {
   width: min(100%, 12.2rem);
   padding: 1rem 0.6rem 0.5rem;
   border-radius: 28px;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.82), transparent 48%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(247, 255, 255, 0.66)),
-    var(--product-image) center / cover no-repeat;
+  background: var(--product-image) center / cover no-repeat;
   border: 1px solid rgba(255, 255, 255, 0.86);
   box-shadow: var(--shadow-soft);
 }
 
 .product-media::before {
-  content: "";
-  position: absolute;
-  inset: auto 10% 8% 10%;
-  height: 24%;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(94, 220, 255, 0.2), transparent 72%);
-  filter: blur(12px);
+  content: none;
 }
 
 .product-pack {
