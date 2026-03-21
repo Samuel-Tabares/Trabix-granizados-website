@@ -139,7 +139,7 @@ const SITE_CONTENT = {
   ],
   partnerExample: {
     headline:
-      "Si empiezas con $100.000, puedes recaudar un ingreso bruto de hasta $380.000.",
+      "Si empiezas con $100.000, puedes generar un ingreso bruto de hasta $380.000 SOLO PARA TI!",
     detail:
       "Y lo mejor de todo, no lo harás solo, tendrás ayuda total logística y financiera para visualizar el dinero que generas, accedes a un grupo de whatsapp con los aliados donde manejamos temas como el fondo de recompensas, tienes acceso a una app donde se hará el proceso de logística completo, entre otras ventajas.",
   },

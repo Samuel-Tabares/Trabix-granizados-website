@@ -913,6 +913,7 @@ body .spotlight-card {
 .story-card,
 .proof-card {
   padding: 1.1rem;
+  text-align: center;
 }
 
 .story-index {
