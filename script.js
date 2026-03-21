@@ -284,7 +284,7 @@ function renderRetailProducts() {
   container.innerHTML = SITE_CONTENT.retailProducts
     .map((item) => {
       const tagLabel = item.kind === "con-licor" ? "Con licor" : "Sin licor";
-      const labelStyle = `--label-bg:${item.labelGradient}; --label-color:${item.labelColor};`;
+      const labelStyle = `--label-bg:${item.labelGradient}; --label-color:${item.labelColor}; --product-image:url('${item.image}');`;
 
       return `
         <article class="product-card" data-kind="${item.kind}" data-reveal style="${labelStyle}">
