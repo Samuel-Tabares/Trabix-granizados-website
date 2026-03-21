@@ -1484,6 +1484,8 @@ body .floating-whatsapp:focus-visible {
   .hero-actions,
   .hero-text {
     text-align: center;
+    width: -webkit-fill-available;
+    justify-self: center;
   }
   .hero-actions{
     min-width: -webkit-fill-available;
