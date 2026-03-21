@@ -1144,7 +1144,7 @@ body .floating-whatsapp:focus-visible {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -1199,7 +1199,8 @@ body .floating-whatsapp:focus-visible {
 
 .product-media {
   position: relative;
-  width: min(100%, 12.2rem);
+  width: 100%;
+  min-height: 15rem;
   padding: 1rem 0.6rem 0.5rem;
   border-radius: 28px;
   background: var(--product-image) center / cover no-repeat;
@@ -1230,10 +1231,15 @@ body .floating-whatsapp:focus-visible {
   z-index: 1;
   display: inline-flex;
   width: fit-content;
+  max-width: calc(100% - 1rem);
   padding: 0.42rem 0.76rem;
   border-radius: 999px;
-  font-size: 0.76rem;
+  font-size: 1.5rem;
   font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: var(--label-bg, linear-gradient(135deg, var(--mango), var(--berry)));
   color: var(--label-color, #16090f);
   box-shadow: 0 10px 18px rgba(99, 152, 177, 0.14);
@@ -1250,8 +1256,11 @@ body .floating-whatsapp:focus-visible {
   width: auto;
   padding: 0.12rem 0.2rem;
   border-radius: 999px;
-  font-size: 0.6rem;
+  font-size: 1.2rem;
   font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: var(--label-bg, linear-gradient(135deg, var(--mango), var(--berry)));
   color: var(--label-color, #16090f);
   box-shadow: 0 10px 18px rgba(99, 152, 177, 0.14);
@@ -1403,7 +1412,15 @@ body .floating-whatsapp:focus-visible {
   }
 
   .product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-tag {
+    font-size: 1.5rem;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
   }
 
   .page-volume .story-grid .story-card:nth-child(3),
@@ -1444,6 +1461,14 @@ body .floating-whatsapp:focus-visible {
 
   .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-tag {
+    font-size: 1.2rem;
+  }
+
+  .product-name {
+    font-size: 0.90rem;
   }
 }
 
@@ -1487,8 +1512,12 @@ body .floating-whatsapp:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .product-media {
-    width: min(100%, 11.3rem);
+  .product-tag {
+    font-size: 0.9rem;
+  }
+
+  .product-name {
+    font-size: 0.6rem;
   }
 }
 
