@@ -42,6 +42,43 @@ refleja en `retail/index.html` y `volumen/index.html`.
 
 ---
 
+---
+
+## Decisión tomada: NO se pone un chatbot en el sitio (2026-07-30)
+
+Se evaluó meter un chatbot en la web para que el cliente pidiera sin ir a WhatsApp. **Descartado.**
+La razón principal no es el costo de construirlo:
+
+- **Se perdería el teléfono.** Todo el modelo financiero descansa en la tasa de recompra (*"a 25%
+  mensual funciona; a 10% no"*), y el retorno de los meses 3–6 asume poder volver a contactar al que
+  ya compró. WhatsApp deja número e hilo persistente; un visitante de chat web es anónimo y se va.
+- **Ir a WhatsApp no es fricción en Colombia** — es el canal por defecto del comercio. El chat web
+  tendría que pedir igual teléfono, dirección y foto del comprobante.
+- **Los anuncios no pasan por la web** (son click-to-WhatsApp), así que el chatbot solo atendería
+  tráfico orgánico, hoy marginal.
+- **Duplicaría la superficie del agente**, justo lo que la dirección de arquitectura busca evitar.
+- **Rompería la atribución**: el `ctwa_clid` existe porque es WhatsApp.
+
+Se hizo en su lugar la alternativa barata (ya implementada, ver abajo). Reevaluar solo si el tráfico
+orgánico crece y los datos muestran que la gente entra al sitio y no da el tap — con datos, no por
+intuición.
+
+### CTAs con texto prellenado — IMPLEMENTADO
+
+Los CTAs ya no apuntan a un `wa.me` pelado: cada uno abre WhatsApp con un mensaje precargado según
+la sección, así el bot arranca sabiendo de dónde viene el cliente y se segmenta el tráfico orgánico
+sin construir nada.
+
+| Sección | Key `data-whatsapp-link` | Mensaje |
+|---|---|---|
+| Home + `retail/` | `retail-order` | "Hola, quiero pedir granizados" |
+| `volumen/` | `mayoristas-quote` | "Hola, quiero cotizar granizados por mayor" |
+| `alianzas/` | `alianzas-info` | "Hola, me interesa el modelo de alianzas de Trabix" |
+
+Los textos viven en `SITE_CONTENT.messages` (`script.js`) y los hidrata `bindContactLinks()`. El
+`href` estático del HTML **también** trae el texto prellenado, para que funcione si el JS falla —
+si cambias un mensaje, cámbialo en los dos lados o quedan desincronizados.
+
 ## Advertencias de contenido
 
 - `alianzas/` es la cara pública del modelo de inversión/vendedores ("desde $20.000, hasta 280% de

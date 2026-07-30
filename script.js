@@ -8,12 +8,9 @@ const SITE_CONTENT = {
     tiktok: "https://www.tiktok.com/@trabix_granizados",
   },
   messages: {
-    "retail-order":
-      "Hola, me gustaría obtener más información",
-    "retail-coverage":
-      "Hola, me gustaría obtener más información",
-    "mayoristas-quote":
-      "Hola, me gustaría obtener más información sobre mayoristas"
+    "retail-order": "Hola, quiero pedir granizados",
+    "mayoristas-quote": "Hola, quiero cotizar granizados por mayor",
+    "alianzas-info": "Hola, me interesa el modelo de alianzas de Trabix",
   },
   mailLinks: {
     "emprende-intro": {
