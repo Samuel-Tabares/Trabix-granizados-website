@@ -21,10 +21,10 @@ se producen en el bot. No invertir esfuerzo grande acá mientras eso sea cierto.
 
 ---
 
-## Lo único pendiente: sincronizar con las reglas de domicilio
+## Sincronización con las reglas de domicilio — HECHO (2026-07-31)
 
-Cuando se implemente el cambio de domicilio en el bot (ver `../trabix-bot/ROADMAP.md` §2), este
-sitio queda desactualizado y hay que alinearlo. Las reglas nuevas:
+El bot ya está desplegado con el cambio (ver `../trabix-bot/CHANGELOG.md` v1.9.0), así que
+`retail/index.html` (sección "Cobertura y domicilio") ya refleja las reglas nuevas:
 
 - **Armenia:** domicilio **gratis de 6 a 19 unidades**. Por debajo de 6 se cobra tarifa de zona
   (norte $6.000 / centro $8.000 / sur $10.000). Desde 20 u es precio mayorista con domicilio cobrado.
