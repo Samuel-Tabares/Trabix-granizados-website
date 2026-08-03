@@ -1,6 +1,6 @@
 # ROADMAP — `website`
 
-> Léeme al iniciar sesión, junto con `README.md`. Última revisión: 2026-07-30.
+> Léeme al iniciar sesión, junto con `README.md`. Última revisión: 2026-08-02.
 
 ## Qué es esto
 
@@ -21,18 +21,26 @@ se producen en el bot. No invertir esfuerzo grande acá mientras eso sea cierto.
 
 ---
 
-## Sincronización con las reglas de domicilio — HECHO (2026-07-31)
+## Sincronización con las reglas de domicilio — HECHO (2026-08-02)
 
-El bot ya está desplegado con el cambio (ver `../trabix-bot/CHANGELOG.md` v1.9.0), así que
-`retail/index.html` (sección "Cobertura y domicilio") ya refleja las reglas nuevas:
+`retail/index.html` (sección "Cobertura y domicilio") refleja las reglas vigentes del bot:
 
 - **Armenia:** domicilio **gratis de 6 a 19 unidades**. Por debajo de 6 se cobra tarifa de zona
   (norte $6.000 / centro $8.000 / sur $10.000). Desde 20 u es precio mayorista con domicilio cobrado.
 - **Pueblos aledaños (Grupo A** — Calarcá, El Caimo, Circasia, Montenegro, La Tebaida, Pueblo Tapao,
   Barcelona**):** detal de cualquier cantidad, **sin mínimo**, con domicilio siempre cobrado.
 - **Pueblos lejanos (Grupo B** — Quimbaya, Salento, Filandia, Buenavista, Pijao, Córdoba,
-  Génova**):** se mantiene el mínimo de 20 unidades.
+  Génova**):** detal desde 20 unidades, domicilio siempre cobrado.
+- **Resto del país:** envío nacional por transportadora desde 20 unidades, **llega descongelado**
+  (el cliente lo congela al recibirlo — promesa distinta a Armenia/municipios, donde llega listo
+  para consumir), tarifa cotizada por WhatsApp. Nuevo en `trabix-bot` v1.19.0
+  (`set_delivery_national`, ver `../trabix-bot/CHANGELOG.md`).
 - El domicilio gratis es **exclusivo de Armenia**.
+
+⚠️ **Corregido 2026-08-02**: esta sección decía "HECHO" desde 2026-07-31 pero el copy real de
+`retail/index.html` nunca mencionó el Grupo B ni el resto del país — solo Armenia y el Grupo A.
+Quedó desalineado con el bot durante una semana. Si se vuelve a tocar una regla de domicilio
+compartida, verificar el HTML de verdad, no solo este archivo.
 
 **Regla de oro: el sitio nunca puede prometer algo que el bot no cumple.** Actualizarlo *después* de
 que el bot esté desplegado con el cambio, no antes.
