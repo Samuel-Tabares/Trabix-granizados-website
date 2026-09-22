@@ -46,16 +46,47 @@ La carta no tiene checkout. Termina en un CTA de WhatsApp con la selección prec
 `../trabix-bot/config/messages.toml` (8 con licor, 4 sin licor) y cambiar un sabor exige un
 redeploy de Rust. No existe tabla `products` ni en el bot ni en `crm-app`.
 
-El modelo acordado es **una sola fuente de verdad en `crm-app`**, con tres consumidores:
+El modelo acordado es **una tabla `flavor` en el Postgres de Railway**, administrada desde un panel
+en `crm-app`, con dos consumidores:
 
 ```
-crm-app (panel de sabores)  ──┬──►  carta del website   (muestra/oculta sabores)
-                              └──►  trabix-bot          (manda el LINK de la carta
-                                                         + lista los sabores si preguntan)
+crm-app /settings/sabores  ──►  Postgres (Railway)  ──┬──► trabix-bot   (SQL directo, SQLx)
+                                                      └──► crm-app /api/carta.json ──► carta (Vercel)
 ```
+
+**El bot no consume HTTP.** `trabix-bot` y `crm-app` comparten el **mismo Postgres físico**
+(`crm-app/CLAUDE.md` §"dos capas de acceso"), así que el bot lee la tabla por la conexión que ya
+tiene. Nada de endpoint interno, secreto compartido ni un modo de fallo nuevo entre servicios.
+
+El website sí necesita HTTP porque vive en Vercel, fuera de Railway. Consume una sola URL
+(`/api/carta.json`) con un fallback horneado en el build, para que la carta nunca salga vacía si
+`crm-app` no responde — se abre desde un celular ajeno en un evento, con datos móviles malos.
+
+Campos de la tabla: `flavor_id`, `nombre`, `nombre_base`, `tipo` (con/sin licor), `descripcion`,
+`foto_url`, `activo`, `orden`. Las fotos que se suban desde el panel van a un **bucket de Railway**,
+en el mismo proyecto que el Postgres y `crm-app`.
 
 Samuel apaga un sabor desde el panel en su iPhone y desaparece de la carta **y** del bot, sin
 deploy de nada.
+
+### Dos trampas que arrastra mover los sabores a la BD
+
+**1. El panel no puede tener "Eliminar", solo "Desactivar".**
+`trabix-bot/migrations/003_create_order_items.sql` define `order_items.flavor` como `VARCHAR(50)`
+guardando el `flavor_id` (`liquor_uva_vodka`). Todo pedido histórico apunta ahí y no hay foreign
+key. Borrar un sabor deja huérfanos los pedidos viejos y rompe `/ventas` y los reportes. Soft
+delete siempre (`activo = false`).
+
+**2. Sabores dinámicos rompen la protección anti-alucinación del bot.**
+`trabix-bot/src/ai/tools.rs` tiene `AMBIGUOUS_GROUPS` **hardcodeado**: los 4 nombres base que
+existen en dos variantes (Maracumango, Manzana verde, Bonbonbum, Blueberry) obligan al bot a
+preguntar cuál quiere el cliente antes de meterlo al pedido. Es el parche del incidente del
+2026-07-19, donde el modelo adivinaba la variante en silencio.
+
+Un sabor nuevo agregado desde el panel **no queda cubierto por esa lista**. Agregar "Mango" sin
+licor y luego "Mango Ron" reintroduce el bug exacto. Por eso el panel pide `nombre_base` y el
+agrupamiento se calcula **en runtime desde la BD**, no se escribe en Rust. Al tocar este circuito,
+verificar que la desambiguación siga siendo determinista — es código, nunca prompt.
 
 Cambio de comportamiento en el bot que viene con esto: hoy manda una **imagen** de menú
 (`menu_image_caption` en `messages.toml`) — pasa a mandar el **link de la carta**, y a listar los
