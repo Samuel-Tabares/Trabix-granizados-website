@@ -1,0 +1,19 @@
+<!--
+  Paste inline in <head>, BEFORE any stylesheet that pre-hides content.
+
+  Adds `html.js` so motion.css can pre-hide the hero, and arms a timeout that
+  removes it again. initMotion() clears the timeout. If the bundle never loads,
+  errors, or is blocked, the page un-hides itself after 2.2s.
+
+  Under prefers-reduced-motion the class is never added at all, so nothing is
+  ever hidden.
+-->
+<script>
+  (function () {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.documentElement.classList.add("js");
+    window.__motionFallback = setTimeout(function () {
+      document.documentElement.classList.remove("js");
+    }, 2200);
+  })();
+</script>

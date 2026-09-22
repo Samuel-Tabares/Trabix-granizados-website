@@ -1,0 +1,135 @@
+/* ============================================================================
+   Motion layer — CSS half.
+
+   RULE: pre-hide ONLY what is above the fold (the hero). Everything else is
+   animated with gsap.from() + ScrollTrigger, which starts from the natural
+   resting state and therefore can never end up stuck invisible.
+
+   Everything here lives under `html.js`. That class is added by the inline
+   <head> script and removed by a 2.2s timeout if initMotion() never runs.
+   ========================================================================== */
+
+html.js [data-hero] .hero__eyebrow,
+html.js [data-hero] .hero__title,
+html.js [data-hero] .hero__lead,
+html.js [data-hero] .hero__actions,
+html.js [data-hero] .hero__stat,
+html.js [data-hero] .hero__badge {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* SplitText needs the heading laid out and measurable before it can shred it.
+   visibility keeps the layout; the tween reveals it in the same tick it mounts. */
+html.js [data-hero] .hero__title {
+  visibility: hidden;
+}
+
+/* Reserve digit width so a counting number doesn't shift the line. */
+.count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   WebGL field. Decorative: never captures events, fades in when ready, and
+   pauses itself off-screen.
+   ------------------------------------------------------------------------- */
+.hero-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hero-field.is-ready {
+  opacity: 1;
+}
+
+.hero-field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   Reading progress bar — native scroll timeline, zero JS. Simply absent where
+   unsupported, which is the correct degradation.
+   ------------------------------------------------------------------------- */
+.progress-bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 120;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: currentColor;
+}
+
+@supports (animation-timeline: scroll()) {
+  .progress-bar {
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes progress-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Page transitions. Cross-document support is uneven (Firefox pending as of
+   2026-08), so this is progressive enhancement: without it, normal navigation.
+   ------------------------------------------------------------------------- */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: vt-out 0.28s cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 0.42s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ============================================================================
+   Reduced motion: all movement off. Content still lands in its final state —
+   nothing here hides anything.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-field,
+  .progress-bar {
+    display: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
