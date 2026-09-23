@@ -1,6 +1,6 @@
 # ROADMAP — `website`
 
-> Léeme al iniciar sesión, junto con `CLAUDE.md`. Última revisión: 2026-09-22.
+> Léeme al iniciar sesión, junto con `CLAUDE.md`. Última revisión: 2026-09-23.
 
 ## Estado: rediseñado, con el catálogo ya conectado de punta a punta
 
@@ -18,7 +18,7 @@ pedido se cierra en el bot.
 
 ---
 
-## Fase 1 — Rediseño en Astro — **HECHO (2026-09-22), falta publicar**
+## Fase 1 — Rediseño en Astro — **HECHO y publicado (2026-09-22)**
 
 - [x] Astro 7 + Tailwind v4, estático, sin adapter. Se conservan los redirects de `vercel.json`.
 - [x] Paleta minimalista: un solo acento y neutros fríos. La tesis es que **el color lo ponen las
@@ -32,7 +32,7 @@ pedido se cierra en el bot.
       `prefers-reduced-motion` nada se mueve ni falta, ninguna página desborda y la consola queda
       limpia.
 
-## Fase 2 — Carta interactiva — **HECHA (2026-09-22), falta publicar**
+## Fase 2 — Carta interactiva — **HECHA y publicada (2026-09-22)**
 
 - [x] `/carta`: 12 sabores, filtro con/sin licor, selección por toque y barra que arma el mensaje
       de WhatsApp con los sabores elegidos. Sin checkout.
@@ -64,9 +64,37 @@ pedido se cierra en el bot.
       de sabores en texto en el mismo turno.
 - [x] `AMBIGUOUS_GROUPS` calculado en runtime agrupando por `base_name`.
 
-> **`CARTA_URL` está vacía a propósito** hasta que el website nuevo esté publicado. Con `/carta/`
-> devolviendo 404 en producción, el bot habría mandado un link roto a clientes reales; vacía, cae a
-> la imagen del menú de siempre. **Llenarla es el último paso del despliegue del website.**
+> **`CARTA_URL` ya está activa** (`https://trabixgranizados.xyz/carta/`). Se dejó vacía a propósito
+> hasta publicar el sitio, porque con `/carta/` devolviendo 404 el bot habría mandado un link roto a
+> clientes reales.
+
+## Fase 5 — Sin licor al detal y precios centralizados — **HECHO y desplegado (2026-09-23)**
+
+- [x] **El sin licor se vende por unidad, a $7.000.** Antes solo por mayor desde 20. Cambiado en el
+      bot (`SIN_LICOR_RETAIL_AVAILABLE`) y en todo el copy del sitio.
+      **La promo del segundo a mitad es solo del con licor**: 2 con licor son $12.000, 2 sin licor
+      son $14.000. Hay un test en el bot que fija esa diferencia.
+- [x] **Los precios al detal salen de `/settings/precios`.** `unitWithAlcoholPrice`,
+      `unitNoAlcoholPrice` y `promoPackagePrice` ya existían ahí, pero el endpoint que consume el
+      bot solo mandaba los tiers mayoristas y el bot tenía los del detal hardcodeados: cambiarlos en
+      el panel **no cambiaba lo que el bot cobraba**.
+- [x] Las 12 láminas subidas al bucket. La carta las sirve desde el panel, no desde el repo.
+- [x] QR generado en `qr/carta-qr.png` y `.svg`, apuntando a `/qr`.
+- [x] Alianzas recupera todo el contenido de la página anterior.
+- [x] Quitados por petición de Samuel: la línea de disponibilidad de la carta, la tarifa de zona de
+      Armenia, el "domicilio siempre se cobra" de los dos grupos de municipios y el "domicilio
+      gratis solo en Armenia".
+
+### Bugs encontrados verificando contra producción, no antes
+
+1. **`/c` y `/qr` devolvían 404** — `trailingSlash: true` reescribe `/c` a `/c/` antes de evaluar
+   los redirects, así que la regla nunca hacía match. Era justo la ruta que va grabada en las tags.
+2. **El build caía siempre al fallback en silencio** — Astro sustituye una `PUBLIC_*` no definida
+   por cadena vacía, y `"" ?? DEFAULT` devuelve `""`, no el default.
+3. **La lámina local ganaba sobre la foto del panel**, así que cambiar una foto desde `crm-app`
+   quedaba invisible en la web. Invertido.
+
+---
 
 ### Las dos trampas de mover los sabores a la BD
 
@@ -109,7 +137,10 @@ panel — está sin hacer a propósito, para ver primero si de verdad estorba.
 - **Resto del país:** envío nacional desde 20 u, **llega descongelado** — hay que decirlo
   explícitamente, es la única promesa distinta.
 - El domicilio gratis es **exclusivo de Armenia**.
-- **Sin licor es solo mayorista, mínimo 20 u.** No se ofrece al detal.
+- **Sin licor se vende al detal desde una unidad, a $7.000** (cambió el 2026-09-23). Por mayor
+  sigue con el mínimo de 20 u por tipo.
+- **La promo del segundo a mitad de precio es solo del con licor.** Dos con licor son $12.000, dos
+  sin licor son $14.000.
 
 ## Advertencias de contenido
 

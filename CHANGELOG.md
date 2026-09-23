@@ -3,6 +3,35 @@
 Todos los cambios relevantes de este proyecto.
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versionado [SemVer](https://semver.org/lang/es/).
 
+## [2.1.0] — 2026-09-23
+
+### Added
+- **Lámina de Smirnoff de tamarindo**: los 12 sabores ya tienen foto.
+- **QR de la carta** en `qr/carta-qr.png` (2048px) y `.svg`, apuntando a `/qr` y no a la URL final.
+- **Alianzas recupera todo el contenido de la página anterior**: los $20.000 de entrada, el 280%,
+  el fondo de recompensas con premios desde $25.000, el acceso a precio proveedor y el correo con
+  los cuatro datos. Se le sumó WhatsApp como segunda vía, sin quitar el correo.
+
+### Changed
+- **El sin licor se vende al detal, desde una unidad, a $7.000.** Antes era solo mayorista. Copy
+  actualizado en home, retail y volumen. La promo del segundo a mitad **sigue siendo solo del con
+  licor** y el copy lo dice explícitamente.
+- **La foto del panel manda sobre la lámina local.** Estaba al revés: la local pesa menos, pero si
+  `crm-app` es la fuente de verdad, cambiar una foto ahí tiene que verse en la carta.
+
+### Removed
+- Por petición de Samuel: la línea de disponibilidad de la carta, la tarifa de zona de Armenia, el
+  "el domicilio siempre se cobra" de los dos grupos de municipios y el "el domicilio gratis es solo
+  en Armenia".
+
+### Fixed
+- **`/c` y `/qr` devolvían 404 en producción.** `trailingSlash: true` reescribe `/c` a `/c/` antes
+  de evaluar los redirects, así que la regla con `source: "/c"` nunca hacía match — justo la ruta
+  que va grabada en las tags NFC. Se agregaron las variantes con barra.
+- **El build caía siempre al fallback sin avisar.** Astro sustituye una `PUBLIC_*` no definida por
+  cadena vacía y `"" ?? DEFAULT` devuelve `""`, así que la guarda `if (!url)` disparaba siempre y
+  nunca se consultaba `crm-app`.
+
 ## [2.0.0] — 2026-09-22
 
 Rediseño total. El sitio deja de ser solo respaldo de credibilidad: la carta interactiva lo

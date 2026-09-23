@@ -1,9 +1,9 @@
 # website — Trabix Granizados
 
-Sitio de marketing de **www.trabixgranizados.xyz**, desplegado en Vercel. En rediseño total
-(decidido 2026-09-22): pasa de HTML plano a **Astro**, de la estética actual (12 colores de acento,
-glassmorphism) a algo **minimalista y mobile-first**, y gana una pieza nueva que no es marketing
-sino operación: la **carta interactiva**.
+Sitio de marketing de **www.trabixgranizados.xyz**, desplegado en Vercel. Reconstruido entero el
+2026-09-22: de HTML plano a **Astro**, de 12 colores de acento y glassmorphism a **minimalista y
+mobile-first**, y con una pieza que no es marketing sino operación: la **carta interactiva**, que
+reemplaza la carta física y se reparte por NFC y QR.
 
 Lee `ROADMAP.md` junto con este archivo al iniciar sesión.
 
@@ -57,72 +57,80 @@ evento, con datos móviles malos.** Una carta que no renderiza es una venta perd
 
 ## La carta interactiva
 
-Reemplaza la carta física. Se reparte por **NFC + QR** (híbrido: QR impreso, chip NFC detrás de la
-misma etiqueta, ambos al mismo destino).
+Reemplaza la carta física. 12 sabores en grilla, filtro con/sin licor y selección por toque.
 
-**La tag NFC nunca lleva la URL final hardcodeada.** Lleva una ruta corta controlada
-(`trabixgranizados.xyz/c`) que redirige desde `vercel.json`. Así el destino se cambia sin recomprar
-ni reprogramar tags. NTAG213 basta de sobra para una URL; NTAG215 sobra.
+**No tiene checkout.** Termina en un CTA de WhatsApp con los sabores elegidos precargados en el
+mensaje — el pedido se cierra en el bot, nunca en la web (ver "Por qué no hay carrito" abajo).
 
-La carta no tiene checkout. Termina en un CTA de WhatsApp con la selección precargada en el mensaje
-— el pedido se cierra en el bot, nunca en la web (ver "Por qué no hay carrito" abajo).
+## NFC y QR — qué funciona y qué no
+
+**Lo que se reparte es `/c` (NFC) y `/qr` (QR), nunca la URL final.** Los dos son redirects **307**
+a `/carta/?src=`, temporales a propósito: un 308 se cachea para siempre en el navegador y dejaría
+la tag clavada al destino viejo.
+
+⚠️ **`trailingSlash: true` reescribe `/c` a `/c/` ANTES de evaluar los redirects**, así que en
+`vercel.json` hacen falta las dos variantes de cada ruta. Sin la versión con barra, la ruta que va
+grabada en las tags devuelve 404 — pasó en producción el 2026-09-23.
+
+El QR está generado en `qr/carta-qr.png` (2048px) y `.svg`, apuntando a `/qr`.
+
+**Lo que NO es posible, para no volver a proponerlo:** compartir la carta por NFC acercando un
+iPhone a otro celular. Eso exige emulación de tarjeta (HCE) y Apple no la abre a terceros. Los
+pases NFC de Apple Wallet existen pero Apple **solo los aprueba para pagos y transporte** — un menú
+no califica, y pagar la cuenta de desarrollador no lo desbloquea. Lo que sí funciona: **tags NFC
+físicas** (NTAG213) grabadas con la URL `/c`, y un pase de Wallet con el QR para mostrar en
+pantalla.
 
 ## Fuente de verdad de los sabores: `crm-app`, no este repo
 
-**Decisión del 2026-09-22.** Hoy el catálogo vive hardcodeado en
-`../trabix-bot/config/messages.toml` (8 con licor, 4 sin licor) y cambiar un sabor exige un
-redeploy de Rust. No existe tabla `products` ni en el bot ni en `crm-app`.
-
-El modelo acordado es **una tabla `flavor` en el Postgres de Railway**, administrada desde un panel
-en `crm-app`, con dos consumidores:
+**Implementado y en producción desde el 2026-09-22.** El catálogo vivía hardcodeado en
+`../trabix-bot/config/messages.toml` y cambiar un sabor exigía redesplegar Rust. Ahora es la tabla
+`flavor` del Postgres de Railway, administrada desde `crm-app` → `/settings/sabores`:
 
 ```
-crm-app /settings/sabores  ──►  Postgres (Railway)  ──┬──► trabix-bot   (SQL directo, SQLx)
-                                                      └──► crm-app /api/carta.json ──► carta (Vercel)
+crm-app /settings/sabores ─► tabla `flavor` ─┬─► GET /api/internal/flavors (token) ─► trabix-bot
+                                             └─► GET /api/carta (público, CORS) ─► carta (Vercel)
 ```
 
-**El bot no consume HTTP.** `trabix-bot` y `crm-app` comparten el **mismo Postgres físico**
-(`crm-app/CLAUDE.md` §"dos capas de acceso"), así que el bot lee la tabla por la conexión que ya
-tiene. Nada de endpoint interno, secreto compartido ni un modo de fallo nuevo entre servicios.
+**El bot consume HTTP, no SQL.** Comparte el Postgres con `crm-app`, así que leerlo directo era
+posible — pero el bot ya consumía `/api/internal/pricing` de esa forma, y seguir el patrón que
+existe vale más que la conexión directa. Caché en memoria, fetch al boot que nunca bloquea el
+arranque, refresco cada 10 min y `POST /internal/flavors/refresh` para propagación instantánea.
 
-El website sí necesita HTTP porque vive en Vercel, fuera de Railway. Consume una sola URL
-(`/api/carta.json`) con un fallback horneado en el build, para que la carta nunca salga vacía si
-`crm-app` no responde — se abre desde un celular ajeno en un evento, con datos móviles malos.
+El website lee `GET /api/carta` **en tiempo de build**, con `src/data/carta.json` como fallback si
+`crm-app` no responde o devuelve algo deforme: un sitio que no se puede publicar porque el CRM está
+dormido es peor que uno con la carta de ayer.
 
-Campos de la tabla: `flavor_id`, `nombre`, `nombre_base`, `tipo` (con/sin licor), `descripcion`,
-`foto_url`, `activo`, `orden`. Las fotos que se suban desde el panel van a un **bucket de Railway**,
-en el mismo proyecto que el Postgres y `crm-app`.
+⚠️ **El desfase que hay que tener presente:** apagar un sabor lo saca del bot al instante, pero de
+la carta **solo en el siguiente deploy del sitio**, porque se hornea en build. Sin resolver a
+propósito. Si estorba, la salida es un fetch en cliente además del horneado, o un deploy hook de
+Vercel disparado desde el panel.
 
-Samuel apaga un sabor desde el panel en su iPhone y desaparece de la carta **y** del bot, sin
-deploy de nada.
+**Las fotos: manda el panel.** `crm-app` sirve las imágenes por proxy desde un bucket privado de
+Railway (`/api/carta/foto/[key]`, caché inmutable). Las láminas locales de `src/assets/products/`
+pesan menos —WebP con srcset, ~35 KB contra ~550 KB del PNG proxeado— pero quedan de **fallback**,
+no de prioridad: si el panel es la fuente de verdad, cambiar una foto ahí tiene que verse en la
+carta. Mitigar el peso es optimizar la imagen al subirla en `crm-app`, no volver a invertir esto.
 
-### Dos trampas que arrastra mover los sabores a la BD
+### Dos trampas que arrastra tener el catálogo en la BD
 
-**1. El panel no puede tener "Eliminar", solo "Desactivar".**
-`trabix-bot/migrations/003_create_order_items.sql` define `order_items.flavor` como `VARCHAR(50)`
-guardando el `flavor_id` (`liquor_uva_vodka`). Todo pedido histórico apunta ahí y no hay foreign
-key. Borrar un sabor deja huérfanos los pedidos viejos y rompe `/ventas` y los reportes. Soft
-delete siempre (`activo = false`).
+**1. El panel no borra sabores, los apaga.** `order_items.flavor` (Postgres del bot) guarda el
+`flavor_id` como texto y sin foreign key, así que todo pedido histórico apunta ahí. Borrar deja
+huérfanos esos pedidos y rompe `/ventas` y los reportes.
 
-**2. Sabores dinámicos rompen la protección anti-alucinación del bot.**
-`trabix-bot/src/ai/tools.rs` tiene `AMBIGUOUS_GROUPS` **hardcodeado**: los 4 nombres base que
-existen en dos variantes (Maracumango, Manzana verde, Bonbonbum, Blueberry) obligan al bot a
-preguntar cuál quiere el cliente antes de meterlo al pedido. Es el parche del incidente del
-2026-07-19, donde el modelo adivinaba la variante en silencio.
+**2. El `nombre_base` es lo que evita un bug ya arreglado.** `AMBIGUOUS_GROUPS` era una lista
+escrita a mano en `trabix-bot/src/ai/tools.rs` con los 4 nombres base que existen en dos variantes,
+y es el parche del incidente del 2026-07-19 donde el modelo adivinaba en silencio si el cliente
+quería la versión con o sin licor. Ya no existe: los grupos se calculan agrupando por `base_name` y
+las palabras distintivas se derivan del nombre. Pero eso solo funciona si al crear un sabor se pone
+la base correcta — "Mango" y "Mango Ron" tienen que compartir `Mango`.
 
-Un sabor nuevo agregado desde el panel **no queda cubierto por esa lista**. Agregar "Mango" sin
-licor y luego "Mango Ron" reintroduce el bug exacto. Por eso el panel pide `nombre_base` y el
-agrupamiento se calcula **en runtime desde la BD**, no se escribe en Rust. Al tocar este circuito,
-verificar que la desambiguación siga siendo determinista — es código, nunca prompt.
+## Los precios también salen de `crm-app`
 
-Cambio de comportamiento en el bot que viene con esto: hoy manda una **imagen** de menú
-(`menu_image_caption` en `messages.toml`) — pasa a mandar el **link de la carta**, y a listar los
-sabores en el mismo mensaje cuando pregunten por el menú o los sabores.
-
-**Mientras la fase 2 no exista, la carta y el bot son dos catálogos distintos** y la carta puede
-prometer un sabor que el bot no ofrece. Es la misma clase de desincronización que ya duró una semana
-con las reglas de domicilio (ver `ROADMAP.md`). Diseñar la carta contra una sola URL desde el día
-uno, para que cambiar la fuente sea cambiar la URL y nada más.
+Desde el 2026-09-23, `/settings/precios` manda de verdad sobre lo que cobra el bot: el endpoint
+`/api/internal/pricing` incluye un bloque `retail` con el precio unitario con licor, el sin licor y
+el par en promo. Antes solo viajaban los tiers mayoristas y el bot tenía los del detal como
+constantes de Rust, así que **cambiar el precio al detal en el panel no cambiaba nada**.
 
 ## Por qué no hay carrito ni chatbot web
 
@@ -153,8 +161,11 @@ bot esté desplegado con el cambio, nunca antes. Y se verifica el HTML de verdad
 ya pasó que el ROADMAP decía "HECHO" y el copy nunca mencionó el Grupo B.
 
 Reglas vigentes que el copy debe respetar: domicilio gratis **solo en Armenia, 6–19 unidades**;
-**sin licor es solo mayorista, mínimo 20 u**; envío nacional llega **descongelado** y hay que
-decirlo explícitamente.
+**sin licor se vende al detal desde una unidad, a $7.000** (cambió el 2026-09-23 — antes era solo
+mayorista); envío nacional llega **descongelado** y hay que decirlo explícitamente.
+
+**La promo del segundo a mitad de precio es solo del con licor.** Dos con licor cuestan $12.000;
+dos sin licor cuestan $14.000. Es el error fácil de cometer al escribir copy de precios.
 
 ## Contenido prohibido
 
