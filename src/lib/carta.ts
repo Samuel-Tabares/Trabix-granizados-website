@@ -88,7 +88,10 @@ const CARTA_URL = "https://crm-app-production-405d.up.railway.app/api/carta";
  * carta de ayer.
  */
 export async function obtenerCarta(): Promise<Carta> {
-  const url = import.meta.env.PUBLIC_CARTA_URL ?? CARTA_URL;
+  // `||` y no `??`: Astro sustituye una PUBLIC_* no definida por cadena vacía,
+  // y `"" ?? CARTA_URL` devuelve "", no el default. Eso hacía que el build
+  // cayera siempre al fallback sin decir nada.
+  const url = import.meta.env.PUBLIC_CARTA_URL || CARTA_URL;
   if (!url) return fallback;
 
   try {
