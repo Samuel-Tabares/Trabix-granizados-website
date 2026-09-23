@@ -1,0 +1,259 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { obtenerCarta, disponibles, type Sabor } from "../lib/carta";
+import { WHATSAPP_NUMERO, MENSAJES } from "../lib/whatsapp";
+
+const carta = await obtenerCarta();
+const sabores = disponibles(carta);
+
+// Las láminas viven en src/ para que Astro las optimice (webp + srcset). El JSON
+// solo guarda el nombre de archivo, así que se resuelven acá contra el glob.
+const laminas = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/products/*.png",
+  { eager: true },
+);
+
+function lamina(s: Sabor): ImageMetadata | null {
+  if (!s.foto) return null;
+  return laminas[`../assets/products/${s.foto}`]?.default ?? null;
+}
+
+const conLicor = sabores.filter((s) => s.tipo === "con_licor");
+const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
+---
+
+<section class="px-4 pb-32">
+  <div class="mx-auto max-w-6xl">
+    <!--
+      Filtros. Son botones y no links porque no cambian de página; sin JS quedan
+      inertes y se ven los 12 sabores, que es el estado correcto por defecto.
+    -->
+    <div
+      class="sticky top-20 z-40 -mx-4 mb-8 flex justify-center px-4 sm:top-24"
+      data-reveal
+    >
+      <div
+        role="group"
+        aria-label="Filtrar sabores"
+        class="flex gap-1 rounded-full border border-hairline bg-bg/80 p-1 backdrop-blur-xl"
+      >
+        <button type="button" data-filtro="todos" aria-pressed="true" class="filtro">
+          Todos <span class="tabular-nums opacity-50">{sabores.length}</span>
+        </button>
+        <button type="button" data-filtro="con_licor" aria-pressed="false" class="filtro">
+          Con licor <span class="tabular-nums opacity-50">{conLicor.length}</span>
+        </button>
+        <button type="button" data-filtro="sin_licor" aria-pressed="false" class="filtro">
+          Sin licor <span class="tabular-nums opacity-50">{sinLicor.length}</span>
+        </button>
+      </div>
+    </div>
+
+    <ul
+      id="grilla"
+      class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"
+    >
+      {
+        sabores.map((s, i) => {
+          const img = lamina(s);
+          return (
+            <li data-sabor={s.flavor_id} data-tipo={s.tipo} class="contents">
+              <button
+                type="button"
+                data-toggle
+                aria-pressed="false"
+                data-nombre={s.nombre}
+                class="group relative flex flex-col overflow-hidden rounded-[var(--radius-surface)] border border-hairline text-left transition-transform duration-500 active:scale-[0.98]"
+                style={`transition-timing-function: var(--ease-out-soft)`}
+              >
+                <div class="aspect-lamina relative w-full overflow-hidden bg-ice-100">
+                  {img ? (
+                    <Image
+                      src={img}
+                      alt={s.nombre}
+                      widths={[240, 360, 485]}
+                      sizes="(min-width: 1024px) 24vw, (min-width: 640px) 31vw, 47vw"
+                      loading={i < 4 ? "eager" : "lazy"}
+                      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      style="transition-timing-function: var(--ease-out-soft)"
+                    />
+                  ) : (
+                    /*
+                      Sabor sin lámina. Hoy es el caso de Smirnoff de tamarindo.
+                      En vez de un ícono de imagen rota, el nombre a gran tamaño:
+                      se lee como una decisión tipográfica, no como un hueco.
+                    */
+                    <div class="flex h-full w-full items-end bg-ice-100 p-4 dark:bg-ice-900">
+                      <span class="display text-2xl text-ice-700 dark:text-ice-300">
+                        {s.nombre}
+                      </span>
+                    </div>
+                  )}
+
+                  <span
+                    data-check
+                    aria-hidden="true"
+                    class="absolute top-2.5 right-2.5 grid h-7 w-7 scale-50 place-items-center rounded-full bg-berry opacity-0 transition-[opacity,transform] duration-300"
+                    style="transition-timing-function: var(--ease-out-soft)"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 text-white">
+                      <path
+                        d="m5 13 4 4L19 7"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <span class="flex flex-col gap-0.5 p-3">
+                  <span class="text-sm leading-tight font-medium">{s.nombre}</span>
+                  <span class="text-xs text-fg-muted">{s.descripcion}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <p id="vacio" hidden class="py-16 text-center text-sm text-fg-muted">
+      No hay sabores de ese tipo disponibles ahora mismo.
+    </p>
+
+    <p class="mt-8 text-center text-xs text-fg-muted">
+      Disponibilidad del {carta.actualizado || "día"}. Los sabores rotan: lo que ves acá es lo
+      que hay.
+    </p>
+  </div>
+</section>
+
+<!--
+  Barra de pedido. Nace oculta y solo aparece con una selección. El href se
+  arma en JS, pero el botón es un <a> a wa.me con el mensaje base, así que si
+  el script falla el visitante igual llega al chat.
+-->
+<div
+  id="barra-pedido"
+  class="pointer-events-none fixed inset-x-0 bottom-0 z-50 translate-y-full px-4 pb-4 transition-transform duration-500"
+  style="transition-timing-function: var(--ease-out-soft)"
+>
+  <a
+    id="cta-pedido"
+    href={`https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJES["carta-order"])}`}
+    class="btn btn--primary pointer-events-auto mx-auto flex w-full max-w-md justify-between !py-4 shadow-lg"
+  >
+    <span id="cta-texto">Pedir por WhatsApp</span>
+    <span class="btn__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+        <path
+          d="M5 12h14m-6-6 6 6-6 6"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </a>
+</div>
+
+<style>
+  .filtro {
+    border-radius: 9999px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+    white-space: nowrap;
+    transition:
+      background-color 0.4s var(--ease-out-soft),
+      color 0.4s var(--ease-out-soft);
+  }
+
+  .filtro[aria-pressed="true"] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  [data-toggle][aria-pressed="true"] {
+    border-color: var(--color-berry);
+  }
+
+  [data-toggle][aria-pressed="true"] [data-check] {
+    opacity: 1;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  import { WHATSAPP_NUMERO, MENSAJES } from "../lib/whatsapp";
+
+  const grilla = document.getElementById("grilla");
+  const barra = document.getElementById("barra-pedido");
+  const cta = document.getElementById("cta-pedido") as HTMLAnchorElement | null;
+  const ctaTexto = document.getElementById("cta-texto");
+  const vacio = document.getElementById("vacio");
+
+  if (grilla && barra && cta && ctaTexto) {
+    const elegidos = new Map<string, string>();
+
+    function pintarBarra() {
+      const n = elegidos.size;
+      barra!.style.transform = n > 0 ? "translateY(0)" : "";
+
+      if (n === 0) {
+        cta!.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJES["carta-order"])}`;
+        ctaTexto!.textContent = "Pedir por WhatsApp";
+        return;
+      }
+
+      const lista = Array.from(elegidos.values());
+      const texto = `${MENSAJES["carta-order"]}\n\nMe interesan:\n${lista.map((n) => `• ${n}`).join("\n")}`;
+      cta!.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`;
+      ctaTexto!.textContent = n === 1 ? "Pedir 1 sabor" : `Pedir ${n} sabores`;
+    }
+
+    grilla.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-toggle]");
+      if (!btn) return;
+
+      const li = btn.closest<HTMLElement>("[data-sabor]");
+      const id = li?.dataset.sabor;
+      const nombre = btn.dataset.nombre;
+      if (!id || !nombre) return;
+
+      if (elegidos.has(id)) {
+        elegidos.delete(id);
+        btn.setAttribute("aria-pressed", "false");
+      } else {
+        elegidos.set(id, nombre);
+        btn.setAttribute("aria-pressed", "true");
+      }
+      pintarBarra();
+    });
+
+    // Filtros
+    const filtros = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filtro]"));
+    const items = Array.from(grilla.querySelectorAll<HTMLElement>("[data-sabor]"));
+
+    filtros.forEach((f) => {
+      f.addEventListener("click", () => {
+        const tipo = f.dataset.filtro;
+        filtros.forEach((o) => o.setAttribute("aria-pressed", String(o === f)));
+
+        let visibles = 0;
+        items.forEach((li) => {
+          const ok = tipo === "todos" || li.dataset.tipo === tipo;
+          li.classList.toggle("hidden", !ok);
+          // `contents` y `hidden` se pelean: hidden gana solo si se quita contents.
+          li.classList.toggle("contents", ok);
+          if (ok) visibles++;
+        });
+
+        if (vacio) vacio.hidden = visibles > 0;
+      });
+    });
+  }
+</script>

@@ -1,0 +1,111 @@
+---
+/*
+  Mockup de chat en CSS puro, sin imagen ni librería. Muestra exactamente cómo
+  se ve pedir por WhatsApp, que es la única acción que el sitio quiere provocar.
+
+  Los mensajes se escriben solos en bucle cuando hay JS; sin JS quedan los tres
+  visibles y estáticos, que es igual de claro.
+*/
+---
+
+<div class="relative mx-auto w-full max-w-[260px]" data-tilt>
+  <div class="rounded-[2.2rem] border border-hairline bg-bg-raised p-2 shadow-xl">
+    <div class="overflow-hidden rounded-[1.6rem] bg-ice-100 dark:bg-ice-900">
+      <div class="flex items-center gap-2.5 bg-bg-raised px-3.5 py-2.5">
+        <span
+          class="grid h-7 w-7 place-items-center rounded-full bg-berry text-[0.65rem] font-semibold text-white"
+          >T</span
+        >
+        <span class="flex flex-col leading-tight">
+          <span class="text-xs font-medium">Trabix</span>
+          <span class="text-[0.6rem] text-fg-muted">en línea</span>
+        </span>
+      </div>
+
+      <div class="flex min-h-[190px] flex-col gap-2 p-3" data-chat>
+        <p
+          class="max-w-[85%] self-end rounded-xl rounded-br-sm bg-berry px-3 py-2 text-[0.7rem] leading-snug text-white"
+          data-burbuja
+        >
+          Hola, quiero pedir granizados
+        </p>
+        <p
+          class="max-w-[85%] self-start rounded-xl rounded-bl-sm bg-bg-raised px-3 py-2 text-[0.7rem] leading-snug"
+          data-burbuja
+        >
+          ¡Hola! 🍧 Claro que sí. ¿Para Armenia o para otro municipio?
+        </p>
+        <p
+          class="max-w-[85%] self-end rounded-xl rounded-br-sm bg-berry px-3 py-2 text-[0.7rem] leading-snug text-white"
+          data-burbuja
+        >
+          Armenia. 8 de maracumango
+        </p>
+        <p
+          class="max-w-[85%] self-start rounded-xl rounded-bl-sm bg-bg-raised px-3 py-2 text-[0.7rem] leading-snug"
+          data-burbuja
+        >
+          Listo, 8 unidades. Por ser más de 6 en Armenia, el domicilio te va gratis 🛵
+        </p>
+      </div>
+
+      <div class="bg-bg-raised px-3 py-2.5">
+        <div class="h-6 rounded-full bg-ice-100 dark:bg-ice-900"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const chat = document.querySelector<HTMLElement>("[data-chat]");
+  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Bajo reduced-motion no hay bucle: los cuatro mensajes se quedan quietos y
+  // visibles, que cuenta la misma historia sin movimiento.
+  if (chat && !reducido) {
+    const burbujas = Array.from(chat.querySelectorAll<HTMLElement>("[data-burbuja]"));
+
+    const ocultar = () => {
+      burbujas.forEach((b) => {
+        b.style.transition = "none";
+        b.style.opacity = "0";
+        b.style.transform = "translateY(8px)";
+      });
+    };
+
+    const mostrar = (i: number) => {
+      const b = burbujas[i];
+      if (!b) return;
+      b.style.transition = "opacity .45s var(--ease-out-soft), transform .45s var(--ease-out-soft)";
+      b.style.opacity = "1";
+      b.style.transform = "translateY(0)";
+    };
+
+    let timers: number[] = [];
+
+    const ciclo = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+      ocultar();
+      burbujas.forEach((_, i) => {
+        timers.push(window.setTimeout(() => mostrar(i), 500 + i * 900));
+      });
+      timers.push(window.setTimeout(ciclo, 500 + burbujas.length * 900 + 2600));
+    };
+
+    // Solo corre mientras se ve. Un bucle infinito fuera de pantalla es
+    // impuesto de batería puro.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          ciclo();
+        } else {
+          timers.forEach(clearTimeout);
+          timers = [];
+        }
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(chat);
+  }
+</script>

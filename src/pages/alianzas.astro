@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { waLink } from "../lib/whatsapp";
+import emprendimiento from "../assets/real-life/emprendimiento-01.jpg";
+
+/*
+  ADVERTENCIA DE CONTENIDO — leer ROADMAP.md antes de tocar esta página.
+
+  1. Nunca publicar el costo real por unidad ni nada de MODELO NEGOCIO/. A los
+     vendedores se les presenta un costo percibido distinto.
+  2. El modelo de inversión está PAUSADO: no hay onboarding detrás de quien
+     llegue por acá. Por eso la página capta interés y no promete arranque
+     inmediato.
+  3. El programa de embajadores no está corriendo: ningún CTA puede depender de
+     que existan embajadores activos.
+*/
+const apoyos = [
+  {
+    t: "Marca ya montada",
+    d: "No arrancas de cero: el producto, la imagen y la carta ya existen y ya se venden.",
+  },
+  {
+    t: "Logística resuelta",
+    d: "El producto se mantiene congelado con nosotros y se te entrega por tandas.",
+  },
+  {
+    t: "Acompañamiento",
+    d: "Te ayudamos con precios, manejo de inventario y cómo vender.",
+  },
+];
+---
+
+<Base
+  titulo="Emprende con Trabix"
+  descripcion="Vende granizados Trabix con marca, producto y logística ya montados. Escríbenos y te contamos cómo funciona."
+  seccion="alianzas"
+>
+  <section data-hero class="px-5 pt-32 pb-16 sm:pt-40">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div>
+        <p class="eyebrow hero__eyebrow">Emprende</p>
+        <h1 class="display hero__title mt-5 text-[2.9rem] sm:text-7xl">
+          Pon el trabajo.<br />El resto ya está montado.
+        </h1>
+        <p class="lead hero__lead mt-6 text-base sm:text-lg">
+          Vender granizados Trabix es empezar con una marca que ya funciona, producto que ya
+          se mueve y logística que ya está resuelta. Tú te encargas de vender.
+        </p>
+
+        <div class="hero__actions mt-8">
+          <a href={waLink("alianzas-info")} class="btn btn--primary">
+            Quiero que me cuenten
+            <span class="btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <p class="hero__badge mt-6 text-sm text-fg-muted">
+          Cupos limitados. Cada persona que entra la acompañamos de cerca.
+        </p>
+      </div>
+
+      <div class="hero__stat">
+        <div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-surface)] border border-hairline">
+          <Image
+            src={emprendimiento}
+            alt="Emprendedor vendiendo granizados Trabix"
+            widths={[360, 600, 900]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            loading="eager"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Qué pones tú y qué ponemos nosotros</h2>
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-hairline sm:grid-cols-3" data-reveal="stagger">
+        {
+          apoyos.map((a) => (
+            <div class="flex flex-col gap-2 bg-bg p-7">
+              <h3 class="text-xl font-medium tracking-tight">{a.t}</h3>
+              <p class="text-sm text-fg-muted">{a.d}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 max-w-2xl">
+        <p class="lead">
+          Cómo se reparte la ganancia, con cuánto se arranca y cómo funcionan las entregas
+          depende de con qué quieras empezar. Eso lo hablamos directo por WhatsApp, sin
+          compromiso.
+        </p>
+
+        <a href={waLink("alianzas-info")} class="btn btn--primary mt-8">
+          Quiero que me cuenten
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

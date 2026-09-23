@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { waLink } from "../lib/whatsapp";
+import retail03 from "../assets/real-life/retail-03.jpg";
+
+/*
+  Las reglas de abajo son las mismas que aplica el bot de forma determinista.
+  El sitio NUNCA puede prometer algo que el bot no cumple: si una regla cambia,
+  se actualiza acá DESPUÉS de que el bot esté desplegado, nunca antes.
+  Ver ROADMAP.md → "Reglas de negocio que el copy debe respetar".
+*/
+const zonas = [
+  {
+    titulo: "Armenia",
+    destacado: "Domicilio gratis de 6 a 19 unidades",
+    detalle:
+      "Menos de 6 unidades paga tarifa de zona: norte $6.000, centro $8.000, sur $10.000. Desde 20 unidades pasa a precio por mayor y el domicilio se cobra.",
+  },
+  {
+    titulo: "Municipios cerca",
+    destacado: "Sin mínimo de unidades",
+    detalle:
+      "Calarcá, El Caimo, Circasia, Montenegro, La Tebaida, Pueblo Tapao y Barcelona. Pides la cantidad que quieras; el domicilio siempre se cobra.",
+  },
+  {
+    titulo: "Municipios lejos",
+    destacado: "Desde 20 unidades",
+    detalle:
+      "Quimbaya, Salento, Filandia, Buenavista, Pijao, Córdoba y Génova. El domicilio siempre se cobra.",
+  },
+  {
+    titulo: "Resto del país",
+    destacado: "Desde 20 unidades, llega descongelado",
+    detalle:
+      "Va por transportadora y llega descongelado: lo congelas al recibirlo. Es el único envío donde no llega listo para tomar. La tarifa te la cotizamos por WhatsApp.",
+  },
+];
+---
+
+<Base
+  titulo="Pedir granizados — Trabix"
+  descripcion="Granizados con licor a $8.000, el segundo a mitad de precio. Domicilio gratis en Armenia de 6 a 19 unidades. Pide por WhatsApp."
+  seccion="retail"
+>
+  <section data-hero class="px-5 pt-32 pb-16 sm:pt-40">
+    <div class="mx-auto max-w-6xl">
+      <p class="eyebrow hero__eyebrow">Para tomar</p>
+      <h1 class="display hero__title mt-5 text-[2.9rem] sm:text-7xl">
+        $8.000 el primero.<br />El segundo, mitad de precio.
+      </h1>
+      <p class="lead hero__lead mt-6 text-base sm:text-lg">
+        Granizado con licor, sobre sellado de 9 onzas con pitillo. Pides por WhatsApp, nos
+        dices dónde estás y listo.
+      </p>
+
+      <div class="hero__actions mt-8 flex flex-wrap gap-3">
+        <a href={waLink("retail-order")} class="btn btn--primary">
+          Pedir por WhatsApp
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+        <a href="/carta/" class="btn btn--ghost">
+          Ver carta
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 pb-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="aspect-[16/10] overflow-hidden rounded-[var(--radius-surface)] border border-hairline sm:aspect-[21/9]">
+        <Image
+          src={retail03}
+          alt="Granizados Trabix sellados, listos para entregar"
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          loading="lazy"
+          class="h-full w-full object-cover"
+          data-parallax="10"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Hasta dónde llegamos</h2>
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-hairline sm:grid-cols-2" data-reveal="stagger">
+        {
+          zonas.map((z) => (
+            <div class="flex flex-col gap-2 bg-bg p-7">
+              <h3 class="text-xl font-medium tracking-tight">{z.titulo}</h3>
+              <p class="text-sm text-berry">{z.destacado}</p>
+              <p class="mt-1 text-sm text-fg-muted">{z.detalle}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="mt-6 text-sm text-fg-muted">
+        El domicilio gratis es solo en Armenia.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Dos cosas antes de pedir</h2>
+
+      <dl class="mt-12 divide-y divide-hairline border-y border-hairline" data-reveal="stagger">
+        <div class="flex flex-col gap-2 py-6">
+          <dt class="font-medium">¿El sin licor también se vende por unidad?</dt>
+          <dd class="text-sm text-fg-muted">
+            No. El sin licor es solo por mayor, desde 20 unidades y sobre pedido. Al detal
+            manejamos únicamente con licor.
+          </dd>
+        </div>
+        <div class="flex flex-col gap-2 py-6">
+          <dt class="font-medium">¿Puedo pedirlo para más tarde?</dt>
+          <dd class="text-sm text-fg-muted">
+            Sí, con mínimo 3 horas de anticipación. Nos dices día y hora cuando escribas.
+          </dd>
+        </div>
+      </dl>
+
+      <a href={waLink("retail-order")} class="btn btn--primary mt-10">
+        Pedir por WhatsApp
+        <span class="btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+</Base>

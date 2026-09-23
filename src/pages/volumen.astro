@@ -1,0 +1,123 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { waLink } from "../lib/whatsapp";
+import mayoristas from "../assets/real-life/mayoristas-01.jpg";
+import eventos from "../assets/real-life/eventos-01.jpg";
+
+const tramos = [
+  { rango: "20 – 49", licor: "$4.900", sin: "$4.800" },
+  { rango: "50 – 99", licor: "$4.700", sin: "$4.500" },
+  { rango: "100 o más", licor: "$4.500", sin: "$4.200" },
+];
+---
+
+<Base
+  titulo="Granizados por mayor — Trabix"
+  descripcion="Desde 20 unidades, con licor desde $4.500 y sin licor desde $4.200. Para revender o para tu evento. Cotiza por WhatsApp."
+  seccion="volumen"
+>
+  <section data-hero class="px-5 pt-32 pb-16 sm:pt-40">
+    <div class="mx-auto max-w-6xl">
+      <p class="eyebrow hero__eyebrow">Desde 20 unidades</p>
+      <h1 class="display hero__title mt-5 text-[2.9rem] sm:text-7xl">
+        Por mayor, con licor o sin licor.
+      </h1>
+      <p class="lead hero__lead mt-6 text-base sm:text-lg">
+        Entre más pides, menos te cuesta la unidad. El sin licor solo se maneja acá, sobre
+        pedido, y es el que funciona para eventos familiares y de niños.
+      </p>
+
+      <div class="hero__actions mt-8">
+        <a href={waLink("mayoristas-quote")} class="btn btn--primary">
+          Cotizar por WhatsApp
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-14">
+    <div class="mx-auto max-w-4xl">
+      <div class="overflow-hidden rounded-[var(--radius-surface)] border border-hairline" data-reveal>
+        <table class="w-full border-collapse text-left">
+          <caption class="sr-only">Precio por unidad según cantidad</caption>
+          <thead>
+            <tr class="border-b border-hairline text-xs tracking-wider text-fg-muted uppercase">
+              <th scope="col" class="px-5 py-4 font-medium">Unidades</th>
+              <th scope="col" class="px-5 py-4 text-right font-medium">Con licor</th>
+              <th scope="col" class="px-5 py-4 text-right font-medium">Sin licor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tramos.map((t, i) => (
+                <tr class:list={[i > 0 && "border-t border-hairline"]}>
+                  <th scope="row" class="px-5 py-5 font-normal">
+                    {t.rango}
+                  </th>
+                  <td class="px-5 py-5 text-right font-mono tabular-nums">{t.licor}</td>
+                  <td class="px-5 py-5 text-right font-mono tabular-nums">{t.sin}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-fg-muted">
+        Precio por unidad. El domicilio se cobra aparte y depende de a dónde va.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Para tu evento</h2>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-2" data-reveal="stagger">
+        <div class="flex flex-col gap-3 rounded-[var(--radius-surface)] border border-hairline p-7">
+          <h3 class="text-xl font-medium tracking-tight">Nosotros ponemos todo</h3>
+          <p class="text-sm text-fg-muted">
+            Llevamos equipo, producto y toda la logística, sin costo para quien organiza.
+            Tú decides si compras a precio por mayor y pones tu propio precio de venta, o si
+            lo manejamos en consignación y cuadramos sobre lo que de verdad se venda.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          {
+            [
+              { img: eventos, alt: "Trabix en un evento" },
+              { img: mayoristas, alt: "Pedido por mayor de granizados Trabix" },
+            ].map(({ img, alt }) => (
+              <div class="aspect-[3/4] overflow-hidden rounded-[var(--radius-surface)] border border-hairline">
+                <Image
+                  src={img}
+                  alt={alt}
+                  widths={[240, 400, 600]}
+                  sizes="(min-width: 768px) 22vw, 47vw"
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                  data-parallax="8"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <a href={waLink("eventos-info")} class="btn btn--primary mt-10">
+        Hablar de mi evento
+        <span class="btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+</Base>

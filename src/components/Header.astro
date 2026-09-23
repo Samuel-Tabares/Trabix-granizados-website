@@ -1,0 +1,171 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/brand/logo-trabix.png";
+import { waLink } from "../lib/whatsapp";
+
+interface Props {
+  seccion?: "inicio" | "carta" | "retail" | "volumen" | "alianzas";
+}
+const { seccion } = Astro.props;
+
+const links = [
+  { href: "/carta/", label: "Carta", key: "carta" },
+  { href: "/retail/", label: "Pedir", key: "retail" },
+  { href: "/volumen/", label: "Por mayor", key: "volumen" },
+  { href: "/alianzas/", label: "Alianzas", key: "alianzas" },
+] as const;
+
+/*
+  El CTA del header cambia según dónde está el visitante. En la carta,
+  mandarlo "a la carta" es un botón que no hace nada, así que ahí pasa a ser la
+  salida a WhatsApp. Una etiqueta por intención, nunca dos formas de decir lo
+  mismo en la misma página.
+*/
+const enCarta = seccion === "carta";
+const ctaHref = enCarta ? waLink("carta-order") : "/carta/";
+const ctaLabel = enCarta ? "Escribir" : "Ver carta";
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-0 z-[100] px-4 pt-4 sm:pt-6">
+  <div
+    class="pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-full border border-hairline bg-bg/70 py-2 pr-2 pl-3 backdrop-blur-xl"
+  >
+    <a href="/" class="flex items-center gap-2" aria-label="Trabix, ir al inicio">
+      <Image src={logo} alt="" width={30} height={30} densities={[1, 2]} class="rounded-full" />
+      <span class="text-[0.95rem] font-semibold tracking-tight">Trabix</span>
+    </a>
+
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Principal">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            aria-current={seccion === l.key ? "page" : undefined}
+            class:list={[
+              "rounded-full px-3.5 py-2 text-sm transition-colors duration-300",
+              seccion === l.key ? "text-fg" : "text-fg-muted hover:text-fg",
+            ]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-1.5">
+      <a href={ctaHref} class="btn btn--primary !py-2.5 !pr-2 !pl-4 !text-sm">
+        {ctaLabel}
+        <span class="btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+
+      <button
+        type="button"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="nav-overlay"
+        aria-label="Abrir menú"
+        class="grid h-10 w-10 place-items-center rounded-full border border-hairline md:hidden"
+      >
+        <span class="relative block h-3 w-4">
+          <span
+            class="absolute inset-x-0 top-0 h-px origin-center bg-fg transition-transform duration-500"
+            data-bar="top"></span>
+          <span
+            class="absolute inset-x-0 bottom-0 h-px origin-center bg-fg transition-transform duration-500"
+            data-bar="bottom"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!--
+  Overlay del menú. Es `hidden` de entrada y solo JS lo abre; si el script no
+  corre, el visitante sigue teniendo los links del footer y el CTA de la carta,
+  que son enlaces normales. El menú nunca es la única vía a ninguna página.
+-->
+<div
+  id="nav-overlay"
+  hidden
+  class="fixed inset-0 z-[99] bg-bg/90 backdrop-blur-2xl md:hidden"
+>
+  <nav class="flex h-full flex-col justify-center gap-2 px-8" aria-label="Menú">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          data-nav-item
+          class="display translate-y-8 text-4xl opacity-0 transition-[transform,opacity] duration-500"
+          style="transition-timing-function: var(--ease-out-soft)"
+        >
+          {l.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const overlay = document.getElementById("nav-overlay");
+
+  if (toggle && overlay) {
+    const items = Array.from(overlay.querySelectorAll<HTMLElement>("[data-nav-item]"));
+    const top = toggle.querySelector<HTMLElement>('[data-bar="top"]');
+    const bottom = toggle.querySelector<HTMLElement>('[data-bar="bottom"]');
+    let abierto = false;
+
+    const pintar = () => {
+      toggle.setAttribute("aria-expanded", String(abierto));
+      toggle.setAttribute("aria-label", abierto ? "Cerrar menú" : "Abrir menú");
+      // Las dos barras rotan y se juntan en el centro para formar la X.
+      if (top) top.style.transform = abierto ? "translateY(5.5px) rotate(45deg)" : "";
+      if (bottom) bottom.style.transform = abierto ? "translateY(-5.5px) rotate(-45deg)" : "";
+      document.documentElement.style.overflow = abierto ? "hidden" : "";
+
+      if (abierto) {
+        overlay.hidden = false;
+        // Un frame de margen para que la transición tenga desde dónde salir.
+        requestAnimationFrame(() => {
+          items.forEach((item, i) => {
+            item.style.transitionDelay = `${60 + i * 55}ms`;
+            item.style.transform = "translateY(0)";
+            item.style.opacity = "1";
+          });
+        });
+      } else {
+        items.forEach((item) => {
+          item.style.transitionDelay = "0ms";
+          item.style.transform = "";
+          item.style.opacity = "";
+        });
+        setTimeout(() => {
+          if (!abierto) overlay.hidden = true;
+        }, 300);
+      }
+    };
+
+    toggle.addEventListener("click", () => {
+      abierto = !abierto;
+      pintar();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && abierto) {
+        abierto = false;
+        pintar();
+      }
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) {
+        abierto = false;
+        pintar();
+      }
+    });
+  }
+</script>

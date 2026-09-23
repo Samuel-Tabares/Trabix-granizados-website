@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Trabix — sistema de diseño
+
+   Regla que ordena todo: la página es neutra, el color lo ponen los granizados.
+   Las láminas de producto son ilustraciones a sangre, saturadas y opacas. Si la
+   interfaz también grita, compiten y no gana ninguna. Un solo acento, fondo casi
+   neutro, y las fotos como único punto de saturación.
+
+   Esto reemplaza la paleta anterior (12 acentos + glassmorphism). `brand_identity.md`
+   documenta esa paleta vieja y queda obsoleto hasta que se reescriba.
+   ========================================================================== */
+
+@theme {
+  /* Neutros fríos. Un hilo de hielo en el gris para que no sea un neutro cualquiera,
+     pero lejos del cyan saturado del sitio viejo. */
+  --color-ice-50: #f8fafa;
+  --color-ice-100: #eef2f3;
+  --color-ice-200: #dde4e6;
+  --color-ice-300: #c2cdd1;
+  --color-ice-500: #6b7d83;
+  --color-ice-700: #35474d;
+  --color-ice-900: #16262b;
+  --color-ice-950: #0b1619;
+
+  /* Acento único. Derivado del berry de marca pero bajado de saturación: el
+     #ff5ca8 original es 100% S y se pelea con cada lámina de producto. */
+  --color-berry: #e5237b;
+  --color-berry-deep: #b81260;
+
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  /* SHAPE CONSISTENCY LOCK — la regla documentada, seguida en todo el sitio:
+     interactivo = pill, superficies = 20px, chips/inputs = 10px. Nada más. */
+  --radius-surface: 20px;
+  --radius-chip: 10px;
+
+  /* Una sola curva para todo el sitio. Nada de ease-in-out. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-hairline: var(--hairline);
+}
+
+:root {
+  color-scheme: light;
+  --bg: var(--color-ice-50);
+  --bg-raised: #ffffff;
+  --fg: var(--color-ice-950);
+  --fg-muted: var(--color-ice-500);
+  --hairline: color-mix(in oklab, var(--color-ice-950) 10%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: var(--color-ice-950);
+    --bg-raised: #101f23;
+    --fg: var(--color-ice-50);
+    --fg-muted: var(--color-ice-300);
+    --hairline: color-mix(in oklab, var(--color-ice-50) 14%, transparent);
+  }
+}
+
+html {
+  background: var(--bg);
+  /* Sin scroll-behavior: smooth — Lenis maneja el scroll y dos capas se pelean. */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* overflow-x oculto en el contenedor, no en body: en iOS Safari romper esto
+     mata el position:sticky de toda la página. */
+}
+
+/* Tipografía display. tracking-tighter de verdad, no el -0.01em decorativo. */
+.display {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.lead {
+  color: var(--fg-muted);
+  line-height: 1.6;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* Eyebrow: pill microscópica antes de cada H1/H2. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--hairline);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Botones. Pill siempre, con el icono anidado en su propio círculo.
+   `:active` baja 1px — retroalimentación física, no cambio de color solamente.
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  padding: 0.85rem 1rem 0.85rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    transform 0.4s var(--ease-out-soft),
+    background-color 0.4s var(--ease-out-soft),
+    border-color 0.4s var(--ease-out-soft);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.btn__icon {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-out-soft);
+}
+
+.btn:hover .btn__icon {
+  transform: translateX(2px);
+}
+
+.btn--primary {
+  background: var(--color-berry);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: var(--color-berry-deep);
+}
+
+.btn--primary .btn__icon {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.btn--ghost {
+  border: 1px solid var(--hairline);
+  color: var(--fg);
+}
+
+.btn--ghost:hover {
+  border-color: color-mix(in oklab, var(--fg) 30%, transparent);
+}
+
+.btn--ghost .btn__icon {
+  background: color-mix(in oklab, var(--fg) 8%, transparent);
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-berry);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Las láminas de producto son 485x650. Reservar la caja evita CLS. */
+.aspect-lamina {
+  aspect-ratio: 485 / 650;
+}
+
+img {
+  height: auto;
+}
+
+::selection {
+  background: var(--color-berry);
+  color: #fff;
+}

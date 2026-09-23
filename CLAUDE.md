@@ -9,11 +9,38 @@ Lee `ROADMAP.md` junto con este archivo al iniciar sesión.
 
 ## Stack
 
-- **Astro** + Vercel (estático; el build corre en Vercel).
-- **Capa de movimiento aditiva**: GSAP + ScrollTrigger + SplitText + Lenis, **vendorizados en
-  `public/vendor/`, nunca desde un CDN**. Patrón tomado de `~/Desktop/growup/elipsis` y
-  sistematizado en la skill `web-motion` (ya inyectada en `.claude/skills/`).
+- **Astro 7** (estático, sin adapter) + Tailwind v4 (`@tailwindcss/vite`) + Vercel.
+- **Capa de movimiento aditiva**: GSAP 3.15 + ScrollTrigger + SplitText + Lenis 1.3.26, instalados
+  por npm y empaquetados por Vite — **mismo origen, nunca un CDN**. Un CDN bloqueado tumbaba la
+  capa entera en elipsis sin dejar rastro; el bundle propio resuelve eso sin copiar `.min.js` a
+  mano. Patrón tomado de `~/Desktop/growup/elipsis` y sistematizado en la skill `web-motion`.
+- Tier 2 (motion editorial). **Sin Three.js**: su gate `affordsWebGL()` devuelve false bajo 900px y
+  acá el tráfico objetivo es celular casi entero, así que serían ~120 KB que nadie llega a ver.
 - Sin base de datos propia. Los datos dinámicos (sabores disponibles) los sirve `crm-app`.
+
+```
+src/
+├── layouts/Base.astro       shell + contrato de fallo de la animación
+├── components/              Header, Footer, Carta, PhoneChat
+├── lib/                     motion.js · carta.ts · whatsapp.ts
+├── data/carta.json          fallback horneado del catálogo
+├── assets/                  láminas de producto y fotos reales (optimizadas por Astro)
+└── pages/                   index · carta · retail · volumen · alianzas
+```
+
+## El sistema de diseño en una frase
+
+**La página es neutra y el color lo ponen los granizados.** Las láminas de producto son
+ilustraciones a sangre, saturadas y opacas (485×650); si la interfaz también grita, compiten y no
+gana ninguna. De ahí sale todo lo demás: un solo acento (`--color-berry`, el berry de marca bajado
+de saturación), neutros fríos, y las fotos como único punto de color.
+
+Reglas que no se rompen porque ya están puestas:
+- **Un acento, todo el sitio.** Nada de un CTA azul en la sección 7.
+- **Un solo juego de radios**: interactivo = pill, superficies = 20px, chips = 10px.
+- **Una sola curva**: `--ease-out-soft`. Nada de `ease-in-out`.
+- **Una etiqueta por intención.** "Ver carta" es "Ver carta" en todas partes; en `/carta/` el CTA
+  del header cambia a "Escribir" porque mandar a la carta desde la carta es un botón muerto.
 
 ## La regla que no se rompe: el contenido nunca depende de la animación
 

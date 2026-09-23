@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+import Carta from "../components/Carta.astro";
+---
+
+<Base
+  titulo="Carta — Trabix Granizados"
+  descripcion="Los sabores de granizado que hay disponibles hoy. Elige los tuyos y pide por WhatsApp."
+  seccion="carta"
+>
+  {/*
+    Hero deliberadamente corto. La carta es herramienta de punto de venta: se
+    abre tocando una tag NFC con el cliente enfrente, así que los sabores tienen
+    que estar casi de inmediato. Un hero de pantalla completa acá es una pantalla
+    de scroll entre el cliente y el producto.
+  */}
+  <section data-hero class="px-5 pt-28 pb-6 sm:pt-36 sm:pb-10">
+    <div class="mx-auto max-w-6xl">
+      <p class="eyebrow hero__eyebrow">Carta del día</p>
+      <h1 class="display hero__title mt-4 text-[2rem] sm:text-5xl">
+        Esto es lo que hay hoy.
+      </h1>
+      <p class="lead hero__lead mt-3 text-sm sm:text-base">
+        Toca los que quieras y te llevamos a WhatsApp con la lista lista.
+      </p>
+    </div>
+  </section>
+
+  <Carta />
+</Base>

@@ -3,39 +3,18 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/retail.html",
-      "destination": "/retail/",
-      "permanent": true
+      "source": "/c",
+      "destination": "/carta/?src=nfc",
+      "permanent": false
     },
     {
-      "source": "/volumen.html",
-      "destination": "/volumen/",
-      "permanent": true
+      "source": "/qr",
+      "destination": "/carta/?src=qr",
+      "permanent": false
     },
-    {
-      "source": "/alianzas.html",
-      "destination": "/alianzas/",
-      "permanent": true
-    }
-  ],
-  "headers": [
-    {
-      "source": "/site-assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/(styles.css|script.js)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    }
+    { "source": "/menu", "destination": "/carta/", "permanent": true },
+    { "source": "/retail.html", "destination": "/retail/", "permanent": true },
+    { "source": "/volumen.html", "destination": "/volumen/", "permanent": true },
+    { "source": "/alianzas.html", "destination": "/alianzas/", "permanent": true }
   ]
 }

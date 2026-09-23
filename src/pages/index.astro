@@ -1,0 +1,160 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PhoneChat from "../components/PhoneChat.astro";
+import { waLink } from "../lib/whatsapp";
+import retail01 from "../assets/real-life/retail-01.jpg";
+import retail02 from "../assets/real-life/retail-02.jpg";
+import eventos from "../assets/real-life/eventos-01.jpg";
+import mayoristas from "../assets/real-life/mayoristas-01.jpg";
+
+const pasos = [
+  { n: "01", t: "Congelar", d: "Llega listo. Lo metes al congelador y ya." },
+  { n: "02", t: "Abrir", d: "Sobre sellado de 9 onzas, con pitillo." },
+  { n: "03", t: "Consumir", d: "Sin máquina, sin vasos, sin nada más." },
+];
+---
+
+<Base
+  titulo="Trabix Granizados — congelar, abrir y consumir"
+  descripcion="Granizados sellados de 9 onzas, listos para congelar y tomar. Sin máquina. Domicilio gratis en Armenia desde 6 unidades. Pide por WhatsApp."
+  seccion="inicio"
+>
+  <!-- ============================ HERO ============================ -->
+  <section data-hero class="px-5 pt-32 pb-16 sm:pt-40 sm:pb-24">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+      <div>
+        <p class="eyebrow hero__eyebrow">Armenia, Quindío</p>
+        <h1 class="display hero__title mt-5 text-[2.9rem] sm:text-7xl">
+          Congelar, abrir y consumir.
+        </h1>
+        <p class="lead hero__lead mt-6 text-base sm:text-lg">
+          Granizados sellados de 9 onzas con pitillo. No necesitas granizadora ni nada:
+          solo un congelador. Pides por WhatsApp y te llegan listos.
+        </p>
+
+        <div class="hero__actions mt-8 flex flex-wrap gap-3">
+          <a href="/carta/" class="btn btn--primary">
+            Ver carta
+            <span class="btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+          <a href={waLink("retail-order")} class="btn btn--ghost">
+            Pedir por WhatsApp
+            <span class="btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <p class="hero__badge mt-6 text-sm text-fg-muted">
+          Domicilio <span class="text-fg">gratis en Armenia</span> de 6 a 19 unidades.
+        </p>
+      </div>
+
+      <div class="hero__stat">
+        <PhoneChat />
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PRUEBA VISUAL ====================== -->
+  <section class="px-5 py-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {
+          [
+            { img: retail01, alt: "Granizados Trabix listos para entregar" },
+            { img: retail02, alt: "Sobres de granizado Trabix" },
+            { img: eventos, alt: "Trabix en un evento" },
+            { img: mayoristas, alt: "Pedido por mayor de granizados Trabix" },
+          ].map(({ img, alt }) => (
+            <div class="aspect-[4/5] overflow-hidden rounded-[var(--radius-surface)] border border-hairline">
+              <Image
+                src={img}
+                alt={alt}
+                widths={[240, 400, 600]}
+                sizes="(min-width: 1024px) 24vw, 47vw"
+                loading="lazy"
+                class="h-full w-full object-cover"
+                data-parallax="8"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= LOS 3 PASOS ========================= -->
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Sin máquina. En serio.</h2>
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-hairline sm:grid-cols-3" data-reveal="stagger">
+        {
+          pasos.map((p) => (
+            <div class="flex flex-col gap-3 bg-bg p-7">
+              <span class="font-mono text-xs text-berry">{p.n}</span>
+              <h3 class="text-xl font-medium tracking-tight">{p.t}</h3>
+              <p class="text-sm text-fg-muted">{p.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== CANALES ========================== -->
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>¿Cómo los quieres?</h2>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-3" data-reveal="stagger">
+        <a
+          href="/retail/"
+          class="group flex flex-col justify-between gap-10 rounded-[var(--radius-surface)] border border-hairline p-7 transition-colors duration-500 hover:border-fg/25"
+        >
+          <div>
+            <h3 class="text-xl font-medium tracking-tight">Para tomar</h3>
+            <p class="mt-2 text-sm text-fg-muted">
+              Con licor, $8.000 la unidad y la segunda a mitad de precio.
+            </p>
+          </div>
+          <span class="text-sm text-berry">Ver cómo pedir →</span>
+        </a>
+
+        <a
+          href="/volumen/"
+          class="group flex flex-col justify-between gap-10 rounded-[var(--radius-surface)] border border-hairline p-7 transition-colors duration-500 hover:border-fg/25"
+        >
+          <div>
+            <h3 class="text-xl font-medium tracking-tight">Por mayor</h3>
+            <p class="mt-2 text-sm text-fg-muted">
+              Desde 20 unidades, con licor o sin licor. Para revender o para un evento.
+            </p>
+          </div>
+          <span class="text-sm text-berry">Ver precios →</span>
+        </a>
+
+        <a
+          href="/alianzas/"
+          class="group flex flex-col justify-between gap-10 rounded-[var(--radius-surface)] border border-hairline p-7 transition-colors duration-500 hover:border-fg/25"
+        >
+          <div>
+            <h3 class="text-xl font-medium tracking-tight">Para vender</h3>
+            <p class="mt-2 text-sm text-fg-muted">
+              Empieza con poco y te acompañamos con logística y marca.
+            </p>
+          </div>
+          <span class="text-sm text-berry">Ver el modelo →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

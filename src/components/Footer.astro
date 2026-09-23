@@ -1,0 +1,40 @@
+---
+import { waLink } from "../lib/whatsapp";
+---
+
+<footer class="border-t border-hairline px-5 py-14">
+  <div class="mx-auto flex max-w-5xl flex-col gap-10">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <p class="display max-w-md text-2xl sm:text-3xl">
+        Escríbenos y armamos el pedido por WhatsApp.
+      </p>
+      <a href={waLink("retail-order")} class="btn btn--primary self-start">
+        Escribir por WhatsApp
+        <span class="btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+            <path
+              d="M5 12h14m-6-6 6 6-6 6"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+
+    <nav class="flex flex-wrap gap-x-6 gap-y-3 text-sm text-fg-muted" aria-label="Pie de página">
+      <a href="/carta/" class="transition-colors hover:text-fg">Carta</a>
+      <a href="/retail/" class="transition-colors hover:text-fg">Pedir</a>
+      <a href="/volumen/" class="transition-colors hover:text-fg">Por mayor</a>
+      <a href="/alianzas/" class="transition-colors hover:text-fg">Alianzas</a>
+    </nav>
+
+    <div
+      class="flex flex-col gap-2 border-t border-hairline pt-6 text-xs text-fg-muted sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>Trabix Granizados · Armenia, Quindío</p>
+      <p>Producto con licor: venta exclusiva para mayores de 18 años.</p>
+    </div>
+  </div>
+</footer>

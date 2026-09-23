@@ -1,0 +1,126 @@
+{
+  "_comment": "Fallback horneado en el build. La fuente de verdad es la tabla `flavor` del Postgres de Railway, administrada desde crm-app. Mientras ese panel no exista, este archivo ES el catálogo. Los flavor_id son los mismos de trabix-bot/config/messages.toml y los guarda order_items.flavor — no renombrarlos.",
+  "actualizado": "2026-09-22",
+  "sabores": [
+    {
+      "flavor_id": "liquor_maracumango_ron_blanco",
+      "nombre": "Maracumango Ron blanco",
+      "nombre_base": "Maracumango",
+      "tipo": "con_licor",
+      "descripcion": "Maracuyá y mango con ron blanco.",
+      "foto": "maracumango-ron-blanco.png",
+      "activo": true,
+      "orden": 1
+    },
+    {
+      "flavor_id": "liquor_blueberry_vodka",
+      "nombre": "Blueberry Vodka",
+      "nombre_base": "Blueberry",
+      "tipo": "con_licor",
+      "descripcion": "Arándano con vodka.",
+      "foto": "blueberry-vodka.png",
+      "activo": true,
+      "orden": 2
+    },
+    {
+      "flavor_id": "liquor_uva_vodka",
+      "nombre": "Uva Vodka",
+      "nombre_base": "Uva",
+      "tipo": "con_licor",
+      "descripcion": "Uva con vodka.",
+      "foto": "uva-vodka.png",
+      "activo": true,
+      "orden": 3
+    },
+    {
+      "flavor_id": "liquor_bonbonbum_whiskey",
+      "nombre": "Bonbonbum Whiskey",
+      "nombre_base": "Bonbonbum",
+      "tipo": "con_licor",
+      "descripcion": "Fresa estilo bombón con whiskey.",
+      "foto": "bonbonbum-whiskey.png",
+      "activo": true,
+      "orden": 4
+    },
+    {
+      "flavor_id": "liquor_bonbonbum_fresa_champagne",
+      "nombre": "Bonbonbum fresa champaña",
+      "nombre_base": "Bonbonbum",
+      "tipo": "con_licor",
+      "descripcion": "Fresa estilo bombón con champaña.",
+      "foto": "bonbonbum-fresa-champagne.png",
+      "activo": true,
+      "orden": 5
+    },
+    {
+      "flavor_id": "liquor_smirnoff_lulo",
+      "nombre": "Smirnoff de lulo",
+      "nombre_base": "Smirnoff lulo",
+      "tipo": "con_licor",
+      "descripcion": "Lulo con Smirnoff.",
+      "foto": "smirnoff-lulo.png",
+      "activo": true,
+      "orden": 6
+    },
+    {
+      "flavor_id": "liquor_smirnoff_tamarindo",
+      "nombre": "Smirnoff de tamarindo",
+      "nombre_base": "Smirnoff tamarindo",
+      "tipo": "con_licor",
+      "descripcion": "Tamarindo con Smirnoff.",
+      "foto": null,
+      "activo": true,
+      "orden": 7
+    },
+    {
+      "flavor_id": "liquor_manzana_verde_tequila",
+      "nombre": "Manzana verde Tequila",
+      "nombre_base": "Manzana verde",
+      "tipo": "con_licor",
+      "descripcion": "Manzana verde con tequila.",
+      "foto": "manzana-verde-tequila.png",
+      "activo": true,
+      "orden": 8
+    },
+    {
+      "flavor_id": "non_liquor_maracumango",
+      "nombre": "Maracumango",
+      "nombre_base": "Maracumango",
+      "tipo": "sin_licor",
+      "descripcion": "Maracuyá y mango, sin alcohol.",
+      "foto": "maracumango.png",
+      "activo": true,
+      "orden": 9
+    },
+    {
+      "flavor_id": "non_liquor_manzana_verde",
+      "nombre": "Manzana verde",
+      "nombre_base": "Manzana verde",
+      "tipo": "sin_licor",
+      "descripcion": "Manzana verde, sin alcohol.",
+      "foto": "manzana-verde.png",
+      "activo": true,
+      "orden": 10
+    },
+    {
+      "flavor_id": "non_liquor_bonbonbum",
+      "nombre": "Bonbonbum",
+      "nombre_base": "Bonbonbum",
+      "tipo": "sin_licor",
+      "descripcion": "Fresa estilo bombón, sin alcohol.",
+      "foto": "bonbonbum.png",
+      "activo": true,
+      "orden": 11
+    },
+    {
+      "flavor_id": "non_liquor_blueberry",
+      "nombre": "Blueberry",
+      "nombre_base": "Blueberry",
+      "tipo": "sin_licor",
+      "descripcion": "Arándano, sin alcohol.",
+      "foto": "blueberry.png",
+      "activo": true,
+      "orden": 12
+    }
+  ]
+}
