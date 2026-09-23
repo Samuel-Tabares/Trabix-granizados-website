@@ -2,9 +2,9 @@
 
 > Léeme al iniciar sesión, junto con `CLAUDE.md`. Última revisión: 2026-09-22.
 
-## Estado: rediseño total en curso
+## Estado: rediseñado, con el catálogo ya conectado de punta a punta
 
-El 2026-09-22 se decidió reconstruir el sitio entero. Deja de ser solo respaldo de credibilidad:
+El 2026-09-22 se reconstruyó el sitio entero. Deja de ser solo respaldo de credibilidad:
 la **carta interactiva** lo convierte en herramienta de punto de venta, porque reemplaza la carta
 física y se abre desde el celular del cliente en un evento.
 
@@ -18,60 +18,55 @@ pedido se cierra en el bot.
 
 ---
 
-## Fase 1 — Rediseño en Astro (este repo)
+## Fase 1 — Rediseño en Astro — **HECHO (2026-09-22), falta publicar**
 
-De HTML plano a Astro. De 12 colores de acento y glassmorphism a minimalista. Mobile-first de
-verdad, no un desktop encogido. Muy animado, con la capa de movimiento de `~/Desktop/growup/elipsis`
-(GSAP + ScrollTrigger + SplitText + Lenis vendorizados en `public/vendor/`, nunca CDN).
+- [x] Astro 7 + Tailwind v4, estático, sin adapter. Se conservan los redirects de `vercel.json`.
+- [x] Paleta minimalista: un solo acento y neutros fríos. La tesis es que **el color lo ponen las
+      láminas de producto**, que son ilustraciones a sangre y saturadas.
+- [x] Las 4 páginas, cada una con su CTA de WhatsApp precargado.
+- [x] Capa de movimiento (GSAP + Lenis por npm, empaquetados por Vite — mismo origen, sin CDN) con
+      el contrato de fallo de elipsis. Sin Three.js: su gate se apaga bajo 900px y acá el tráfico
+      es celular casi entero.
+- [x] Mockup de chat de WhatsApp en CSS puro.
+- [x] Verificado con Playwright en iPhone 14: con el JS bloqueado los `h1` siguen visibles, bajo
+      `prefers-reduced-motion` nada se mueve ni falta, ninguna página desborda y la consola queda
+      limpia.
 
-- [ ] Scaffold de Astro + adapter estático de Vercel, conservando los `redirects` y `headers` de
-      `vercel.json`.
-- [ ] Definir la paleta minimalista nueva. **`../brand_identity.md` no sirve de referencia** —
-      fue extraído del CSS actual y documenta justo lo que se elimina. Se reescribe al final, como
-      salida.
-- [ ] Layout base + las 4 páginas (`/`, `retail/`, `volumen/`, `alianzas/`), cada una con su propio
-      CTA de WhatsApp precargado.
-- [ ] Capa de movimiento con el contrato de fallo de elipsis: `.js` en `<html>` + timeout, modo
-      calm bajo `prefers-reduced-motion`, `?motion=debug` para diagnosticar en el aparato que falla.
-- [ ] Mockup de chat de WhatsApp en CSS/SVG puro (el de `elipsis/contact-preview/`), que es lo que
-      más le gustó a Samuel.
-- [ ] Fotos reales de `site-assets/real-life/` como eje de confianza.
-- [ ] Verificación con Playwright en viewport de celular **primero**.
+## Fase 2 — Carta interactiva — **HECHA (2026-09-22), falta publicar**
 
-## Fase 2 — Carta interactiva
+- [x] `/carta`: 12 sabores, filtro con/sin licor, selección por toque y barra que arma el mensaje
+      de WhatsApp con los sabores elegidos. Sin checkout.
+- [x] `/c` y `/qr` como redirects **307** a `/carta/?src=`. Es lo único que se graba en la tag;
+      temporales a propósito, porque un 308 se cachea para siempre en el navegador y dejaría la tag
+      clavada al destino viejo. NTAG213 basta.
+- [x] Lee de una sola URL (`crm-app`) con fallback horneado, para que nunca salga vacía.
 
-- [ ] Ruta `/carta` (o `/menu`), la pieza más animada del sitio.
-- [ ] Selección de sabores → CTA de WhatsApp con la selección precargada en el mensaje. Sin
-      checkout.
-- [ ] Ruta corta `/c` con redirect en `vercel.json`, que es **lo único que se graba en las tags
-      NFC** — nunca la URL final, para no recomprar tags al cambiar el destino.
-- [ ] QR apuntando al mismo destino. Patrón híbrido: QR impreso + chip NFC detrás de la misma
-      etiqueta. NTAG213 basta para una URL.
-- [ ] La carta lee de **una sola URL** desde el día uno, con fallback horneado en el build para que
-      nunca salga vacía.
+## Fase 3 — Panel de sabores en `crm-app` — **HECHO y desplegado (2026-09-22)**
 
-## Fase 3 — Panel de sabores en `crm-app` (fuente de verdad)
+- [x] Tabla `flavor` (migración `0005`) + seed idempotente de los 12 sabores (`0006`).
+- [x] Panel `/settings/sabores`: agregar, foto, nombre, nombre base, descripción, on/off.
+      **Sin botón de eliminar**, solo apagar — ver la trampa 1 abajo.
+- [x] Fotos a un bucket de Railway (`trabix-sabores`, región `iad`), servidas por
+      `/api/carta/foto/[key]`. Los buckets de Railway son **privados** y la plataforma no admite
+      buckets públicos, así que se proxea en vez de firmar URLs: una presigned URL caduca dentro de
+      la carta cacheada y deja las fotos rotas en pleno evento.
+- [x] `GET /api/carta` público con CORS. Verificado en producción: 12 sabores, 8 con licor y 4 sin.
 
-Vive en `crm-app`, no acá, pero la carta depende de esto. **Ver `crm-app/ROADMAP.md`.**
+## Fase 4 — El bot lee el catálogo de `crm-app` — **HECHO y desplegado (2026-09-22, v1.30.0)**
 
-- [ ] Tabla `flavor` en el Postgres de Railway: `flavor_id`, `nombre`, `nombre_base`, `tipo`,
-      `descripcion`, `foto_url`, `activo`, `orden`.
-- [ ] Seed con los 12 sabores actuales de `../trabix-bot/config/messages.toml`.
-- [ ] Panel `/settings/sabores`: agregar sabor, foto, nombre, descripción, on/off, orden.
-      **Sin botón de eliminar** — ver la trampa 1 abajo.
-- [ ] Fotos a un **bucket de Railway**, mismo proyecto que el Postgres.
-- [ ] `GET /api/carta.json` público con CORS para el website.
+- [x] `src/bot/flavors.rs`, mismo patrón que `pricing.rs`. **Por HTTP, no por SQL**: el bot ya
+      consumía `/api/internal/pricing` de `crm-app` de esa forma, y seguir el patrón que existe
+      vale más que la conexión directa que la base compartida permitiría.
+- [x] Fallback compilado con los 12 sabores: si `crm-app` no responde al arranque el bot sigue
+      vendiendo. Verificado en producción — el primer deploy arrancó antes que `crm-app` y el log
+      dijo `initial flavor fetch failed, using compiled defaults`, que es justo lo que debía pasar.
+- [x] `show_menu_image` → `show_menu`: manda el link de la carta y el prompt pide además la lista
+      de sabores en texto en el mismo turno.
+- [x] `AMBIGUOUS_GROUPS` calculado en runtime agrupando por `base_name`.
 
-## Fase 4 — El bot lee de la BD
-
-Vive en `trabix-bot`. **Ver `trabix-bot/ROADMAP.md`.**
-
-- [ ] El catálogo sale de `config/messages.toml` y pasa a leerse del Postgres con SQLx. **Sin
-      HTTP**: bot y `crm-app` comparten el mismo Postgres físico.
-- [ ] Hoy el bot manda una **imagen** de menú (`menu_image_caption`). Pasa a mandar el **link de la
-      carta**, y a listar los sabores en el mismo mensaje cuando pregunten por el menú o los sabores.
-- [ ] `AMBIGUOUS_GROUPS` deja de estar hardcodeado y se calcula en runtime agrupando por
-      `nombre_base`.
+> **`CARTA_URL` está vacía a propósito** hasta que el website nuevo esté publicado. Con `/carta/`
+> devolviendo 404 en producción, el bot habría mandado un link roto a clientes reales; vacía, cae a
+> la imagen del menú de siempre. **Llenarla es el último paso del despliegue del website.**
 
 ### Las dos trampas de mover los sabores a la BD
 
@@ -79,11 +74,11 @@ Vive en `trabix-bot`. **Ver `trabix-bot/ROADMAP.md`.**
 foreign key. Todo pedido histórico apunta ahí; borrar deja huérfanos los pedidos viejos y rompe
 `/ventas` y los reportes. Soft delete siempre.
 
-**2. Un sabor nuevo puede reintroducir un bug ya arreglado.** `AMBIGUOUS_GROUPS` en
-`trabix-bot/src/ai/tools.rs` es el parche del incidente del 2026-07-19, donde el modelo adivinaba
-si el cliente quería la variante con o sin licor. Cubre 4 nombres base **escritos a mano**. Agregar
-"Mango" y luego "Mango Ron" desde el panel crea un par que esa lista no cubre, y el bot vuelve a
-adivinar en silencio. Por eso el `nombre_base` no es opcional.
+**2. El `nombre_base` es lo que evita un bug ya arreglado.** `AMBIGUOUS_GROUPS` era el parche del
+incidente del 2026-07-19, donde el modelo adivinaba si el cliente quería la variante con o sin
+licor, y cubría 4 nombres base escritos a mano. Ya no: los grupos se calculan agrupando por
+`base_name`. Pero eso solo funciona si al crear un sabor se pone el nombre base correcto — "Mango"
+y "Mango Ron" tienen que compartir la base `Mango` o el bot no sabrá que puede confundirlos.
 
 ---
 
@@ -93,8 +88,15 @@ adivinar en silencio. Por eso el `nombre_base` no es opcional.
 bot esté desplegado con el cambio, no antes. Y verificar el HTML de verdad, no este archivo: ya
 pasó que acá decía "HECHO" y el copy nunca mencionó el Grupo B, y quedó desalineado una semana.
 
-Mientras las fases 3 y 4 no estén, **la carta y el bot son dos catálogos distintos** y la carta
-puede prometer un sabor que el bot no ofrece.
+Desde el 2026-09-22 **la carta y el bot leen el mismo catálogo**, así que esa clase de
+desincronización ya no aplica a los sabores. Sigue aplicando a todo lo demás: precios, mínimos y
+reglas de domicilio.
+
+**Ojo con el desfase de build.** La carta se hornea en el build del website, así que apagar un
+sabor lo saca del bot al instante pero de la carta solo en el siguiente deploy. Para que un sabor
+agotado desaparezca de la carta hoy hay que republicar el sitio. Si eso molesta en la práctica, la
+salida es un fetch en cliente además del horneado, o un deploy hook de Vercel disparado desde el
+panel — está sin hacer a propósito, para ver primero si de verdad estorba.
 
 ## Reglas de negocio que el copy debe respetar
 
