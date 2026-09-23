@@ -12,9 +12,40 @@
       "destination": "/carta/?src=qr",
       "permanent": false
     },
-    { "source": "/menu", "destination": "/carta/", "permanent": true },
-    { "source": "/retail.html", "destination": "/retail/", "permanent": true },
-    { "source": "/volumen.html", "destination": "/volumen/", "permanent": true },
-    { "source": "/alianzas.html", "destination": "/alianzas/", "permanent": true }
+    {
+      "source": "/c/",
+      "destination": "/carta/?src=nfc",
+      "permanent": false
+    },
+    {
+      "source": "/qr/",
+      "destination": "/carta/?src=qr",
+      "permanent": false
+    },
+    {
+      "source": "/menu",
+      "destination": "/carta/",
+      "permanent": true
+    },
+    {
+      "source": "/menu/",
+      "destination": "/carta/",
+      "permanent": true
+    },
+    {
+      "source": "/retail.html",
+      "destination": "/retail/",
+      "permanent": true
+    },
+    {
+      "source": "/volumen.html",
+      "destination": "/volumen/",
+      "permanent": true
+    },
+    {
+      "source": "/alianzas.html",
+      "destination": "/alianzas/",
+      "permanent": true
+    }
   ]
 }
