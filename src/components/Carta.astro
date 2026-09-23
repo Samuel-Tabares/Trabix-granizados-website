@@ -37,12 +37,12 @@ const LAMINA_POR_FLAVOR: Record<string, string> = {
   liquor_bonbonbum_whiskey: "bonbonbum-whiskey.png",
   liquor_bonbonbum_fresa_champagne: "bonbonbum-fresa-champagne.png",
   liquor_smirnoff_lulo: "smirnoff-lulo.png",
+  liquor_smirnoff_tamarindo: "smirnoff-tamarindo.png",
   liquor_manzana_verde_tequila: "manzana-verde-tequila.png",
   non_liquor_maracumango: "maracumango.png",
   non_liquor_manzana_verde: "manzana-verde.png",
   non_liquor_bonbonbum: "bonbonbum.png",
   non_liquor_blueberry: "blueberry.png",
-  // liquor_smirnoff_tamarindo no tiene lámina todavía.
 };
 
 /** La foto del panel. Es la que manda cuando existe. */
@@ -130,10 +130,11 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
                     />
                   ) : (
                     /*
-                      Sabor sin foto de ningún lado. Hoy es el caso de Smirnoff
-                      de tamarindo. En vez de un ícono de imagen rota, el nombre
-                      a gran tamaño: se lee como decisión tipográfica, no como
-                      un hueco.
+                      Sabor sin foto en ningún lado. Hoy no le pasa a ninguno,
+                      pero pasará con el próximo sabor que se cree en el panel
+                      antes de subirle la lámina. En vez de un ícono de imagen
+                      rota, el nombre a gran tamaño: se lee como decisión
+                      tipográfica, no como un hueco.
                     */
                     <div class="flex h-full w-full items-end bg-ice-100 p-4 dark:bg-ice-900">
                       <span class="display text-2xl text-ice-700 dark:text-ice-300">
