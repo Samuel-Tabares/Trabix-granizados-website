@@ -73,12 +73,22 @@ export function disponibles(carta: Carta): Sabor[] {
 const fallback = normalizar(local)!;
 
 /**
- * Se resuelve en tiempo de build. Si PUBLIC_CARTA_URL no está definida —hoy no
- * lo está— devuelve el fallback sin intentar red, para no meterle latencia ni un
- * punto de fallo al build por una función que todavía no tiene a quién llamar.
+ * El panel de sabores de `crm-app`. No es secreto —la carta es pública— así que
+ * va como constante y no como variable de entorno: una URL pública en el
+ * dashboard de Vercel es una cosa más que se puede olvidar de configurar y un
+ * build que silenciosamente sirve datos viejos. `PUBLIC_CARTA_URL` la puede
+ * sobrescribir para apuntar a un crm-app local.
+ */
+const CARTA_URL = "https://crm-app-production-405d.up.railway.app/api/carta";
+
+/**
+ * Se resuelve en tiempo de build. Si `crm-app` no responde, responde lento o
+ * devuelve algo deforme, gana el fallback horneado y el build sigue: un sitio
+ * que no se puede publicar porque el CRM está dormido es peor que uno con la
+ * carta de ayer.
  */
 export async function obtenerCarta(): Promise<Carta> {
-  const url = import.meta.env.PUBLIC_CARTA_URL;
+  const url = import.meta.env.PUBLIC_CARTA_URL ?? CARTA_URL;
   if (!url) return fallback;
 
   try {
