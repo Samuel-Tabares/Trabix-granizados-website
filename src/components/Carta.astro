@@ -14,16 +14,21 @@ const laminas = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 /*
-  Las fotos vienen de dos sitios y las locales ganan.
+  Las fotos vienen de dos sitios y **manda la del panel**.
 
-  `crm-app` devuelve una URL absoluta a su proxy del bucket (los buckets de
-  Railway son privados). Pero las 11 láminas de los sabores originales ya están
-  en este repo, y servidas por Astro salen en WebP con srcset por breakpoint —
-  bastante mejor que proxearlas desde Railway en su tamaño original.
+  Las láminas locales salen mejor —Astro las sirve en WebP con srcset, ~35 KB
+  contra los ~550 KB del PNG original proxeado desde Railway— así que la primera
+  versión les daba prioridad. Estaba mal: si el panel es la fuente de verdad,
+  cambiar una foto ahí tiene que verse en la carta, y con la local ganando el
+  cambio quedaba invisible.
 
-  Así que primero se busca una lámina local por `flavor_id`, y solo si no hay se
-  usa la del panel. Eso también es lo que hace que migrar el catálogo a `crm-app`
-  no deje la carta sin fotos: el seed las crea con `photo_url` en NULL.
+  Entonces: si `crm-app` trae foto, se usa esa. La lámina local queda como
+  fallback para cuando el panel todavía no tiene ninguna, que es lo que evita
+  que la carta se quede sin fotos si el catálogo se recrea vacío.
+
+  El costo es el peso. Mitigarlo es optimizar la imagen al subirla en
+  `crm-app/apps/crm/src/app/api/sabores/foto/route.ts` (convertir a WebP antes
+  del PutObject), no volver a darle prioridad a la local.
 */
 const LAMINA_POR_FLAVOR: Record<string, string> = {
   liquor_maracumango_ron_blanco: "maracumango-ron-blanco.png",
@@ -40,16 +45,17 @@ const LAMINA_POR_FLAVOR: Record<string, string> = {
   // liquor_smirnoff_tamarindo no tiene lámina todavía.
 };
 
-function lamina(s: Sabor): ImageMetadata | null {
-  const archivo = LAMINA_POR_FLAVOR[s.flavor_id] ?? (s.foto?.startsWith("http") ? null : s.foto);
-  if (!archivo) return null;
-  return laminas[`../assets/products/${archivo}`]?.default ?? null;
+/** La foto del panel. Es la que manda cuando existe. */
+function fotoRemota(s: Sabor): string | null {
+  return s.foto?.startsWith("http") ? s.foto : null;
 }
 
-/** Foto subida desde el panel, cuando no hay lámina local para ese sabor. */
-function fotoRemota(s: Sabor): string | null {
-  if (LAMINA_POR_FLAVOR[s.flavor_id]) return null;
-  return s.foto?.startsWith("http") ? s.foto : null;
+/** Lámina local: solo se usa si el panel no tiene foto para ese sabor. */
+function lamina(s: Sabor): ImageMetadata | null {
+  if (fotoRemota(s)) return null;
+  const archivo = LAMINA_POR_FLAVOR[s.flavor_id] ?? s.foto;
+  if (!archivo) return null;
+  return laminas[`../assets/products/${archivo}`]?.default ?? null;
 }
 
 const conLicor = sabores.filter((s) => s.tipo === "con_licor");
