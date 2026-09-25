@@ -3,6 +3,7 @@ import "../styles/global.css";
 import "../styles/motion.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { INSTAGRAM_URL, FACEBOOK_URL } from "../lib/social";
 
 interface Props {
   titulo: string;
@@ -13,6 +14,22 @@ interface Props {
 
 const { titulo, descripcion, seccion } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/og-image.jpg", Astro.site);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Trabix Granizados",
+  url: Astro.site?.toString(),
+  image: ogImage.toString(),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Armenia",
+    addressRegion: "Quindío",
+    addressCountry: "CO",
+  },
+  sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
+};
 ---
 
 <!doctype html>
@@ -29,6 +46,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={descripcion} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="es_CO" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Trabix Granizados" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <meta name="theme-color" content="#f8fafa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b1619" media="(prefers-color-scheme: dark)" />
