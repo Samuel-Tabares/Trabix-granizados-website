@@ -1,0 +1,71 @@
+---
+import { INSTAGRAM_URL, INSTAGRAM_POSTS } from "../lib/social";
+---
+
+<!--
+  Embeds oficiales de Instagram (embed.js), no un widget de terceros: no hay
+  cuenta ni token que mantener. El precio es que NO se actualizan solos —
+  `INSTAGRAM_POSTS` en `src/lib/social.ts` hay que actualizarla a mano con los
+  permalinks nuevos cuando se publique en Instagram. embed.js solo se carga
+  cuando la sección entra en pantalla, para no pagar su peso en el resto del
+  sitio.
+-->
+<section class="px-5 py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="display text-3xl sm:text-5xl" data-split>En Instagram</h2>
+      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="text-sm text-berry">
+        Seguir @trabix_granizados →
+      </a>
+    </div>
+
+    <div
+      id="ig-feed"
+      class="mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-5"
+      data-reveal="stagger"
+    >
+      {
+        INSTAGRAM_POSTS.map((permalink) => (
+          <div class="w-[85vw] shrink-0 snap-center sm:w-auto">
+            <blockquote
+              class="instagram-media"
+              data-instgrm-permalink={permalink}
+              data-instgrm-version="14"
+              style="margin:0; width:100%;"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const seccion = document.getElementById("ig-feed");
+  if (seccion) {
+    let cargado = false;
+    const cargarEmbeds = () => {
+      if (cargado) return;
+      cargado = true;
+      if ((window as any).instgrm) {
+        (window as any).instgrm.Embeds.process();
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://www.instagram.com/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          cargarEmbeds();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(seccion);
+  }
+</script>
