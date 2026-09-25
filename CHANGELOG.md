@@ -3,6 +3,21 @@
 Todos los cambios relevantes de este proyecto.
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versionado [SemVer](https://semver.org/lang/es/).
 
+## [2.2.0] — 2026-09-24
+
+### Added
+- **`og:image`, `twitter:card` y JSON-LD `LocalBusiness`** en las 5 páginas. Antes no había ninguna
+  imagen de preview: compartir el link por WhatsApp o Instagram no mostraba nada.
+- **Links a Instagram y Facebook en el footer.**
+- **Sección "En Instagram" en la home**, con los últimos 5 posts embebidos (`embed.js` oficial,
+  carga diferida al entrar en pantalla). No se actualiza sola — la lista de posts vive en
+  `src/lib/social.ts` y hay que agregarle el permalink nuevo a mano.
+
+### Changed
+- **`/alianzas/` ya no menciona costo de producción ni porcentaje de rentabilidad.** Decisión de
+  Samuel: esas cifras se acercaban demasiado al costo real que `MODELO NEGOCIO/` marca como
+  confidencial.
+
 ## [2.1.0] — 2026-09-23
 
 ### Added

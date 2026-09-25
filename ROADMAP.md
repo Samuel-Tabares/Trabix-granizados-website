@@ -1,6 +1,6 @@
 # ROADMAP — `website`
 
-> Léeme al iniciar sesión, junto con `CLAUDE.md`. Última revisión: 2026-09-23.
+> Léeme al iniciar sesión, junto con `CLAUDE.md`. Última revisión: 2026-09-24.
 
 ## Estado: rediseñado, con el catálogo ya conectado de punta a punta
 
@@ -96,6 +96,35 @@ pedido se cierra en el bot.
 
 ---
 
+## Fase 6 — Presencia social en el sitio — **HECHO (2026-09-24), sin desplegar**
+
+Surgió de un review completo de Instagram, Facebook y el sitio pedido por Samuel. El sitio no tenía
+`og:image` en ninguna página (compartir el link por WhatsApp o Instagram no mostraba nada), no
+enlazaba a Instagram ni Facebook en ningún lado, y `/alianzas/` exponía cifras cercanas al costo
+real y al margen del modelo de inversión.
+
+- [x] `og:image` (1200×630, recorte de `retail-01.jpg`) + `twitter:card` + JSON-LD `LocalBusiness`
+      con `sameAs` a Instagram y Facebook, en `Base.astro` para las 5 páginas.
+- [x] Links a Instagram (`@trabix_granizados`) y Facebook en el footer.
+- [x] Sección "En Instagram" en la home: 5 posts embebidos con el `embed.js` oficial de Instagram
+      (`InstagramFeed.astro`), cargado solo cuando la sección entra en pantalla.
+      **No se actualiza sola** — hay que agregar el permalink nuevo a `INSTAGRAM_POSTS` en
+      `src/lib/social.ts` cada vez que se publique un post nuevo. La alternativa real (un widget de
+      terceros tipo behold.so/SnapWidget que sí jala el feed solo) necesita que Samuel cree la cuenta
+      — no es algo que se pueda hacer por él — así que quedó pendiente de que él decida si vale la
+      pena el paso extra.
+- [x] `/alianzas/`: quitado "costo de producción menor a $2.500 por unidad" y "hasta 280% de
+      rentabilidad" — decisión de Samuel del 2026-09-24, ver advertencia en el archivo.
+- [ ] **Sin desplegar.** Falta `git push` + verificar en Vercel que el og:image se vea bien en un
+      debugger de link preview real (WhatsApp/Meta) y que los embeds de Instagram carguen — no se
+      pudieron confirmar visualmente en el navegador de este entorno (el iframe de Instagram no
+      completa su handshake de resize ahí; el HTML embebido es correcto y la URL del embed carga bien
+      accedida directo, pero falta la verificación visual real).
+- [ ] Instagram lleva desde el 2026-08-03 sin publicar (revisado el 2026-09-24). Es contenido, no
+      código — pendiente de Samuel, no de este repo.
+
+---
+
 ### Las dos trampas de mover los sabores a la BD
 
 **1. Nunca borrar un sabor.** `order_items.flavor` es un `VARCHAR(50)` con el `flavor_id` y sin
@@ -144,7 +173,9 @@ panel — está sin hacer a propósito, para ver primero si de verdad estorba.
 
 ## Advertencias de contenido
 
-- **Nunca publicar el costo real por unidad** ($2.000) ni nada de `../MODELO NEGOCIO/`.
+- **Nunca publicar el costo real por unidad** ($2.000) ni ningún porcentaje de rentabilidad/margen,
+  ni nada de `../MODELO NEGOCIO/`. Ya pasó una vez: `/alianzas/` publicó "costo de producción menor
+  a $2.500" y "280% de rentabilidad", quitado el 2026-09-24 — ver Fase 6.
 - El **programa de embajadores no está corriendo**: ningún CTA puede depender de que existan.
 - `alianzas/` es la cara pública del modelo de inversión, hoy **pausado**. Si alguien llega por ahí
   no hay onboarding detrás. Decidir si se despublica o se deja como captación pasiva.
