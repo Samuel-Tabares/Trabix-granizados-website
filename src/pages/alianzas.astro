@@ -11,11 +11,13 @@ import emprendimiento from "../assets/real-life/emprendimiento-01.jpg";
      llegue por acá. La página capta interés, no promete arranque inmediato.
   2. El programa de embajadores no está corriendo: ningún CTA puede depender de
      que existan embajadores activos.
-  3. La mención al costo de producción ("menos de $2.500 por unidad") viene de
-     la página anterior y se republicó por decisión explícita de Samuel el
-     2026-09-23, tras advertirle que ese dato se acerca al costo real que
-     `MODELO NEGOCIO/` marca como confidencial y que a los vendedores se les
-     presenta un costo percibido distinto. No quitarla sin hablarlo con él.
+  3. Nunca mencionar el costo de producción (real ni aproximado) ni ningún
+     porcentaje de rentabilidad/margen. Decisión de Samuel del 2026-09-24: la
+     versión anterior decía "costo de producción menor a $2.500 por unidad" y
+     "hasta 280% de rentabilidad" — ambos datos se acercan demasiado a lo que
+     `MODELO NEGOCIO/` marca como confidencial (costo real ≈$2.000, distinto
+     del costo percibido que se le vende al vendedor). Si se agrega contenido
+     nuevo a esta página, no reintroducir ninguna cifra de costo o margen.
 */
 
 const CORREO = "trabixgranizados@gmail.com";
@@ -27,7 +29,7 @@ const beneficios = [
   },
   {
     t: "Acceso a precio proveedor",
-    d: "Incluye precio mínimo del granizado, costo de producción menor a $2.500 por unidad.",
+    d: "Compras al precio más bajo que maneja la marca, sin intermediarios.",
   },
   {
     t: "Desde $20.000",
@@ -51,7 +53,7 @@ const mailto = `mailto:${CORREO}?subject=${encodeURIComponent(asunto)}&body=${en
 
 <Base
   titulo="Emprende con Trabix"
-  descripcion="Empieza desde $20.000 y genera hasta 280% de rentabilidad. Tú vendes, Trabix sostiene almacenamiento, congelamiento, logística y contabilidad."
+  descripcion="Empieza a vender granizados Trabix desde $20.000. Tú vendes, Trabix sostiene almacenamiento, congelamiento, logística y contabilidad."
   seccion="alianzas"
 >
   <!-- ============================ HERO ============================ -->
@@ -63,8 +65,7 @@ const mailto = `mailto:${CORREO}?subject=${encodeURIComponent(asunto)}&body=${en
           Empieza pequeño,<br />piensa en grande.
         </h1>
         <p class="lead hero__lead mt-6 text-base sm:text-lg">
-          Puedes empezar desde <span class="text-fg">$20.000</span> y generar hasta un
-          <span class="text-fg">280% de rentabilidad</span>. Tú te concentras en vender
+          Puedes empezar desde <span class="text-fg">$20.000</span>. Tú te concentras en vender
           —digital, por recomendación, en persona, al detal o al por mayor— y Trabix sostiene
           lo pesado de la operación: almacenamiento masivo, congelamiento masivo, logística
           completa, y el registro financiero y contable.
