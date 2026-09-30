@@ -107,8 +107,9 @@ cierra en el bot (ver Fase 7).
 - [x] Desplegado junto con `crm-app` (`/api/carta` con `precios`) y el bot v1.34.0, que ahora cobra
       el detal con los precios del panel (antes usaba constantes para el subtotal por ítem).
       Verificado en producción: `/c` → carta, 3 con licor = $20.000, carrusel carga y avanza solo.
-- [ ] Instagram sigue siendo lista manual (`src/lib/social.ts`). Que se actualice solo exige la
-      Instagram Graph API con un token de la cuenta Business — paso de Samuel en Meta.
+- [x] Instagram se actualiza solo (v2.4.0): token de la Instagram API (app "Communication system",
+      @trabix_granizados como Instagram Tester) guardado en `crm-app`, que lo renueva cada semana
+      y sirve `GET /api/instagram`. Copia local del token en `.env` (ignorado por git).
 
 ---
 

@@ -3,6 +3,14 @@
 Todos los cambios relevantes de este proyecto.
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versionado [SemVer](https://semver.org/lang/es/).
 
+## [2.4.0] — 2026-09-30
+
+### Changed
+- **El carrusel de Instagram se actualiza solo.** La lista de posts sale de `crm-app`
+  (`GET /api/instagram`, que tiene el token de la Instagram API y lo renueva), horneada en el build
+  y refrescada en el navegador antes de cargar `embed.js`. Ya no hay que editar
+  `src/lib/social.ts` al publicar; lo que queda ahí es solo el fallback. Ahora incluye reels.
+
 ## [2.3.0] — 2026-09-30
 
 ### Added

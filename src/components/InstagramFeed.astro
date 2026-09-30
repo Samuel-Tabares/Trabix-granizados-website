@@ -1,5 +1,7 @@
 ---
-import { INSTAGRAM_URL, INSTAGRAM_POSTS, permalinkPost } from "../lib/social";
+import { INSTAGRAM_URL, INSTAGRAM_API_URL, obtenerPosts } from "../lib/social";
+
+const posts = await obtenerPosts();
 
 const flecha = (d: string) =>
   `<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4"><path d="${d}" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -34,18 +36,19 @@ const flecha = (d: string) =>
   <div
     id="ig-feed"
     data-lenis-prevent
+    data-api={INSTAGRAM_API_URL}
     class="ig-track mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory items-start gap-4 overflow-x-auto scroll-smooth pb-2"
   >
     {
-      INSTAGRAM_POSTS.map((codigo, i) => (
-        <div class="ig-card shrink-0 snap-start" aria-roledescription="post" aria-label={`${i + 1} de ${INSTAGRAM_POSTS.length}`}>
+      posts.map((permalink, i) => (
+        <div class="ig-card shrink-0 snap-start" aria-roledescription="post" aria-label={`${i + 1} de ${posts.length}`}>
           <blockquote
             class="instagram-media"
-            data-instgrm-permalink={permalinkPost(codigo)}
+            data-instgrm-permalink={permalink}
             data-instgrm-version="14"
             style="margin:0; min-width:0; width:100%; max-width:100%;"
           >
-            <a href={permalinkPost(codigo)} target="_blank" rel="noopener noreferrer">Ver este post en Instagram</a>
+            <a href={permalink} target="_blank" rel="noopener noreferrer">Ver este post en Instagram</a>
           </blockquote>
         </div>
       ))
@@ -107,12 +110,50 @@ const flecha = (d: string) =>
 <script>
   const track = document.getElementById("ig-feed");
 
+  import { normalizarPosts } from "../lib/social";
+
+  // Se clona una tarjeta del build y no se crea de cero: los estilos de Astro
+  // van con un atributo de alcance (data-astro-cid-*) que solo tienen esas.
+  const moldeCard = track?.firstElementChild?.cloneNode(false) as HTMLElement | undefined;
+  const moldeBq = track?.querySelector("blockquote")?.cloneNode(false) as HTMLElement | undefined;
+
+  function tarjeta(permalink: string, i: number, total: number): HTMLElement {
+    const card = moldeCard!.cloneNode(false) as HTMLElement;
+    card.setAttribute("aria-label", `${i + 1} de ${total}`);
+    const bq = moldeBq!.cloneNode(false) as HTMLElement;
+    bq.dataset.instgrmPermalink = permalink;
+    const a = document.createElement("a");
+    a.href = permalink;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = "Ver este post en Instagram";
+    bq.appendChild(a);
+    card.appendChild(bq);
+    return card;
+  }
+
   if (track) {
+    // ---- Lista fresca: si hay posts nuevos desde el build, se reemplazan
+    // antes de que embed.js convierta los blockquotes en iframes.
+    const actuales = () =>
+      Array.from(track.querySelectorAll<HTMLElement>("[data-instgrm-permalink]")).map(
+        (b) => b.dataset.instgrmPermalink,
+      );
+    const frescos = fetch(track.dataset.api!, { signal: AbortSignal.timeout(5000) })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => {
+        const links = normalizarPosts(raw);
+        if (!links || !moldeCard || !moldeBq || links.join() === actuales().join()) return;
+        track.replaceChildren(...links.map((l, i) => tarjeta(l, i, links.length)));
+      })
+      .catch(() => {});
+
     // ---- Carga diferida de embed.js
     let cargado = false;
-    const cargarEmbeds = () => {
+    const cargarEmbeds = async () => {
       if (cargado) return;
       cargado = true;
+      await frescos;
       const w = window as any;
       if (w.instgrm) {
         w.instgrm.Embeds.process();
