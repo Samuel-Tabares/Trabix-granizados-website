@@ -4,10 +4,27 @@ import Base from "../layouts/Base.astro";
 import PhoneChat from "../components/PhoneChat.astro";
 import InstagramFeed from "../components/InstagramFeed.astro";
 import { waLink } from "../lib/whatsapp";
+import { obtenerCarta } from "../lib/carta";
+import { pesos, minimoMayor } from "../lib/precios";
 import retail01 from "../assets/real-life/retail-01.jpg";
 import retail02 from "../assets/real-life/retail-02.jpg";
 import eventos from "../assets/real-life/eventos-01.jpg";
 import mayoristas from "../assets/real-life/mayoristas-01.jpg";
+
+// Los tramos salen de crm-app → /settings/precios, horneados en el build.
+const { precios } = await obtenerCarta();
+const minimo = minimoMayor(precios.mayor.con_licor);
+const tramos = precios.mayor.con_licor.map((t, i) => {
+  const siguiente = precios.mayor.con_licor[i + 1];
+  const sin = [...precios.mayor.sin_licor].reverse().find((s) => s.desde <= t.desde);
+  return {
+    rango: siguiente ? `${t.desde} – ${siguiente.desde - 1}` : `${t.desde} o más`,
+    licor: pesos(t.unidad),
+    sin: sin ? pesos(sin.unidad) : "—",
+  };
+});
+const desdeCon = pesos(precios.mayor.con_licor.at(-1)!.unidad);
+const desdeSin = pesos(precios.mayor.sin_licor.at(-1)!.unidad);
 
 const pasos = [
   { n: "01", t: "Congelar", d: "Llega listo. Lo metes al congelador y ya." },
@@ -18,7 +35,7 @@ const pasos = [
 
 <Base
   titulo="Trabix Granizados — congelar, abrir y consumir"
-  descripcion="Granizados sellados de 9 onzas, listos para congelar y tomar. Sin máquina. Domicilio gratis en Armenia desde 6 unidades. Pide por WhatsApp."
+  descripcion={`Granizados sellados de 9 onzas, listos para congelar y tomar. Sin máquina. Domicilio gratis en Armenia desde 6 unidades. Por mayor desde ${minimo} unidades. Pide por WhatsApp.`}
   seccion="inicio"
 >
   <!-- ============================ HERO ============================ -->
@@ -118,26 +135,26 @@ const pasos = [
 
       <div class="mt-12 grid gap-4 md:grid-cols-3" data-reveal="stagger">
         <a
-          href="/retail/"
+          href="/carta/"
           class="group flex flex-col justify-between gap-10 rounded-[var(--radius-surface)] border border-hairline p-7 transition-colors duration-500 hover:border-fg/25"
         >
           <div>
             <h3 class="text-xl font-medium tracking-tight">Para tomar</h3>
             <p class="mt-2 text-sm text-fg-muted">
-              Con licor a $8.000 (la segunda a mitad) o sin licor a $7.000. Desde una unidad.
+              Con licor a {pesos(precios.detal.con_licor)} (2 por {pesos(precios.detal.par_con_licor)}) o sin licor a {pesos(precios.detal.sin_licor)}. Desde una unidad.
             </p>
           </div>
-          <span class="text-sm text-berry">Ver cómo pedir →</span>
+          <span class="text-sm text-berry">Armar pedido →</span>
         </a>
 
         <a
-          href="/volumen/"
+          href="#por-mayor"
           class="group flex flex-col justify-between gap-10 rounded-[var(--radius-surface)] border border-hairline p-7 transition-colors duration-500 hover:border-fg/25"
         >
           <div>
             <h3 class="text-xl font-medium tracking-tight">Por mayor</h3>
             <p class="mt-2 text-sm text-fg-muted">
-              Desde 20 unidades, con licor o sin licor. Para revender o para un evento.
+              Desde {minimo} unidades, con licor o sin licor. Para revender o para un evento.
             </p>
           </div>
           <span class="text-sm text-berry">Ver precios →</span>
@@ -155,6 +172,101 @@ const pasos = [
           </div>
           <span class="text-sm text-berry">Ver el modelo →</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= POR MAYOR ========================= -->
+  <section id="por-mayor" class="scroll-mt-24 px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <p class="eyebrow">Desde {minimo} unidades</p>
+      <h2 class="display mt-4 text-3xl sm:text-5xl" data-split>Por mayor, con licor o sin licor.</h2>
+      <p class="lead mt-5 max-w-2xl text-base">
+        {`Entre más pides, menos te cuesta la unidad: con licor desde ${desdeCon} y sin licor desde ${desdeSin}. El mismo mínimo de ${minimo} unidades por tipo.`}
+      </p>
+
+      <div class="mt-12 max-w-4xl overflow-hidden rounded-[var(--radius-surface)] border border-hairline" data-reveal>
+        <table class="w-full border-collapse text-left">
+          <caption class="sr-only">Precio por unidad según cantidad</caption>
+          <thead>
+            <tr class="border-b border-hairline text-xs tracking-wider text-fg-muted uppercase">
+              <th scope="col" class="px-5 py-4 font-medium">Unidades</th>
+              <th scope="col" class="px-5 py-4 text-right font-medium">Con licor</th>
+              <th scope="col" class="px-5 py-4 text-right font-medium">Sin licor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tramos.map((t, i) => (
+                <tr class:list={[i > 0 && "border-t border-hairline"]}>
+                  <th scope="row" class="px-5 py-5 font-normal">{t.rango}</th>
+                  <td class="px-5 py-5 text-right font-mono tabular-nums">{t.licor}</td>
+                  <td class="px-5 py-5 text-right font-mono tabular-nums">{t.sin}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-fg-muted">
+        Precio por unidad. El domicilio se cobra aparte y depende de a dónde va.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={waLink("mayoristas-quote")} class="btn btn--primary">
+          Cotizar por WhatsApp
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+        <a href="/carta/" class="btn btn--ghost">
+          Ver carta
+          <span class="btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== EVENTOS ========================== -->
+  <section id="eventos" class="scroll-mt-24 px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Para tu evento</h2>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-2" data-reveal="stagger">
+        <div class="flex flex-col gap-3 rounded-[var(--radius-surface)] border border-hairline p-7">
+          <h3 class="text-xl font-medium tracking-tight">Nosotros ponemos todo</h3>
+          <p class="text-sm text-fg-muted">
+            Llevamos equipo, producto y toda la logística, sin costo para quien organiza.
+            Tú decides si compras a precio por mayor y pones tu propio precio de venta, o si
+            lo manejamos en consignación y cuadramos sobre lo que de verdad se venda.
+          </p>
+          <a href={waLink("eventos-info")} class="btn btn--primary mt-auto self-start">
+            Hablar de mi evento
+            <span class="btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="aspect-[4/3] overflow-hidden rounded-[var(--radius-surface)] border border-hairline md:aspect-auto">
+          <Image
+            src={eventos}
+            alt="Trabix en un evento"
+            widths={[400, 700, 1000]}
+            sizes="(min-width: 768px) 45vw, 100vw"
+            loading="lazy"
+            class="h-full w-full object-cover"
+            data-parallax="8"
+          />
+        </div>
       </div>
     </div>
   </section>

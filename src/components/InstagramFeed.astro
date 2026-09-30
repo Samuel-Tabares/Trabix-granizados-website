@@ -1,54 +1,121 @@
 ---
-import { INSTAGRAM_URL, INSTAGRAM_POSTS } from "../lib/social";
+import { INSTAGRAM_URL, INSTAGRAM_POSTS, permalinkPost } from "../lib/social";
+
+const flecha = (d: string) =>
+  `<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4"><path d="${d}" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
 <!--
-  Embeds oficiales de Instagram (embed.js), no un widget de terceros: no hay
-  cuenta ni token que mantener. El precio es que NO se actualizan solos —
-  `INSTAGRAM_POSTS` en `src/lib/social.ts` hay que actualizarla a mano con los
-  permalinks nuevos cuando se publique en Instagram. embed.js solo se carga
-  cuando la sección entra en pantalla, para no pagar su peso en el resto del
-  sitio.
+  Carrusel con los embeds oficiales de Instagram (embed.js), no un widget de
+  terceros: no hay cuenta ni token que mantener. El precio es que NO se
+  actualiza solo — `INSTAGRAM_POSTS` en `src/lib/social.ts` se actualiza a mano.
+  embed.js solo se carga cuando la sección se acerca a la pantalla.
+
+  Avanza solo cada 5 s y vuelve al inicio al llegar al final. Se detiene
+  mientras el visitante lo toca, pasa el mouse, tiene el foco adentro o la
+  sección está fuera de pantalla, y no arranca bajo prefers-reduced-motion.
 -->
-<section class="px-5 py-20 sm:py-28">
+<section class="px-5 py-20 sm:py-28" aria-roledescription="carrusel" aria-label="Posts de Instagram">
   <div class="mx-auto max-w-6xl">
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <h2 class="display text-3xl sm:text-5xl" data-split>En Instagram</h2>
-      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="text-sm text-berry">
-        Seguir @trabix_granizados →
-      </a>
+      <div>
+        <h2 class="display text-3xl sm:text-5xl" data-split>En Instagram</h2>
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-sm text-berry">
+          Seguir @trabix_granizados →
+        </a>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" data-ig="prev" class="flecha" aria-label="Post anterior" set:html={flecha("m15 6-6 6 6 6")} />
+        <button type="button" data-ig="next" class="flecha" aria-label="Post siguiente" set:html={flecha("m9 6 6 6-6 6")} />
+      </div>
     </div>
+  </div>
 
-    <div
-      id="ig-feed"
-      class="mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-5"
-      data-reveal="stagger"
-    >
-      {
-        INSTAGRAM_POSTS.map((permalink) => (
-          <div class="w-[85vw] shrink-0 snap-center sm:w-auto">
-            <blockquote
-              class="instagram-media"
-              data-instgrm-permalink={permalink}
-              data-instgrm-version="14"
-              style="margin:0; width:100%;"
-            />
-          </div>
-        ))
-      }
-    </div>
+  <div
+    id="ig-feed"
+    data-lenis-prevent
+    class="ig-track mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory items-start gap-4 overflow-x-auto scroll-smooth pb-2"
+  >
+    {
+      INSTAGRAM_POSTS.map((codigo, i) => (
+        <div class="ig-card shrink-0 snap-start" aria-roledescription="post" aria-label={`${i + 1} de ${INSTAGRAM_POSTS.length}`}>
+          <blockquote
+            class="instagram-media"
+            data-instgrm-permalink={permalinkPost(codigo)}
+            data-instgrm-version="14"
+            style="margin:0; min-width:0; width:100%; max-width:100%;"
+          >
+            <a href={permalinkPost(codigo)} target="_blank" rel="noopener noreferrer">Ver este post en Instagram</a>
+          </blockquote>
+        </div>
+      ))
+    }
   </div>
 </section>
 
+<style>
+  .ig-track {
+    scrollbar-width: none;
+  }
+
+  .ig-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ig-card {
+    width: min(calc(100vw - 3.5rem), 340px);
+  }
+
+  /* Antes de que embed.js lo convierta en iframe: una tarjeta, no un link suelto. */
+  .ig-card blockquote {
+    display: grid;
+    place-items: center;
+    min-height: 26rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-surface);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  .ig-card :global(iframe) {
+    border-radius: var(--radius-surface) !important;
+    min-width: 0 !important;
+  }
+
+  .flecha {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--hairline);
+    color: var(--fg);
+    transition:
+      border-color 0.4s var(--ease-out-soft),
+      transform 0.2s var(--ease-out-soft);
+  }
+
+  .flecha:hover {
+    border-color: color-mix(in oklab, var(--fg) 30%, transparent);
+  }
+
+  .flecha:active {
+    transform: scale(0.92);
+  }
+</style>
+
 <script>
-  const seccion = document.getElementById("ig-feed");
-  if (seccion) {
+  const track = document.getElementById("ig-feed");
+
+  if (track) {
+    // ---- Carga diferida de embed.js
     let cargado = false;
     const cargarEmbeds = () => {
       if (cargado) return;
       cargado = true;
-      if ((window as any).instgrm) {
-        (window as any).instgrm.Embeds.process();
+      const w = window as any;
+      if (w.instgrm) {
+        w.instgrm.Embeds.process();
         return;
       }
       const script = document.createElement("script");
@@ -57,15 +124,63 @@ import { INSTAGRAM_URL, INSTAGRAM_POSTS } from "../lib/social";
       document.body.appendChild(script);
     };
 
-    const observer = new IntersectionObserver(
+    // ---- Navegación
+    const tarjetas = () => Array.from(track.children) as HTMLElement[];
+    const paso = () => {
+      const [a, b] = tarjetas();
+      return a && b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+    };
+    const alFinal = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
+    const alInicio = () => track.scrollLeft <= 8;
+
+    function mover(dir: 1 | -1) {
+      if (dir === 1 && alFinal()) track!.scrollTo({ left: 0 });
+      else if (dir === -1 && alInicio()) track!.scrollTo({ left: track!.scrollWidth });
+      else track!.scrollBy({ left: dir * paso() });
+    }
+
+    // ---- Autoplay
+    const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let visible = false;
+    let pausaHasta = 0;
+    let encima = false;
+
+    const pausar = (ms = 8000) => (pausaHasta = Date.now() + ms);
+
+    document.querySelectorAll<HTMLButtonElement>("[data-ig]").forEach((b) =>
+      b.addEventListener("click", () => {
+        pausar();
+        mover(b.dataset.ig === "next" ? 1 : -1);
+      }),
+    );
+
+    track.addEventListener("pointerdown", () => pausar());
+    track.addEventListener("wheel", () => pausar(), { passive: true });
+    track.addEventListener("touchstart", () => pausar(), { passive: true });
+    track.addEventListener("mouseenter", () => (encima = true));
+    track.addEventListener("mouseleave", () => (encima = false));
+    // Un toque dentro del iframe no le llega a la página, pero le quita el foco:
+    // si el foco se va a un iframe del carrusel, el visitante está mirando un post.
+    window.addEventListener("blur", () => {
+      if (track.contains(document.activeElement)) pausar(20000);
+    });
+
+    if (!reducido) {
+      setInterval(() => {
+        if (!visible || encima || document.hidden || Date.now() < pausaHasta) return;
+        if (track.contains(document.activeElement)) return;
+        mover(1);
+      }, 5000);
+    }
+
+    new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          cargarEmbeds();
-          observer.disconnect();
+        for (const e of entries) {
+          if (e.isIntersecting) cargarEmbeds();
+          visible = e.isIntersecting && e.intersectionRatio > 0.3;
         }
       },
-      { rootMargin: "200px" },
-    );
-    observer.observe(seccion);
+      { rootMargin: "300px 0px", threshold: [0, 0.3] },
+    ).observe(track);
   }
 </script>

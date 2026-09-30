@@ -13,6 +13,7 @@
    ========================================================================== */
 
 import local from "../data/carta.json";
+import { normalizarPrecios, PRECIOS_FALLBACK, type Precios } from "./precios";
 
 export type TipoSabor = "con_licor" | "sin_licor";
 
@@ -31,6 +32,8 @@ export interface Sabor {
 export interface Carta {
   actualizado: string;
   sabores: Sabor[];
+  /** Si crm-app no los manda o llegan deformes, los del fallback. */
+  precios: Precios;
 }
 
 /** Rechaza una respuesta remota deforme antes de que llegue a la página. */
@@ -60,6 +63,7 @@ export function normalizar(raw: unknown): Carta | null {
   return {
     actualizado: typeof c.actualizado === "string" ? c.actualizado : "",
     sabores,
+    precios: normalizarPrecios(c.precios) ?? PRECIOS_FALLBACK,
   };
 }
 
@@ -79,7 +83,7 @@ const fallback = normalizar(local)!;
  * build que silenciosamente sirve datos viejos. `PUBLIC_CARTA_URL` la puede
  * sobrescribir para apuntar a un crm-app local.
  */
-const CARTA_URL = "https://crm-app-production-405d.up.railway.app/api/carta";
+export const CARTA_URL = "https://crm-app-production-405d.up.railway.app/api/carta";
 
 /**
  * Se resuelve en tiempo de build. Si `crm-app` no responde, responde lento o

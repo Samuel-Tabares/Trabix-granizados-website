@@ -60,7 +60,7 @@ evento, con datos móviles malos.** Una carta que no renderiza es una venta perd
 Reemplaza la carta física. 12 sabores en grilla, filtro con/sin licor y selección por toque.
 
 **No tiene checkout.** Termina en un CTA de WhatsApp con los sabores elegidos precargados en el
-mensaje — el pedido se cierra en el bot, nunca en la web (ver "Por qué no hay carrito" abajo).
+mensaje — el pedido se cierra en el bot, nunca en la web (ver "Por qué el carrito termina en WhatsApp" abajo).
 
 ## NFC y QR — qué funciona y qué no
 
@@ -132,7 +132,14 @@ Desde el 2026-09-23, `/settings/precios` manda de verdad sobre lo que cobra el b
 el par en promo. Antes solo viajaban los tiers mayoristas y el bot tenía los del detal como
 constantes de Rust, así que **cambiar el precio al detal en el panel no cambiaba nada**.
 
-## Por qué no hay carrito ni chatbot web
+## Por qué el carrito termina en WhatsApp (y no hay checkout ni chatbot web)
+
+**Desde el 2026-09-30 la carta es un carrito** (cantidades por sabor + total), pero el checkout es
+el mensaje de WhatsApp con la lista y el total. El total es espejo de `calcular_pedido` en
+`trabix-bot/src/bot/pricing.rs` (`src/lib/precios.ts`); si el bot cambia cómo cobra, cambia acá
+también. Los precios vienen de `GET /api/carta` → `precios`, horneados y refrescados en cliente.
+
+Lo que sigue sin existir, y por qué:
 
 Decidido el 2026-07-30 y sigue vigente — **no reabrir sin datos**:
 

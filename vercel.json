@@ -33,18 +33,38 @@
       "permanent": true
     },
     {
+      "source": "/alianzas.html",
+      "destination": "/alianzas/",
+      "permanent": true
+    },
+    {
+      "source": "/retail",
+      "destination": "/carta/",
+      "permanent": true
+    },
+    {
+      "source": "/retail/",
+      "destination": "/carta/",
+      "permanent": true
+    },
+    {
       "source": "/retail.html",
-      "destination": "/retail/",
+      "destination": "/carta/",
+      "permanent": true
+    },
+    {
+      "source": "/volumen",
+      "destination": "/#por-mayor",
+      "permanent": true
+    },
+    {
+      "source": "/volumen/",
+      "destination": "/#por-mayor",
       "permanent": true
     },
     {
       "source": "/volumen.html",
-      "destination": "/volumen/",
-      "permanent": true
-    },
-    {
-      "source": "/alianzas.html",
-      "destination": "/alianzas/",
+      "destination": "/#por-mayor",
       "permanent": true
     }
   ]

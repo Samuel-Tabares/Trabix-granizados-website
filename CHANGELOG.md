@@ -3,6 +3,36 @@
 Todos los cambios relevantes de este proyecto.
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versionado [SemVer](https://semver.org/lang/es/).
 
+## [2.3.0] — 2026-09-30
+
+### Added
+- **La carta es un carrito.** Cada sabor tiene `−  N  +`, y una barra abajo muestra cantidad,
+  total, desglose y una pista cuando faltan pocos para el precio por mayor (y dice si llegar sale
+  más barato). El checkout es el mensaje de WhatsApp con la lista y el total. El total es espejo de
+  `calcular_pedido` del bot: pares con licor a precio promo, sin licor sin promo, y desde el primer
+  tramo mayorista de cada tipo todo ese tipo va a precio por mayor. El carrito se guarda en el
+  navegador.
+- **Precios desde `crm-app`.** Salen de `/settings/precios` vía `GET /api/carta` (bloque
+  `precios`), horneados en el build y **refrescados en el navegador al abrir la carta**: un cambio
+  de precio en el panel se ve sin redesplegar. El mismo fetch esconde los sabores apagados después
+  del último build.
+- **Carrusel de Instagram** con flechas, autoplay cada 5 s y vuelta al inicio. Se pausa al tocar,
+  con el mouse encima, fuera de pantalla y bajo `prefers-reduced-motion`. Hasta 10 posts.
+
+### Changed
+- **Carta y "Pedir" son una sola página (`/carta/`).** Zonas de entrega y preguntas quedaron debajo
+  de la grilla. `/retail/` redirige a `/carta/`.
+- **Inicio y "Por mayor" son una sola página.** La tabla mayorista (ahora desde `crm-app`) y la
+  sección de eventos viven en la home, en `/#por-mayor`. `/volumen/` redirige ahí.
+- Navegación: Carta · Por mayor · Alianzas.
+
+### Fixed
+- **Los embeds de Instagram salían en blanco.** Los permalinks traían el usuario
+  (`instagram.com/trabix_granizados/p/…`), y esa URL de embed responde `X-Frame-Options: DENY`.
+  Ahora se guarda solo el código y se arma `instagram.com/p/<código>/`.
+- **La barra de pedido de la carta nunca aparecía.** Se abría con `transform`, pero Tailwind v4
+  la esconde con la propiedad `translate`, que `transform` no pisa.
+
 ## [2.2.0] — 2026-09-24
 
 ### Added

@@ -13,8 +13,8 @@ grande acá" porque las ventas pasan por el bot y los anuncios no tocan la web. 
 cierto para el marketing, pero ya no para la carta** — la carta se usa en persona, delante del
 cliente, y si no carga es una venta perdida ahí mismo.
 
-Lo que **no** cambió: no hay carrito ni chatbot web (decisión del 2026-07-30, ver `CLAUDE.md`). El
-pedido se cierra en el bot.
+Desde el 2026-09-30 la carta es un carrito con total, pero el checkout es WhatsApp: el pedido se
+cierra en el bot (ver Fase 7).
 
 ---
 
@@ -93,6 +93,21 @@ pedido se cierra en el bot.
    por cadena vacía, y `"" ?? DEFAULT` devuelve `""`, no el default.
 3. **La lámina local ganaba sobre la foto del panel**, así que cambiar una foto desde `crm-app`
    quedaba invisible en la web. Invertido.
+
+---
+
+## Fase 7 — Carrito, fusión de páginas y carrusel de Instagram — **HECHO (2026-09-30), sin desplegar**
+
+- [x] Carta = carrito: cantidades por sabor, total con la misma lógica del bot, checkout = mensaje
+      de WhatsApp con lista y total. Precios de `crm-app` (`/api/carta` → `precios`), refrescados
+      en cliente.
+- [x] `/carta/` absorbe `/retail/`; la home absorbe `/volumen/` (`/#por-mayor`). Redirects 308.
+- [x] Embeds de Instagram arreglados (el permalink con usuario responde `X-Frame-Options: DENY`) y
+      convertidos en carrusel con flechas y autoplay.
+- [ ] **Desplegar `crm-app` antes o junto con el sitio.** Sin eso `/api/carta` no trae `precios` y
+      el sitio usa `PRECIOS_FALLBACK` (iguales a los de hoy): no rompe, pero no refleja el panel.
+- [ ] Instagram sigue siendo lista manual (`src/lib/social.ts`). Que se actualice solo exige la
+      Instagram Graph API con un token de la cuenta Business — paso de Samuel en Meta.
 
 ---
 

@@ -1,11 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import { obtenerCarta, disponibles, type Sabor } from "../lib/carta";
+import { obtenerCarta, disponibles, CARTA_URL, type Sabor } from "../lib/carta";
+import { minimoMayor, pesos } from "../lib/precios";
 import { WHATSAPP_NUMERO, MENSAJES } from "../lib/whatsapp";
 
 const carta = await obtenerCarta();
 const sabores = disponibles(carta);
+const { precios } = carta;
 
 // Las láminas viven en src/ para que Astro las optimice (webp + srcset).
 const laminas = import.meta.glob<{ default: ImageMetadata }>(
@@ -60,18 +62,44 @@ function lamina(s: Sabor): ImageMetadata | null {
 
 const conLicor = sabores.filter((s) => s.tipo === "con_licor");
 const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
+const mensajeBase = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJES["carta-order"])}`;
 ---
 
-<section class="px-4 pb-32">
+<section
+  class="px-4 pb-8"
+  id="carta"
+  data-carta-url={import.meta.env.PUBLIC_CARTA_URL || CARTA_URL}
+  data-precios={JSON.stringify(precios)}
+>
   <div class="mx-auto max-w-6xl">
+    <!--
+      Precios. Se pintan con lo horneado y el script los reemplaza con lo que
+      diga crm-app en ese momento, así que un cambio en /settings/precios se ve
+      sin redesplegar el sitio.
+    -->
+    <dl class="mb-6 grid grid-cols-3 gap-px overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-hairline text-center" data-reveal>
+      <div class="flex flex-col gap-1 bg-bg px-2 py-4">
+        <dt class="text-[0.7rem] tracking-wider text-fg-muted uppercase">Con licor</dt>
+        <dd class="font-mono text-base tabular-nums sm:text-lg" data-p="detal.con_licor">{pesos(precios.detal.con_licor)}</dd>
+      </div>
+      <div class="flex flex-col gap-1 bg-bg px-2 py-4">
+        <dt class="text-[0.7rem] tracking-wider text-fg-muted uppercase">2 con licor</dt>
+        <dd class="font-mono text-base text-berry tabular-nums sm:text-lg" data-p="detal.par_con_licor">{pesos(precios.detal.par_con_licor)}</dd>
+      </div>
+      <div class="flex flex-col gap-1 bg-bg px-2 py-4">
+        <dt class="text-[0.7rem] tracking-wider text-fg-muted uppercase">Sin licor</dt>
+        <dd class="font-mono text-base tabular-nums sm:text-lg" data-p="detal.sin_licor">{pesos(precios.detal.sin_licor)}</dd>
+      </div>
+    </dl>
+    <p class="mb-8 text-center text-xs text-fg-muted">
+      Desde <span data-p="minimo">{minimoMayor(precios.mayor.con_licor)}</span> del mismo tipo pasas a precio por mayor. El total se calcula solo.
+    </p>
+
     <!--
       Filtros. Son botones y no links porque no cambian de página; sin JS quedan
       inertes y se ven los 12 sabores, que es el estado correcto por defecto.
     -->
-    <div
-      class="sticky top-20 z-40 -mx-4 mb-8 flex justify-center px-4 sm:top-24"
-      data-reveal
-    >
+    <div class="sticky top-20 z-40 -mx-4 mb-6 flex justify-center px-4 sm:top-24">
       <div
         role="group"
         aria-label="Filtrar sabores"
@@ -89,23 +117,23 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
       </div>
     </div>
 
-    <ul
-      id="grilla"
-      class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"
-    >
+    <ul id="grilla" class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
       {
         sabores.map((s, i) => {
           const img = lamina(s);
           const remota = fotoRemota(s);
           return (
-            <li data-sabor={s.flavor_id} data-tipo={s.tipo} class="contents">
+            <li
+              data-sabor={s.flavor_id}
+              data-tipo={s.tipo}
+              data-nombre={s.nombre}
+              class="item flex flex-col overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-bg"
+            >
               <button
                 type="button"
-                data-toggle
-                aria-pressed="false"
-                data-nombre={s.nombre}
-                class="group relative flex flex-col overflow-hidden rounded-[var(--radius-surface)] border border-hairline text-left transition-transform duration-500 active:scale-[0.98]"
-                style={`transition-timing-function: var(--ease-out-soft)`}
+                data-mas
+                aria-label={`Agregar ${s.nombre}`}
+                class="group relative block w-full text-left active:scale-[0.99]"
               >
                 <div class="aspect-lamina relative w-full overflow-hidden bg-ice-100">
                   {img ? (
@@ -129,13 +157,8 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
                       style="transition-timing-function: var(--ease-out-soft)"
                     />
                   ) : (
-                    /*
-                      Sabor sin foto en ningún lado. Hoy no le pasa a ninguno,
-                      pero pasará con el próximo sabor que se cree en el panel
-                      antes de subirle la lámina. En vez de un ícono de imagen
-                      rota, el nombre a gran tamaño: se lee como decisión
-                      tipográfica, no como un hueco.
-                    */
+                    /* Sabor sin foto en ningún lado: el nombre a gran tamaño se
+                       lee como decisión tipográfica, no como un hueco. */
                     <div class="flex h-full w-full items-end bg-ice-100 p-4 dark:bg-ice-900">
                       <span class="display text-2xl text-ice-700 dark:text-ice-300">
                         {s.nombre}
@@ -144,28 +167,29 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
                   )}
 
                   <span
-                    data-check
+                    data-badge
                     aria-hidden="true"
-                    class="absolute top-2.5 right-2.5 grid h-7 w-7 scale-50 place-items-center rounded-full bg-berry opacity-0 transition-[opacity,transform] duration-300"
-                    style="transition-timing-function: var(--ease-out-soft)"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 text-white">
-                      <path
-                        d="m5 13 4 4L19 7"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
+                    class="badge absolute top-2.5 right-2.5 grid h-8 min-w-8 place-items-center rounded-full bg-berry px-2 font-mono text-sm text-white tabular-nums"
+                  >0</span>
                 </div>
+              </button>
 
-                <span class="flex flex-col gap-0.5 p-3">
+              <div class="flex flex-1 flex-col gap-3 p-3">
+                <span class="flex flex-col gap-0.5">
                   <span class="text-sm leading-tight font-medium">{s.nombre}</span>
                   <span class="text-xs text-fg-muted">{s.descripcion}</span>
                 </span>
-              </button>
+
+                <div class="stepper mt-auto flex items-center justify-between rounded-full border border-hairline p-1">
+                  <button type="button" data-menos aria-label={`Quitar ${s.nombre}`} class="paso" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4"><path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+                  </button>
+                  <span data-cant class="font-mono text-sm tabular-nums" aria-live="polite">0</span>
+                  <button type="button" data-mas aria-label={`Agregar ${s.nombre}`} class="paso paso--mas">
+                    <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+                  </button>
+                </div>
+              </div>
             </li>
           );
         })
@@ -175,37 +199,39 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
     <p id="vacio" hidden class="py-16 text-center text-sm text-fg-muted">
       No hay sabores de ese tipo disponibles ahora mismo.
     </p>
-
   </div>
 </section>
 
 <!--
-  Barra de pedido. Nace oculta y solo aparece con una selección. El href se
-  arma en JS, pero el botón es un <a> a wa.me con el mensaje base, así que si
-  el script falla el visitante igual llega al chat.
+  Carrito. Nace oculto y aparece con el primer granizado. El checkout ES el
+  mensaje de WhatsApp: el pedido se cierra en el bot, que es donde queda el
+  teléfono del cliente. El botón es un <a> a wa.me con el mensaje base, así que
+  si el script falla el visitante igual llega al chat.
 -->
 <div
   id="barra-pedido"
-  class="pointer-events-none fixed inset-x-0 bottom-0 z-50 translate-y-full px-4 pb-4 transition-transform duration-500"
-  style="transition-timing-function: var(--ease-out-soft)"
+  class="pointer-events-none fixed inset-x-0 bottom-0 z-50 translate-y-full px-3 transition-transform duration-500"
+  style="transition-timing-function: var(--ease-out-soft); padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px))"
 >
-  <a
-    id="cta-pedido"
-    href={`https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJES["carta-order"])}`}
-    class="btn btn--primary pointer-events-auto mx-auto flex w-full max-w-md justify-between !py-4 shadow-lg"
-  >
-    <span id="cta-texto">Pedir por WhatsApp</span>
-    <span class="btn__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
-        <path
-          d="M5 12h14m-6-6 6 6-6 6"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-    </span>
-  </a>
+  <div class="pointer-events-auto mx-auto flex max-w-md flex-col gap-3 rounded-[var(--radius-surface)] border border-hairline bg-bg-raised p-4 shadow-[0_12px_40px_-12px_rgb(0_0_0/0.35)]">
+    <div class="flex items-baseline justify-between gap-3">
+      <span id="cart-cantidad" class="text-sm text-fg-muted">0 granizados</span>
+      <span id="cart-total" class="font-mono text-2xl font-medium tabular-nums">$0</span>
+    </div>
+    <p id="cart-detalle" class="-mt-2 text-xs text-fg-muted"></p>
+    <p id="cart-pista" hidden class="-mt-1 rounded-[var(--radius-chip)] bg-berry/10 px-3 py-2 text-xs text-berry"></p>
+    <div class="flex items-center gap-2">
+      <button type="button" id="cart-vaciar" class="rounded-full px-3 py-3 text-xs text-fg-muted hover:text-fg">Vaciar</button>
+      <a id="cta-pedido" href={mensajeBase} class="btn btn--primary flex-1 justify-between !py-3.5">
+        <span>Pedir por WhatsApp</span>
+        <span class="btn__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -225,83 +251,254 @@ const sinLicor = sabores.filter((s) => s.tipo === "sin_licor");
     color: var(--bg);
   }
 
-  [data-toggle][aria-pressed="true"] {
+  .item {
+    transition: border-color 0.4s var(--ease-out-soft);
+  }
+
+  .item[data-activo] {
     border-color: var(--color-berry);
   }
 
-  [data-toggle][aria-pressed="true"] [data-check] {
+  .badge {
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 0.3s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft);
+  }
+
+  .item[data-activo] .badge {
     opacity: 1;
     transform: scale(1);
+  }
+
+  .paso {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    color: var(--fg);
+    transition:
+      background-color 0.3s var(--ease-out-soft),
+      transform 0.2s var(--ease-out-soft);
+  }
+
+  .paso:active:not(:disabled) {
+    transform: scale(0.9);
+  }
+
+  .paso:disabled {
+    opacity: 0.3;
+  }
+
+  .paso--mas {
+    background: color-mix(in oklab, var(--fg) 8%, transparent);
+  }
+
+  .item[data-activo] .paso--mas {
+    background: var(--color-berry);
+    color: #fff;
+  }
+
+  /* Tailwind v4 mueve con la propiedad `translate`, no con `transform`. */
+  #barra-pedido[data-abierto] {
+    translate: 0 0;
   }
 </style>
 
 <script>
   import { WHATSAPP_NUMERO, MENSAJES } from "../lib/whatsapp";
+  import { calcular, minimoMayor, normalizarPrecios, pesos, type Precios } from "../lib/precios";
 
+  const seccion = document.getElementById("carta");
   const grilla = document.getElementById("grilla");
   const barra = document.getElementById("barra-pedido");
   const cta = document.getElementById("cta-pedido") as HTMLAnchorElement | null;
-  const ctaTexto = document.getElementById("cta-texto");
-  const vacio = document.getElementById("vacio");
+  const $ = (id: string) => document.getElementById(id)!;
 
-  if (grilla && barra && cta && ctaTexto) {
-    const elegidos = new Map<string, string>();
+  if (seccion && grilla && barra && cta) {
+    let precios = normalizarPrecios(JSON.parse(seccion.dataset.precios || "null"))!;
+    const items = Array.from(grilla.querySelectorAll<HTMLElement>("[data-sabor]"));
+    const porId = new Map(items.map((li) => [li.dataset.sabor!, li]));
+    const cantidades = new Map<string, number>();
 
-    function pintarBarra() {
-      const n = elegidos.size;
-      barra!.style.transform = n > 0 ? "translateY(0)" : "";
+    // El carrito sobrevive a cerrar la pestaña: el cliente que va a WhatsApp,
+    // pregunta algo y vuelve no tiene que armarlo otra vez.
+    const CLAVE = "trabix:carrito";
+    try {
+      const guardado = JSON.parse(localStorage.getItem(CLAVE) || "{}");
+      for (const [id, n] of Object.entries(guardado)) {
+        if (porId.has(id) && typeof n === "number" && n > 0) cantidades.set(id, Math.floor(n));
+      }
+    } catch {}
 
-      if (n === 0) {
+    function guardar() {
+      try {
+        localStorage.setItem(CLAVE, JSON.stringify(Object.fromEntries(cantidades)));
+      } catch {}
+    }
+
+    function pintarPrecios(p: Precios) {
+      const valores: Record<string, string> = {
+        "detal.con_licor": pesos(p.detal.con_licor),
+        "detal.par_con_licor": pesos(p.detal.par_con_licor),
+        "detal.sin_licor": pesos(p.detal.sin_licor),
+        minimo: String(minimoMayor(p.mayor.con_licor)),
+      };
+      document.querySelectorAll<HTMLElement>("[data-p]").forEach((el) => {
+        const v = valores[el.dataset.p!];
+        if (v) el.textContent = v;
+      });
+    }
+
+    function pintar() {
+      let con = 0;
+      let sin = 0;
+      const lineas: string[] = [];
+
+      for (const li of items) {
+        const id = li.dataset.sabor!;
+        const n = cantidades.get(id) ?? 0;
+        li.querySelector("[data-cant]")!.textContent = String(n);
+        li.querySelector("[data-badge]")!.textContent = String(n);
+        (li.querySelector("[data-menos]") as HTMLButtonElement).disabled = n === 0;
+        li.toggleAttribute("data-activo", n > 0);
+        if (n === 0) continue;
+        if (li.dataset.tipo === "con_licor") con += n;
+        else sin += n;
+        lineas.push(`• ${n} ${li.dataset.nombre}`);
+      }
+
+      const c = calcular(precios, con, sin);
+      barra!.toggleAttribute("data-abierto", c.cantidad > 0);
+
+      if (c.cantidad === 0) {
         cta!.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJES["carta-order"])}`;
-        ctaTexto!.textContent = "Pedir por WhatsApp";
         return;
       }
 
-      const lista = Array.from(elegidos.values());
-      const texto = `${MENSAJES["carta-order"]}\n\nMe interesan:\n${lista.map((n) => `• ${n}`).join("\n")}`;
+      $("cart-cantidad").textContent = c.cantidad === 1 ? "1 granizado" : `${c.cantidad} granizados`;
+      $("cart-total").textContent = pesos(c.total);
+
+      const detalle: string[] = [];
+      if (c.con.cantidad) {
+        detalle.push(
+          c.con.mayor
+            ? `${c.con.cantidad} con licor por mayor a ${pesos(c.con.unidad!)}`
+            : c.con.pares
+              ? `${c.con.pares} ${c.con.pares === 1 ? "par" : "pares"} con licor en promo`
+              : "1 con licor",
+        );
+      }
+      if (c.sin.cantidad) {
+        detalle.push(
+          c.sin.mayor
+            ? `${c.sin.cantidad} sin licor por mayor a ${pesos(c.sin.unidad!)}`
+            : `${c.sin.cantidad} sin licor`,
+        );
+      }
+      $("cart-detalle").textContent = `${detalle.join(" · ")}. Domicilio aparte.`;
+
+      // Cerca del mínimo mayorista, llegar sale igual o más barato: se dice.
+      const pistas: string[] = [];
+      const minCon = minimoMayor(precios.mayor.con_licor);
+      const minSin = minimoMayor(precios.mayor.sin_licor);
+      const pista_ = (tipo: string, faltan: number, totalAlLlegar: number) =>
+        totalAlLlegar <= c.total
+          ? `Agrega ${faltan} ${tipo} más y pagas menos en total: pasas a precio por mayor.`
+          : `Con ${faltan} ${tipo} más pasas a precio por mayor.`;
+      if (!c.con.mayor && c.con.cantidad > 0 && minCon - c.con.cantidad <= 6) {
+        const faltan = minCon - c.con.cantidad;
+        pistas.push(pista_("con licor", faltan, calcular(precios, minCon, sin).total));
+      }
+      if (!c.sin.mayor && c.sin.cantidad > 0 && minSin - c.sin.cantidad <= 6) {
+        const faltan = minSin - c.sin.cantidad;
+        pistas.push(pista_("sin licor", faltan, calcular(precios, con, minSin).total));
+      }
+      const pista = $("cart-pista");
+      pista.hidden = pistas.length === 0;
+      pista.textContent = pistas.join(" ");
+
+      const texto = `${MENSAJES["carta-order"]}\n\n${lineas.join("\n")}\n\nTotal: ${pesos(c.total)} (sin domicilio)`;
       cta!.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`;
-      ctaTexto!.textContent = n === 1 ? "Pedir 1 sabor" : `Pedir ${n} sabores`;
+    }
+
+    function cambiar(id: string, delta: number) {
+      const n = Math.max(0, (cantidades.get(id) ?? 0) + delta);
+      if (n === 0) cantidades.delete(id);
+      else cantidades.set(id, n);
+      guardar();
+      pintar();
     }
 
     grilla.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-toggle]");
-      if (!btn) return;
+      const t = e.target as HTMLElement;
+      const li = t.closest<HTMLElement>("[data-sabor]");
+      if (!li) return;
+      if (t.closest("[data-mas]")) cambiar(li.dataset.sabor!, 1);
+      else if (t.closest("[data-menos]")) cambiar(li.dataset.sabor!, -1);
+    });
 
-      const li = btn.closest<HTMLElement>("[data-sabor]");
-      const id = li?.dataset.sabor;
-      const nombre = btn.dataset.nombre;
-      if (!id || !nombre) return;
-
-      if (elegidos.has(id)) {
-        elegidos.delete(id);
-        btn.setAttribute("aria-pressed", "false");
-      } else {
-        elegidos.set(id, nombre);
-        btn.setAttribute("aria-pressed", "true");
-      }
-      pintarBarra();
+    $("cart-vaciar").addEventListener("click", () => {
+      cantidades.clear();
+      guardar();
+      pintar();
     });
 
     // Filtros
     const filtros = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filtro]"));
-    const items = Array.from(grilla.querySelectorAll<HTMLElement>("[data-sabor]"));
-
+    let filtro = "todos";
+    function aplicarFiltro() {
+      let visibles = 0;
+      items.forEach((li) => {
+        const ok = !li.dataset.oculto && (filtro === "todos" || li.dataset.tipo === filtro);
+        li.hidden = !ok;
+        if (ok) visibles++;
+      });
+      $("vacio").hidden = visibles > 0;
+    }
     filtros.forEach((f) => {
       f.addEventListener("click", () => {
-        const tipo = f.dataset.filtro;
+        filtro = f.dataset.filtro!;
         filtros.forEach((o) => o.setAttribute("aria-pressed", String(o === f)));
-
-        let visibles = 0;
-        items.forEach((li) => {
-          const ok = tipo === "todos" || li.dataset.tipo === tipo;
-          li.classList.toggle("hidden", !ok);
-          // `contents` y `hidden` se pelean: hidden gana solo si se quita contents.
-          li.classList.toggle("contents", ok);
-          if (ok) visibles++;
-        });
-
-        if (vacio) vacio.hidden = visibles > 0;
+        aplicarFiltro();
       });
     });
+
+    pintar();
+
+    /*
+      Refresco en vivo contra crm-app. Trae los precios del momento y esconde
+      los sabores que se apagaron después del último build. Un sabor NUEVO no
+      puede aparecer así —no hay tarjeta para él— y sigue esperando un deploy.
+      Si falla, se queda lo horneado sin decir nada.
+    */
+    fetch(seccion.dataset.cartaUrl!, { signal: AbortSignal.timeout(6000) })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => {
+        if (!raw) return;
+        const nuevos = normalizarPrecios(raw.precios);
+        if (nuevos) {
+          precios = nuevos;
+          pintarPrecios(nuevos);
+        }
+        if (Array.isArray(raw.sabores) && raw.sabores.length > 0) {
+          const activos = new Set(
+            raw.sabores.filter((s: any) => s?.activo && s?.flavor_id).map((s: any) => s.flavor_id),
+          );
+          if (activos.size > 0) {
+            items.forEach((li) => {
+              if (activos.has(li.dataset.sabor!)) return;
+              li.dataset.oculto = "1";
+              cantidades.delete(li.dataset.sabor!);
+            });
+            guardar();
+            aplicarFiltro();
+          }
+        }
+        pintar();
+      })
+      .catch(() => {});
   }
 </script>

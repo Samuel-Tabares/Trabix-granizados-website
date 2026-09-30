@@ -4,14 +4,13 @@ import logo from "../assets/brand/logo-trabix.png";
 import { waLink } from "../lib/whatsapp";
 
 interface Props {
-  seccion?: "inicio" | "carta" | "retail" | "volumen" | "alianzas";
+  seccion?: "inicio" | "carta" | "alianzas";
 }
 const { seccion } = Astro.props;
 
 const links = [
   { href: "/carta/", label: "Carta", key: "carta" },
-  { href: "/retail/", label: "Pedir", key: "retail" },
-  { href: "/volumen/", label: "Por mayor", key: "volumen" },
+  { href: "/#por-mayor", label: "Por mayor", key: "por-mayor" },
   { href: "/alianzas/", label: "Alianzas", key: "alianzas" },
 ] as const;
 

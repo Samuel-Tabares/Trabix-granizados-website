@@ -1,30 +1,112 @@
 ---
 import Base from "../layouts/Base.astro";
 import Carta from "../components/Carta.astro";
+
+/*
+  Carta y "Pedir" son una sola página desde el 2026-09-30: la carta ya arma el
+  pedido con total, así que una página aparte para explicar cómo pedir era un
+  paso de más. Lo que tenía /retail/ (hasta dónde llegamos, preguntas) vive
+  debajo de la grilla.
+
+  Las reglas de abajo son las mismas que aplica el bot de forma determinista.
+  El sitio NUNCA puede prometer algo que el bot no cumple: si una regla cambia,
+  se actualiza acá DESPUÉS de que el bot esté desplegado, nunca antes.
+  Ver ROADMAP.md → "Reglas de negocio que el copy debe respetar".
+*/
+const zonas = [
+  {
+    titulo: "Armenia",
+    destacado: "Domicilio gratis de 6 a 19 unidades",
+    detalle: "Desde 20 unidades pasa a precio por mayor.",
+  },
+  {
+    titulo: "Municipios cerca",
+    destacado: "Sin mínimo de unidades",
+    detalle:
+      "Calarcá, El Caimo, Circasia, Montenegro, La Tebaida, Pueblo Tapao y Barcelona. Pides la cantidad que quieras.",
+  },
+  {
+    titulo: "Municipios lejos",
+    destacado: "Desde 20 unidades",
+    detalle: "Quimbaya, Salento, Filandia, Buenavista, Pijao, Córdoba y Génova.",
+  },
+  {
+    titulo: "Resto del país",
+    destacado: "Desde 20 unidades, llega descongelado",
+    detalle:
+      "Va por transportadora y llega descongelado: lo congelas al recibirlo. Es el único envío donde no llega listo para tomar. La tarifa te la cotizamos por WhatsApp.",
+  },
+];
 ---
 
 <Base
   titulo="Carta — Trabix Granizados"
-  descripcion="Los sabores de granizado que hay disponibles hoy. Elige los tuyos y pide por WhatsApp."
+  descripcion="Elige tus granizados, mira el total y pide por WhatsApp. Con licor con el segundo a mitad de precio, sin licor desde una unidad. Domicilio gratis en Armenia de 6 a 19 unidades."
   seccion="carta"
 >
   {/*
     Hero deliberadamente corto. La carta es herramienta de punto de venta: se
     abre tocando una tag NFC con el cliente enfrente, así que los sabores tienen
-    que estar casi de inmediato. Un hero de pantalla completa acá es una pantalla
-    de scroll entre el cliente y el producto.
+    que estar casi de inmediato.
   */}
   <section data-hero class="px-5 pt-28 pb-6 sm:pt-36 sm:pb-10">
     <div class="mx-auto max-w-6xl">
       <p class="eyebrow hero__eyebrow">Carta del día</p>
       <h1 class="display hero__title mt-4 text-[2rem] sm:text-5xl">
-        Esto es lo que hay hoy.
+        Arma tu pedido.
       </h1>
       <p class="lead hero__lead mt-3 text-sm sm:text-base">
-        Toca los que quieras y te llevamos a WhatsApp con la lista lista.
+        Elige cuántos quieres de cada sabor, mira el total y lo terminas por WhatsApp.
       </p>
     </div>
   </section>
 
   <Carta />
+
+  <section class="px-5 py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Hasta dónde llegamos</h2>
+
+      <div class="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-surface)] border border-hairline bg-hairline sm:grid-cols-2" data-reveal="stagger">
+        {
+          zonas.map((z) => (
+            <div class="flex flex-col gap-2 bg-bg p-7">
+              <h3 class="text-xl font-medium tracking-tight">{z.titulo}</h3>
+              <p class="text-sm text-berry">{z.destacado}</p>
+              <p class="mt-1 text-sm text-fg-muted">{z.detalle}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 pt-4 pb-40 sm:pb-48">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="display text-3xl sm:text-5xl" data-split>Antes de pedir</h2>
+
+      <dl class="mt-12 divide-y divide-hairline border-y border-hairline" data-reveal="stagger">
+        <div class="flex flex-col gap-2 py-6">
+          <dt class="font-medium">¿El sin licor también se vende por unidad?</dt>
+          <dd class="text-sm text-fg-muted">
+            Sí. Es el que funciona para niños, cumpleaños y para quien no toma. Lo único
+            distinto es que la promo del segundo a mitad de precio aplica solo al con licor.
+          </dd>
+        </div>
+        <div class="flex flex-col gap-2 py-6">
+          <dt class="font-medium">¿El total incluye el domicilio?</dt>
+          <dd class="text-sm text-fg-muted">
+            No. En Armenia es gratis de 6 a 19 unidades; en los demás casos te lo confirmamos
+            en el chat según a dónde va.
+          </dd>
+        </div>
+        <div class="flex flex-col gap-2 py-6">
+          <dt class="font-medium">¿Puedo pedirlo para más tarde?</dt>
+          <dd class="text-sm text-fg-muted">
+            Sí, con mínimo 3 horas de anticipación. Nos dices día y hora en el chat.
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
 </Base>
