@@ -96,7 +96,7 @@ cierra en el bot (ver Fase 7).
 
 ---
 
-## Fase 7 — Carrito, fusión de páginas y carrusel de Instagram — **HECHO (2026-09-30), sin desplegar**
+## Fase 7 — Carrito, fusión de páginas y carrusel de Instagram — **HECHO y desplegado (2026-09-30)**
 
 - [x] Carta = carrito: cantidades por sabor, total con la misma lógica del bot, checkout = mensaje
       de WhatsApp con lista y total. Precios de `crm-app` (`/api/carta` → `precios`), refrescados
@@ -104,8 +104,9 @@ cierra en el bot (ver Fase 7).
 - [x] `/carta/` absorbe `/retail/`; la home absorbe `/volumen/` (`/#por-mayor`). Redirects 308.
 - [x] Embeds de Instagram arreglados (el permalink con usuario responde `X-Frame-Options: DENY`) y
       convertidos en carrusel con flechas y autoplay.
-- [ ] **Desplegar `crm-app` antes o junto con el sitio.** Sin eso `/api/carta` no trae `precios` y
-      el sitio usa `PRECIOS_FALLBACK` (iguales a los de hoy): no rompe, pero no refleja el panel.
+- [x] Desplegado junto con `crm-app` (`/api/carta` con `precios`) y el bot v1.34.0, que ahora cobra
+      el detal con los precios del panel (antes usaba constantes para el subtotal por ítem).
+      Verificado en producción: `/c` → carta, 3 con licor = $20.000, carrusel carga y avanza solo.
 - [ ] Instagram sigue siendo lista manual (`src/lib/social.ts`). Que se actualice solo exige la
       Instagram Graph API con un token de la cuenta Business — paso de Samuel en Meta.
 
